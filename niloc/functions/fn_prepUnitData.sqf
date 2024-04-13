@@ -17,14 +17,10 @@
 
 
 params [["_unit", objNull, [objNull]]];
-private ["_statsToSave", "_unitHash", "_extraStats"];
+private ["_statsToSave", "_unitHash"];
 
-_statsToSave = ["location", "loadout", "damage", "vehicle"];
-_extraStats = ["type", "face"];
-_unitHash = createHashMap;
+_statsToSave = ["unit"] call FUNCMAIN(returnStats);
 
-//if (missionNamespace getVariable [QGVAR(ENABLE_CREATE), false]) then { _statsToSave = _statsToSave + _extraStats };
-_statsToSave = _statsToSave + _extraStats;
 {
     private _stat = _x;
 

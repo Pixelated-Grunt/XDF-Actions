@@ -19,7 +19,7 @@
 params [["_keepPlayerID", false, [false]]];
 private ["_resHash", "_count", "_fnc_replacePlayerID"];
 
-_resHash = ["markers"] call FUNCMAIN(getSection);
+_resHash = ["markers"] call FUNCMAIN(getSectionAsHashmap);
 _count = 0;
 
 // Replace the play id to 0 within the marker meta data, 0 seems to work fine

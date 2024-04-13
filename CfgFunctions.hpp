@@ -7,7 +7,10 @@ class XDF {
         class dbInit {
             postInit = 1;
         };
-        class getSection {};
+        class getDbInstance {};
+        class getSectionAsArrayOfHashmaps {};
+        class getSectionAsHashmap {};
+        class getSectionNames {};
         class markerToString {};
         class prepUnitData {};
         class putSection {};
@@ -15,6 +18,7 @@ class XDF {
         class restoreUnitData {} ;
         class restoreUnitsData {} ;
         class restoreUserMarkers {};
+        class returnStats {};
         class saveMissionData {};
         class saveUnitsData {};
         class saveUserMarkers {};

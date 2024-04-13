@@ -11,7 +11,7 @@
  * A hashmap with all key value pairs from the section <HASHMAP>
  *
  * Example:
- * _resHash = ["mission", ["dateTime"]] call XDF_fnc_getSection
+ * _resHash = ["mission", ["dateTime"]] call XDF_fnc_getSectionAsHashmap
  *
  * Public: No
  */
@@ -21,27 +21,23 @@ params [
     ["_section", "", [""]],
     ["_includes", [], [[]]]
 ];
-private ["_keys", "_resHash", "_iniDBi", "_finalKeys"];
+private ["_keys", "_resHash", "_iniDBi"];
 
-// If this check is done after getting the db global variable, error was thrown wtf?
-if (isNil {missionNamespace getVariable QGVAR(DB)}) exitWith {ERROR("Problem reading from database.")};
-_iniDBi = missionNamespace getVariable QGVAR(DB);
-
+_iniDBi = [] call FUNCMAIN(getDbIntance);
 _resHash = createHashMap;
 _keys = ["getKeys", _section] call _iniDBi;
-_finalKeys = _keys;
 
 if (count _keys > 0) then {
-    if (count _includes != 0) then {_finalKeys = _keys select {_x in _includes}};
+    if (count _includes > 0) then { _keys = _includes };
 
     {
         private "_value";
         _value = ["read", [_section, _x, nil]] call _iniDBi;
         LOG_2("Key (%1) and value (%2) extracted from database section going into hash table.", _x, _value);
         _resHash set [_x, _value];
-    } forEach _finalKeys;
+    } forEach _keys;
 } else {
-    WARNING_1("Section %1 from the NiLoc database does not have any key.");
+    WARNING_1("Section %1 from the NiLoc database does not have any data.");
 };
 
 _resHash

@@ -19,8 +19,7 @@ params [["_sstring", ["", [""]]]];
 
 private ["_iniDBi", "_sections", "_results"];
 
-if (isNil {missionNamespace getVariable QGVAR(DB)}) exitWith {ERROR("Problem reading from database.")};
-_iniDBi = missionNamespace getVariable QGVAR(DB);
+_iniDBi = [] call FUNCMAIN(getDbIntance);
 _sections = "getSections" call _iniDBi;
 _results = [];
 

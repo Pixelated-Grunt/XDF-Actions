@@ -8,3 +8,7 @@
 // All AIs without players
 #define ALIVEAIS allUnits select {!(_x in (call BIS_fnc_listPlayers))} select { alive _x }
 #define DEADAIS allUnits select {!(_x in (call BIS_fnc_listPlayers))} select { !alive _x }
+
+// Unit stats
+#define UNITSTATS ["location", "loadout", "damage", "vehicle"]
+#define UNITSTATSEXTRA ["type", "face"]

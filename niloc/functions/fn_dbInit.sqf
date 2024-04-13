@@ -31,8 +31,8 @@ _fnc_toDB = {
 if !isNil(QUOTE(_iniDBi)) then {
     private "_sessionHash";
 
-    missionNamespace setVariable [QUOTE(GVAR(DB)), _iniDBi, true];
-    _sessionHash = ["session"] call FUNCMAIN(getSection);
+    missionNamespace setVariable [QUOTE(GVAR(Db)), _iniDBi, true];
+    _sessionHash = ["session"] call FUNCMAIN(getSectionAsHashmap);
 
     if (count _sessionHash == 0) then {
         // New session.number

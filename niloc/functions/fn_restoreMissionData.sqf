@@ -20,7 +20,7 @@ params [["_ignoreItems", "", ["", []]]];
 private ["_count", "_resHash"];
 
 _count = 0;
-_resHash = ["mission"] call FUNCMAIN(getSection);
+_resHash = ["mission"] call FUNCMAIN(getSectionAsHashmap);
 
 if (count _resHash == 0) then {
     INFO("No settings stored in mission section.");

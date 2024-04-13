@@ -23,10 +23,7 @@ params [
 ];
 private ["_iniDBi", "_recordsPut"];
 
-// If this check is done after getting the db global variable, error was thrown wtf?
-if (isNil {missionNamespace getVariable QUOTE(GVAR(DB))}) exitWith {ERROR("Database instance doesn't exist.")};
-_iniDBi = missionNamespace getVariable QUOTE(GVAR(DB));
-
+_iniDBi = [] call FUNCMAIN(getDbIntance);
 _recordsPut = 0;
 
 if ((typeName _data) isEqualTo "HASHMAP") then {
