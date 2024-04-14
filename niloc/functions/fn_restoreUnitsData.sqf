@@ -16,37 +16,52 @@
 **/
 
 
-private ["_unitSections", "_aliveAIs", "_count"];
+private ["_sections", "_aliveAIs", "_count"];
 
-_unitSections = ["units."] call FUNCMAIN(getSectionNames);
-if (count _unitSections == 0) exitWith {WARNING("Unit sections are empty.")};
+_sections = ["units."] call FUNCMAIN(getSectionNames);
+if (count _sections == 0) exitWith {WARNING("Unit sections are empty.")};
 
 _aliveAIs = ALIVEAIS;
 _count = 0;
 
 {
-    private ["_unitsHash"];
-
-    _unitsHash = [_x] call FUNCMAIN(getSectionAsHashmap);
-
+    private _units = [_x] call FUNCMAIN(getSectionAsArrayOfHashmaps);
     {
-        private ["_idx", "_unitStr", "_unitObj"];
-        _unitStr = _x;
-        _idx = _aliveAIs findIf { str _x isEqualTo _unitStr };
+        private _unitHash = _x;
+        {
+            private _key = _x;
+            private _value = _y;
+            private _unitObj = objNull;
 
-        if (_idx > -1) then {
-            private _unitStats = _unitHash get _unitStr;
+            switch (_key) do {
+                case "objStr": {
+                    _unitObj = [_value, _aliveAIs] call FUNCMAIN(getObjFromStr);
 
-            _unitObj = _aliveAIs select _idx;
-            {
+                    if (isNull _unitObj) exitWith { ERROR_1("No object find for unit (%1).", _key) };
+                };
+                case "location": { _unitObj setPosATL _value };
+                case "loadout": { _unitObj setUnitLoadout _value };
+                case "damage": {
+                    if HASACE3 then {
+                        [_unitObj, _value] call ace_medical_fnc_deserializeState;
+                    } else {
+                        _unitObj setDamage _value;
+                    };
+                };
+                case "vehicle": {
+                    private _vehObj = objNull;
 
-            } forEach _unitStats;
-
-            _count = _count + 1;
-        } else {
-            WARNING_1("Couldn't find unit (%1) to restore.", _unitStr);
-        };
-    } forEach _unitHash;
-} forEach _unitSections;
+                    _vehObj = [_value select 0, vehicles] call FUNCMAIN(getObjFromStr);
+                    if (!isNull _vehObj) then {
+                        _vehObj setPosATL _value select 1;
+                    };
+                };
+                case "type": {};
+                case "face": {};
+                default { ERROR_2("No key (%1) defined for unit (%2) to restore.", _key, _unitHash get "objStr") };
+            };
+        } forEach _unitHash;
+    } forEach _units;
+} forEach _sections;
 
 _count

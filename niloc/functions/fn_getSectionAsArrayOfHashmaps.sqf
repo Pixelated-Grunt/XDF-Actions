@@ -35,20 +35,24 @@ if (count _keys > 0) then {
         private _value = ["read", [_section, _x]] call _iniDBi;
         LOG_3("Value (%1) from section (%2) with key (%3)", _value, _section, _x);
 
-        _value call {
-            if (params [["_valuesArray", [], [[]], 2]]) then {
-                private _arrayOfKeys = _valuesArray select 0 select 0;
-                private _arrayOfValues = _valuesArray select 0 select 1;
-                private _recordHash = _arrayOfKeys createHashMapFromArray _arrayOfValues;
+        if ((typeName _value isEqualTo "ARRAY") && (count _value == 2)) then {
+            private ["_arrayOfKeys", "_arrayOfValues", "_recordHash"];
 
-                if (count _recordHash > 0) then {
-                    _results pushBack _recordHash;
-                } else {
-                    ERROR_2("Array of keys (%1) and array of values (%2) created an empty hashmap.", _arrayOfKeys, _arrayOfValues);
-                };
+            _arrayOfKeys = _value select 0 select 0;
+            _arrayOfValues = _value select 0 select 1;
+            _recordHash = _arrayOfKeys createHashMapFromArray _arrayOfValues;
+
+            if (count _recordHash > 0) then {
+                _results = pushBack _recordHash;
+            } else {
+                ERROR_2("Array of keys (%1) and array of values (%2) created an empty hashmap.", _arrayOfKeys, _arrayOfValues);
             };
+        } else {
+            ERROR_1("The section (%1) data is not structed to use this function.", _section);
         };
     } forEach _keys;
 } else {
     WARNING_1("Section %1 from the NiLoc database does not have any data.");
 };
+
+_results

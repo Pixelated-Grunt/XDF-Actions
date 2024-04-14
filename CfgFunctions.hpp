@@ -8,6 +8,7 @@ class XDF {
             postInit = 1;
         };
         class getDbInstance {};
+        class getObjFromStr {};
         class getSectionAsArrayOfHashmaps {};
         class getSectionAsHashmap {};
         class getSectionNames {};

@@ -24,8 +24,9 @@ _statsToSave = ["unit"] call FUNCMAIN(returnStats);
 {
     private _stat = _x;
 
-    switch (_x) do {
+    switch (_stat) do {
         // Assuming all units are not in water i.e. ATL
+        case "objStr": { _unitHash set [_stat, str _unit]};
         case "location": { _unitHash set [_stat, (getPosATL _unit)] };
         case "loadout": { _unitHash set [_stat, (getUnitLoadout _unit)] };
         case "damage": {
@@ -39,7 +40,7 @@ _statsToSave = ["unit"] call FUNCMAIN(returnStats);
             private _vehicle = vehicle _unit;
 
             if (_vehicle != _unit) then {
-                _unitHash set [_stat, str _vehicle];
+                _unitHash set [_stat, [str _vehicle, getPosATL _vehicle]];
             };
         };
         case "type": { _unitHash set [_stat, (typeOf _unit)] };
