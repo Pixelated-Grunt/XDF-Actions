@@ -16,7 +16,6 @@ class XDF {
         class prepUnitData {};
         class putSection {};
         class restoreMissionData {};
-        class restoreUnitData {} ;
         class restoreUnitsData {} ;
         class restoreUserMarkers {};
         class returnStats {};
@@ -24,5 +23,6 @@ class XDF {
         class saveUnitsData {};
         class saveUserMarkers {};
         class stringToMarker {};
+        class updateMeta {};
     };
 };

@@ -21,7 +21,7 @@ params [["_type", "", [""]]];
 private ["_stats", "_extraStats"];
 
 switch (_type) do {
-    case "unit": { _stats = UNITSTATS; _extraStats = UNITSTATSEXTA };
+    case "unit": { _stats = UNITSTATS; _extraStats = UNITSTATSEXTRA };
     case "vehicle": {};
     default {ERROR_1("Stats type (%1) is incorrect.", _type)};
 };

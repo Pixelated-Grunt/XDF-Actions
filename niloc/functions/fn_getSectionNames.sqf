@@ -19,7 +19,7 @@ params [["_sstring", ["", [""]]]];
 
 private ["_iniDBi", "_sections", "_results"];
 
-_iniDBi = [] call FUNCMAIN(getDbIntance);
+_iniDBi = [] call FUNCMAIN(getDbInstance);
 _sections = "getSections" call _iniDBi;
 _results = [];
 

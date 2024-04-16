@@ -20,6 +20,7 @@ params [["_unit", objNull, [objNull]]];
 private ["_statsToSave", "_unitHash"];
 
 _statsToSave = ["unit"] call FUNCMAIN(returnStats);
+_unitHash = createHashMap;
 
 {
     private _stat = _x;
@@ -37,9 +38,9 @@ _statsToSave = ["unit"] call FUNCMAIN(returnStats);
             };
         };
         case "vehicle": {
-            private _vehicle = vehicle _unit;
+            private _vehicle = objectParent _unit;
 
-            if (_vehicle != _unit) then {
+            if (!isNull _vehicle) then {
                 _unitHash set [_stat, [str _vehicle, getPosATL _vehicle]];
             };
         };

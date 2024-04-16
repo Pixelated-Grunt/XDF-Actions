@@ -23,7 +23,7 @@ params [
 ];
 private ["_keys", "_resHash", "_iniDBi"];
 
-_iniDBi = [] call FUNCMAIN(getDbIntance);
+_iniDBi = [] call FUNCMAIN(getDbInstance);
 _resHash = createHashMap;
 _keys = ["getKeys", _section] call _iniDBi;
 
@@ -33,7 +33,6 @@ if (count _keys > 0) then {
     {
         private "_value";
         _value = ["read", [_section, _x, nil]] call _iniDBi;
-        LOG_2("Key (%1) and value (%2) extracted from database section going into hash table.", _x, _value);
         _resHash set [_x, _value];
     } forEach _keys;
 } else {

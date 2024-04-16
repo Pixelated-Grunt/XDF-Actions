@@ -29,7 +29,7 @@ if (count _resHash == 0) then {
         if ((_x isEqualTo _ignoreItems) || (_x in _ignoreItems)) then {continue};
 
         switch (_x) do {
-            case "mission.date": {
+            case "date": {
                 [_y, true, true] call BIS_fnc_setDate;
                 _count = _count + 1;
             };

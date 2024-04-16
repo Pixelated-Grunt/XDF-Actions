@@ -20,4 +20,4 @@
 if (isNil { missionNamespace getVariable QGVAR(Db) }) exitWith { ERROR("Database instance does not exist."); objNull };
 private _iniDBi = missionNamespace getVariable QGVAR(Db);
 
-_iniDbi
+_iniDBi

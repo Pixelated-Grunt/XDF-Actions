@@ -19,7 +19,7 @@
 private _count = 0;
 
 // in-game date time
-_count = ["mission", ["mission.date", date]] call FUNCMAIN(putSection);
+_count = ["mission", ["date", date]] call FUNCMAIN(putSection);
 if ( _count > 0) then {
     INFO("Mission settings saved successfully.");
 } else {

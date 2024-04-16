@@ -22,16 +22,10 @@ private ["_dbName", "_iniDBi", "_fnc_toDB"];
 _dbName = missionName call CBA_fnc_removeWhitespace;
 _iniDBi = ["new", _dbName] call OO_iniDBi;
 
-_fnc_toDB = {
-    params ["_key", "_value"];
-
-    ["write", ["session", _key, _value]] call _iniDBi;
-};
-
 if !isNil(QUOTE(_iniDBi)) then {
     private "_sessionHash";
 
-    missionNamespace setVariable [QUOTE(GVAR(Db)), _iniDBi, true];
+    missionNamespace setVariable [QGVAR(Db), _iniDBi, true];
     _sessionHash = ["session"] call FUNCMAIN(getSectionAsHashmap);
 
     if (count _sessionHash == 0) then {
@@ -45,9 +39,7 @@ if !isNil(QUOTE(_iniDBi)) then {
     _sessionHash set ["session.start", systemTime];
     _sessionHash set ["session.start.utc", systemTimeUTC];
 
-    {
-        [_x, _y] call _fnc_toDB;
-    } forEach _sessionHash;
+    ["session", [_sessionHash]] call FUNCMAIN(putSection);
 
     INFO("Database initialised successfully.");
     true;
