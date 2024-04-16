@@ -47,6 +47,8 @@ _count = 0;
                     } else { LOG_1("Unit (%1) is inside a vehicle not moving.", str _unitObj) };
                 };
                 case "loadout": { _unitObj setUnitLoadout _value };
+                case "formation": { _unitObj setFormation _value };
+                case "behaviour": { _unitObj setCombatBehaviour _value };
                 case "damage": {
                     if HASACE3 then {
                         [_unitObj, _value] call ace_medical_fnc_deserializeState;

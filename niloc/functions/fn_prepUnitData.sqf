@@ -30,6 +30,8 @@ _unitHash = createHashMap;
         case "objStr": { _unitHash set [_stat, str _unit]};
         case "location": { _unitHash set [_stat, (getPosATL _unit)] };
         case "loadout": { _unitHash set [_stat, (getUnitLoadout _unit)] };
+        case "formation": { _unitHash set [_stat, (formation _unit)] };
+        case "behaviour": { _unitHash set [_stat, (behaviour _unit)] };
         case "damage": {
             if HASACE3 then {
                 _unitHash set [_stat, [_unit] call ace_medical_fnc_serializeState];

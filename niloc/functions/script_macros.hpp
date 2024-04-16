@@ -10,5 +10,5 @@
 #define DEADAIS allUnits select {!(_x in (call BIS_fnc_listPlayers))} select { !alive _x }
 
 // Unit stats
-#define UNITSTATS ["objStr", "location", "loadout", "damage", "vehicle"]
+#define UNITSTATS ["objStr", "location", "loadout", "formation", "behaviour", "damage", "vehicle"]
 #define UNITSTATSEXTRA ["type", "face"]
