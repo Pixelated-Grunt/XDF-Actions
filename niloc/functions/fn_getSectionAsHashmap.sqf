@@ -32,6 +32,7 @@ if (count _keys > 0) then {
 
     {
         private "_value";
+
         _value = ["read", [_section, _x, nil]] call _iniDBi;
         _resHash set [_x, _value];
     } forEach _keys;

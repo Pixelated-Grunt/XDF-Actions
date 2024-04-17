@@ -4,12 +4,15 @@ class XDF {
     class NiLoc {
         file = "xdf\niloc\functions";
 
-        class dbInit {
+        class initialise {
             postInit = 1;
         };
+        class dbInit {};
+        class deleteSectionKey {};
         class getDbInstance {};
         class getObjFromStr {};
         class getSectionAsHashmap {};
+        class handleDeadEntity {};
         class getSectionNames {};
         class markerToString {};
         class prepUnitData {};
@@ -18,7 +21,6 @@ class XDF {
         class restoreUnitsStates {} ;
         class restoreUserMarkers {};
         class returnStats {};
-        class saveDeadAIs {};
         class saveMissionState {};
         class savePlayersStates {};
         class saveUnitsStates {};

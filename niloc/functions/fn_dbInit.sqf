@@ -13,11 +13,10 @@
  * [] call XDF_fnc_dbInit
  *
  * Public: No
- */
+**/
 
-if (!isServer) exitWith {ERROR("NiLoc only works in multipler mode.")};
 
-private ["_dbName", "_iniDBi", "_fnc_toDB"];
+private ["_dbName", "_iniDBi"];
 
 _dbName = missionName call CBA_fnc_removeWhitespace;
 _iniDBi = ["new", _dbName] call OO_iniDBi;

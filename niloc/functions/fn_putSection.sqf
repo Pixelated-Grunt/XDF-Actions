@@ -1,7 +1,8 @@
 #include "script_macros.hpp"
 /*
  * Author: Pixelated_Grunt
- * Internal function that provides an interface to put data to the database
+ * Internal function that provides an interface to append data to the database.
+ * It calls fnc_updateMeta to update the meta section as well.
  *
  * Arguments:
  * 0: The name of the section to write to <STRING>
@@ -11,11 +12,14 @@
  * Return Value:
  * Number of records written <NUMBER>
  *
- * Example:
+ * Examples:
+ * _count = ["section", [_aHashmap]] call XDF_fnc_putSection
  * _count = ["section", [["key", "value"], ["key2", "value2"]]] call XDF_fnc_putSection
+ * _count = ["section", [_key, ["value1", "value2"]]] call XDF_fnc_putSection
+ * _count = ["section", [_key, "value"]]] call XDF_fnc_putSection
  *
  * Public: No
- */
+**/
 
 
 params [
@@ -53,8 +57,8 @@ switch (typeName (_data select 0)) do {
         } forEach _data;
     };
     case "STRING": {
-            private _key = _data select 0;
-            private _value = _data select 1;
+        private _key = _data select 0;
+        private _value = _data select 1;
 
         _writeOk = ["write", [_section, _key, _value]] call _iniDBi;
         if (_writeOk) then {
