@@ -10,7 +10,7 @@
  * Return number of units saved <NUMBER>
  *
  * Example:
- * [] call XDF_fnc_saveUnitsData
+ * [] call XDF_fnc_saveUnitsStates
  *
  * Public: Yes
 **/
@@ -24,7 +24,7 @@ private _count = 0;
     private ["_section", "_unitArray", "_res", "_key"];
 
     _section = "units." + str side _x;
-    _unitArray = toArray ([_x] call FUNCMAIN(prepUnitData));
+    _unitArray = toArray (["unit", _x] call FUNCMAIN(prepUnitData));
 
     _res = 0;
     _key = str _x;

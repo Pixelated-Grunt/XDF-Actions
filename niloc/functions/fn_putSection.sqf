@@ -5,13 +5,14 @@
  *
  * Arguments:
  * 0: The name of the section to write to <STRING>
- * 1: An array or array of arrays of keys and values to be written <ARRAY|HASHMAP>
+ * 1: An array of values to be written <ARRAY>
+ *      Array can contain hashmap(s), array(s) or a string
  *
  * Return Value:
  * Number of records written <NUMBER>
  *
  * Example:
- * _count = ["section", [["key", "value"], ["key2", "value2"]]] call XDF_fnc_putSession
+ * _count = ["section", [["key", "value"], ["key2", "value2"]]] call XDF_fnc_putSection
  *
  * Public: No
  */

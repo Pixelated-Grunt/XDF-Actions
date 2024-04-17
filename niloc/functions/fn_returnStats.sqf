@@ -20,13 +20,15 @@ params [["_type", "", [""]]];
 
 private ["_stats", "_extraStats"];
 
+_extraStats = [];
 switch (_type) do {
     case "unit": { _stats = UNITSTATS; _extraStats = UNITSTATSEXTRA };
+    case "player": { _stats = PLAYERSTATS };
     case "vehicle": {};
     default {ERROR_1("Stats type (%1) is incorrect.", _type)};
 };
 
 //NOTE: Remove me
-//if (missionNamespace getVariable [QGVAR(XDF_ENABLE_CREATE), false]) then { _stats = _stats + _extraStats };
+//if (missionNamespace getVariable [QGVAR(enableCreate), false]) then { _stats = _stats + _extraStats };
 _stats = _stats + _extraStats;
 _stats

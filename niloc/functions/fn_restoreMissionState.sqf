@@ -10,7 +10,7 @@
  * Number of settings restored <NUMBER>
  *
  * Example:
- * ["dataTime"] call XDF_fnc_restoreMissionData
+ * ["dataTime"] call XDF_fnc_restoreMissionState
  *
  * Public: Yes
 **/

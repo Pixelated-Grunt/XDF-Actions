@@ -25,7 +25,7 @@ private ["_keys", "_resHash", "_iniDBi"];
 
 _iniDBi = [] call FUNCMAIN(getDbInstance);
 _resHash = createHashMap;
-_keys = ["getKeys", _section] call _iniDBi;
+_keys = ["read", ["meta", _section]] call _iniDBi;
 
 if (count _keys > 0) then {
     if (count _includes > 0) then { _keys = _includes };

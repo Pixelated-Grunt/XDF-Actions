@@ -10,7 +10,7 @@
  * Return number of records written <NUMBER>
  *
  * Example:
- * [] call XDF_fnc_saveMissionParams
+ * [] call XDF_fnc_saveMissionState
  *
  * Public: Yes
 **/

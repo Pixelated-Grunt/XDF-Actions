@@ -12,7 +12,7 @@
  * The successful of the operation <BOOL>
  *
  * Example:
- * ["delete"] call XDF_fnc_updateMeta
+ * ["delete", "key", "value"] call XDF_fnc_updateMeta
  *
  * Public: No
 **/
