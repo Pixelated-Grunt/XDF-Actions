@@ -12,7 +12,7 @@
  * Example:
  * [] call XDF_fnc_savePlayersStates
  *
- * Public: Yes
+ * Public: No
 **/
 
 
@@ -21,7 +21,7 @@ params [["_playerObj", objNull, [objNull]]];
 private ["_allPlayers", "_count"];
 
 _count = 0;
-_allPlayers = ALLPLAYERS;
+_allPlayers = ALL_PLAYERS;
 
 if (!isNull _playerObj) then {
     _allPlayers = [_playerObj];

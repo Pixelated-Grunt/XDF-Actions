@@ -12,12 +12,12 @@
  * Example:
  * [] call XDF_fnc_saveUnitsStates
  *
- * Public: Yes
+ * Public: No
 **/
 
 
 // All units except players
-private _units = ALIVEAIS;
+private _units = ALIVE_AIS;
 private _count = 0;
 
 {

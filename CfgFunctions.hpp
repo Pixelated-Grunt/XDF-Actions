@@ -17,6 +17,7 @@ class XDF {
         class markerToString {};
         class prepUnitData {};
         class putSection {};
+        class removeDeadUnits {};
         class restoreMissionState {};
         class restoreUnitsStates {} ;
         class restoreUserMarkers {};

@@ -5,19 +5,21 @@
 
 #include "\x\cba\addons\main\script_macros_mission.hpp"
 
+// Sections to be preserved during purge before save
+#define SECTIONS_NO_PURGE ["session", "meta", "players", "units.DEAD"]
+
 // Alive players
-#define ALLPLAYERS call BIS_fnc_listPlayers select { alive _x }
+#define ALL_PLAYERS call BIS_fnc_listPlayers select { alive _x }
 
 // All AIs without players
-#define ALIVEAIS allUnits select {!(_x in (call BIS_fnc_listPlayers))} select { alive _x }
-#define DEADAIS allUnits select {!(_x in (call BIS_fnc_listPlayers))} select { !alive _x }
+#define ALIVE_AIS allUnits select {!(_x in (call BIS_fnc_listPlayers))} select { alive _x }
 
 // Base unit stats
-#define BASESTATS ["location", "loadout", "damage", "vehicle"]
+#define BASE_STATS ["location", "loadout", "damage", "vehicle"]
 
 // Player stats
-#define PLAYERSTATS BASESTATS + ["playerName", "playerUID"]
+#define PLAYER_STATS BASE_STATS + ["playerName", "playerUID"]
 
 // Unit stats
-#define UNITSTATS BASESTATS + ["objStr", "formation", "behaviour"]
-#define UNITSTATSEXTRA ["type", "face"]
+#define UNIT_STATS BASE_STATS + ["objStr", "formation", "behaviour"]
+#define UNIT_STATS_EXTRA ["type", "face"]

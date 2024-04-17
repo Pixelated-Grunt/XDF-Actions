@@ -12,7 +12,7 @@
  * Example:
  * [] call XDF_fnc_restoreUnitsStates
  *
- * Public: Yes
+ * Public: No
 **/
 
 
@@ -21,7 +21,7 @@ private ["_sections", "_aliveAIs", "_count"];
 _sections = ["units."] call FUNCMAIN(getSectionNames);
 if (count _sections == 0) exitWith {WARNING("Unit sections are empty.")};
 
-_aliveAIs = ALIVEAIS;
+_aliveAIs = ALIVE_AIS;
 _count = 0;
 
 {   // sections loop

@@ -1,8 +1,7 @@
 #include "script_macros.hpp"
 /*
  * Author: Pixelated_Grunt
- * Save a dead or deleted entity to database also remove dead entity
- * if it exist in alive section. Script called by initialise function.
+ * Function called by EH to record a dead or destroyed entity
  *
  * Arguments:
  * 0: object to record <OBJECT>

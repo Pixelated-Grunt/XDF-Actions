@@ -5,7 +5,7 @@
  *
  * Arguments:
  * 0: The name of the section to return <STRING>
- * 1: Optional array of keys that will be returned only <ARRAY>
+ * 1: Optional filter of keys that will be returned instead <ARRAY>
  *
  * Return Value:
  * A hashmap with all key value pairs from the section <HASHMAP>
@@ -19,7 +19,7 @@
 
 params [
     ["_section", "", [""]],
-    ["_includes", [], [[]]]
+    ["_filter", [], [[]]]
 ];
 private ["_keys", "_resHash", "_iniDBi"];
 
@@ -28,7 +28,7 @@ _resHash = createHashMap;
 _keys = ["read", ["meta", _section, []]] call _iniDBi;
 
 if (count _keys > 0) then {
-    if (count _includes > 0) then { _keys = _includes };
+    if (count _filter > 0) then { _keys = _filter };
 
     {
         private "_value";

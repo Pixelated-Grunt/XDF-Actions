@@ -12,7 +12,7 @@
  * Example:
  * _sectionTitles = ["units"] call XDF_fnc_getSectionNames
  *
- * Public: Yes
+ * Public: No
 **/
 
 params [["_sstring", ["", [""]]]];

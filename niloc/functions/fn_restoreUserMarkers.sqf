@@ -12,7 +12,7 @@
  * Example:
  * [] call XDF_fnc_restoreUserMarkers
  *
- * Public: Yes
+ * Public: No
 **/
 
 
@@ -41,23 +41,18 @@ _fnc_replacePlayerID = {
     _return + _str;
 };
 
-if ((count _resHash) == 0) exitWith {WARNING("The markers section is empty or doesn't exist."); 0};
+if ((count _resHash) == 0) exitWith { 0 };
 
 {
     // LOG_2("The marker hash return key (%1) with value (%2).", _x, _y);
     if (_y != "") then {
 
-        if (_keepPlayerID) then {
-            [_y] call FUNCMAIN(stringToMarker);
-        } else {
-            _y = _y call _fnc_replacePlayerID;
-            [_y] call FUNCMAIN(stringToMarker);
-        };
+        if (!_keepPlayerID) then { _y = _y call _fnc_replacePlayerID };
+        [_y] call FUNCMAIN(stringToMarker);
 
         _count = _count + 1;
     } else {
         WARNING_1("The (%1) marker string is empty.", _x);
-        LOG_2("_resHash key (%) value (%2)", _x, _y);
     };
 } forEach _resHash;
 

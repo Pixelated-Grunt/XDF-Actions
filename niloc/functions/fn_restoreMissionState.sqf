@@ -12,7 +12,7 @@
  * Example:
  * ["dataTime"] call XDF_fnc_restoreMissionState
  *
- * Public: Yes
+ * Public: No
 **/
 
 

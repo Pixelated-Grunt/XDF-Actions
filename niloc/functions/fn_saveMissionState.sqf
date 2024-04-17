@@ -12,7 +12,7 @@
  * Example:
  * [] call XDF_fnc_saveMissionState
  *
- * Public: Yes
+ * Public: No
 **/
 
 

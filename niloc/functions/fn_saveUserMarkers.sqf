@@ -12,7 +12,7 @@
  * Example:
  * [] call XDF_fnc_saveMarkers
  *
- * Public: Yes
+ * Public: No
 **/
 
 
