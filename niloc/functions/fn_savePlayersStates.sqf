@@ -23,7 +23,7 @@ private ["_allPlayers", "_count"];
 _count = 0;
 _allPlayers = ALLPLAYERS;
 
-if (isNull _playerObj) then {
+if (!isNull _playerObj) then {
     _allPlayers = [_playerObj];
 };
 
@@ -36,3 +36,5 @@ if (isNull _playerObj) then {
         _count = _count + 1;
     } else { ERROR_1("Failed to write states for player (%1).", str _x) }
 } forEach _allPlayers;
+
+_count
