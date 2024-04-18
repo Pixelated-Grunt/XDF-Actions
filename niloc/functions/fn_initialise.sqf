@@ -48,6 +48,8 @@ addMissionEventHandler [
     }
 ];
 
+INFO("==================== NiLOC Initialisation Starts ====================");
+INFO("-------------------- Setting Up Database --------------------");
 waitUntil { [] call FUNCMAIN(dbInit) };
 
 private _sessionHash = ["session", ["session.number"]] call FUNCMAIN(getSectionAsHashmap);
@@ -55,28 +57,35 @@ private _sessionHash = ["session", ["session.number"]] call FUNCMAIN(getSectionA
 if (_sessionHash get "session.number" > 1) then {
     private "_result";
 
-    INFO("==================== NiLOC Auto Data Load Starts ====================");
-
     INFO("-------------------- Loading User Map Markers --------------------");
     _result = [] call FUNCMAIN(restoreUserMarkers);
 
     if (_result == 0) then {
         INFO("No user markers found in database to restore.")
-    } else { INFO("%1 user markers loaded.", _result) };
+    } else {
+        INFO("%1 user markers loaded.", _result);
+        ["session", ["session.loaded.markers", _result]] call FUNCMAIN(putSection);
+    };
 
     INFO("-------------------- Handling Dead Units --------------------");
     _result = [] call FUNCMAIN(removeDeadUnits);
 
     if (_result == 0) then {
         INFO("No dead units found to be handled.");
-    } else { INFO("%1 dead units handled.", _result) };
+    } else {
+        INFO("%1 dead units handled.", _result);
+        ["session", ["session.loaded.dead.units", _result]] call FUNCMAIN(putSection);
+    };
 
     INFO("-------------------- Restoring Units States --------------------");
     _result = [] call FUNCMAIN(restoreUnitsStates);
 
     if (_result == 0) then {
         INFO("No unit states found in database to restore.");
-    } else { INFO("%1 units states had been restored.", _result) };
+    } else {
+        INFO("%1 units states had been restored.", _result);
+        ["session", ["session.loaded.units", _result]] call FUNCMAIN(putSection);
+    };
+};
 
-    INFO("==================== NiLOC Auto Data Load Ends ====================");
-}
+INFO("==================== NiLOC Initialisation Finished ====================");

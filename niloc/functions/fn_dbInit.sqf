@@ -16,10 +16,11 @@
 **/
 
 
-private ["_dbName", "_iniDBi"];
+private ["_dbName", "_iniDBi", "_success"];
 
 _dbName = missionName call CBA_fnc_removeWhitespace;
 _iniDBi = ["new", _dbName] call OO_iniDBi;
+_success = false;
 
 if !isNil(QUOTE(_iniDBi)) then {
     private "_sessionHash";
@@ -33,16 +34,20 @@ if !isNil(QUOTE(_iniDBi)) then {
     } else {
         // Continue of session.number
         _sessionHash set ["session.number", (_sessionHash get "session.number") + 1];
+        // Purge existing section before write
+        if !(["deleteSection", "session"] call _iniDBi) exitWith {
+            ERROR("Failed to delete session section from database.");
+            false
+        };
     };
 
     _sessionHash set ["session.start", systemTime];
     _sessionHash set ["session.start.utc", systemTimeUTC];
 
-    ["session", [_sessionHash]] call FUNCMAIN(putSection);
+    if (["session", [_sessionHash]] call FUNCMAIN(putSection) == 0) then {
+        ERROR("Failed to write session data into database.");
+        _success = false
+    } else { _success = true };
+} else { ERROR("Failed to create a new IniDBI2 database instance.") };
 
-    INFO("Database initialised successfully.");
-    true;
-} else {
-    ERROR("NiLoc database failed to initialised.");
-    false;
-}
+_success

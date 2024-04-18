@@ -1,8 +1,8 @@
 #include "script_macros.hpp"
 /*
  * Author: Pixelated_Grunt
- * Internal function that provides an interface to append data to the database.
- * It calls fnc_updateMeta to update the meta section as well.
+ * Internal function that provides an interface to write data to the database.
+ * It also calls fnc_updateMeta to update the meta section.
  *
  * Arguments:
  * 0: The name of the section to write to <STRING>
