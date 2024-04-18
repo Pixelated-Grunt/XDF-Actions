@@ -18,17 +18,17 @@
 
 private ["_sections", "_aliveAIs", "_count"];
 
+_count = 0;
 _sections = ["units."] call FUNCMAIN(getSectionNames);
-if (count _sections == 0) exitWith {WARNING("Unit sections are empty.")};
+if (count _sections == 0) exitWith { _count };
 
 _aliveAIs = ALIVE_AIS;
-_count = 0;
 
 {   // sections loop
     private _units = [_x] call FUNCMAIN(getSectionAsHashmap);
 
     if (_x isEqualTo "units.DEAD") then {
-        private _deadUnits = _units get "units";
+        private _deadUnits = keys _units;
 
         {
             private _unitObj = [_x, _aliveAIs] call FUNCMAIN(getObjFromStr);

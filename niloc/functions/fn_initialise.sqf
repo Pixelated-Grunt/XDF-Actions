@@ -27,13 +27,14 @@ addMissionEventHandler [
     }
 ];
 
-addMissionEventHandler [
-    "EntityDeleted", {
-        params ["_entity"];
-
-        [_entity] call FUNCMAIN(handleDeadEntity);
-    }
-];
+// This EH only for dev branch 2.18
+//addMissionEventHandler [
+//    "EntityDeleted", {
+//        params ["_entity"];
+//
+//        [_entity] call FUNCMAIN(handleDeadEntity);
+//    }
+//];
 
 addMissionEventHandler [
     "HandleDisconnect", {
