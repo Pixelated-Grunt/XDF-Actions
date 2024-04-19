@@ -30,10 +30,10 @@ _object = objNull;
 if (".p3d" in _objStr) then {
     private _i = _objStr find "#";
 
-    if (_i != -1) then { _objStr = _objStr select [_i + 1] }
-};
+    if (_i != -1) then { _objStr = _objStr select [_i + 2] };
 
-_idx = _objects findIf { str _x == _objStr };
+    _idx = _objects findIf { _objStr in str _x }
+} else { _idx = _objects findIf { str _x == _objStr } };
 
 if (_idx != -1) then { _object = _objects select _idx };
 

@@ -21,9 +21,9 @@
 params ["_section", "_key"];
 
 private _iniDBi = [] call FUNCMAIN(getDbInstance);
-private _value = ["read", [_section, _key, nil]] call _iniDBi;
+private _value = ["read", [_section, _key]] call _iniDBi;
 
-if (!isNil _value) then {
+if (_value isNotEqualTo false) then {
     // Delete from database
     if (["deleteKey", [_section, _key]] call _iniDBi) then {
         // Delete from meta

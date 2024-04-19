@@ -36,16 +36,21 @@ if (count _deadEntities > 0) then {
         if (!isNull _deadObj) then {
             private "_pos";
 
-            if (_deadObj isKindOf "Man") then {
+            LOG_1("_deadObj (%1) is typeOf (%2).", str _deadObj, typeOf _deadObj);
+            if (IS_UNIT(_deadObj)) then {
                 _pos = (_unitsDeadHash get _x) select 1;
+                LOG_1("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!_pos in units: (%1) from _x (%2).", _pos, _x);
             } else {
                 _pos = (_vehiclesDeadHash get _x) select 1;
+                LOG_1("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!_pos in vehicles: (%1) from _x (%2).", _pos, _x);
             };
 
             if (_action == "delete") then {
                 deleteVehicle _deadObj;
             } else {
-                _deadObj setPosASL _pos;
+                // FIXME: _pos didn't return in some tests
+                LOG_1("=============================_pos in setDamage: (%1) from _x (%2).", _pos, _x);
+                //_deadObj setPosASL _pos;
                 _deadObj setDamage [1, false];
             };
             _count = _count + 1;

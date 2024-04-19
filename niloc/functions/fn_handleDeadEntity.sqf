@@ -26,10 +26,11 @@ _side = str side _object;
 _objStr = str _object;
 _count = 0;
 
+// Write to dead.x section
 if (IS_UNIT(_object)) then { _objType = "units" } else { _objType = "vehicles" };
 _count = ["dead." + _objType, [_objStr, [typeOf _object, getPosASL _object, _side]]] call FUNCMAIN(putSection);
 
-// NOTE: 0 is a valid case, since an entity can be dead before the save happens
+// Remove from alive section
 if (_count > 0) then {
     private _section = (if (_objType == "units") then [{ _objType + "." + _side }, { _objType }]);
     private _sectionHash = [_section] call FUNCMAIN(getSectionAsHashmap);
