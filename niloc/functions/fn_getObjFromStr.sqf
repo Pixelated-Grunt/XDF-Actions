@@ -22,8 +22,18 @@ params [
     ["_objects", [], [[]]]
 ];
 
-private _object = objNull;
-private _idx = _objects findIf { str _x == _objStr };
+private ["_object", "_idx"];
+
+_object = objNull;
+
+// Check for empty vehicle _objStr
+if (".p3d" in _objStr) then {
+    private _i = _objStr find "#";
+
+    if (_i != -1) then { _objStr = _objStr select [_i + 1] }
+};
+
+_idx = _objects findIf { str _x == _objStr };
 
 if (_idx != -1) then { _object = _objects select _idx };
 

@@ -18,10 +18,13 @@
 
 params[["_action", "kill", [""]]];
 
-private _unitsDeadHash = ["dead.units"] call FUNCMAIN(getSectionAsHashmap);
-private _vehiclesDeadHash = ["dead.vehicles"] call FUNCMAIN(getSectionAsHashmap);
-private _deadEntities = keys _unitsDeadHash + keys _vehiclesDeadHash;
-private _count = 0;
+private ["_unitsDeadHash", "_vehiclesDeadHash", "_deadEntities", "_count", "_entityKeys"];
+
+_unitsDeadHash = ["dead.units"] call FUNCMAIN(getSectionAsHashmap);
+_vehiclesDeadHash = ["dead.vehicles"] call FUNCMAIN(getSectionAsHashmap);
+_entityKeys = keys _unitsDeadHash + keys _vehiclesDeadHash;
+_deadEntities = _entityKeys arrayIntersect _entityKeys;
+_count = 0;
 
 if (count _deadEntities > 0) then {
 
@@ -29,6 +32,7 @@ if (count _deadEntities > 0) then {
         private _aliveEntities = (ALIVE_AIS) + (ALL_VEHICLES);
         private _deadObj = [_x, _aliveEntities] call FUNCMAIN(getObjFromStr);
 
+        _deadObj = vehicle _deadObj;
         if (!isNull _deadObj) then {
             private "_pos";
 
