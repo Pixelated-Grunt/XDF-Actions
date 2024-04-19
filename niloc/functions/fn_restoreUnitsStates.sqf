@@ -53,7 +53,7 @@ _aliveAIs = ALIVE_AIS;
                     case "location": {
                         // If unit is inside a vehicle leave it to the vehicle case
                         if (isNull objectParent _unitObj) then {
-                            if ((getPosATL _unitObj) isNotEqualTo _value) then {
+                            if ((getPosASL _unitObj) isNotEqualTo _value) then {
                                 _unitObj setPosATL _value;
                             } else { LOG_2("Position (%1) of unit (%2) has not changed, not moving.", _value, str _unitObj) };
                         } else { LOG_1("Unit (%1) is inside a vehicle not moving.", str _unitObj) };
@@ -73,7 +73,7 @@ _aliveAIs = ALIVE_AIS;
                         if (!isNull _vehObj) then {
                             private _oldPos = _value select 1;
 
-                            if ((getPosATL _vehObj) isNotEqualTo _oldPos) then {
+                            if ((getPosASL _vehObj) isNotEqualTo _oldPos) then {
                                 _vehObj setPosATL _oldPos;
                             } else { LOG_2("Position (%1) of vehicle (%2) has not changed, not moving.", _value select 0, str _vehObj) };
                         } else { WARNING_1("Vehicle object (%1) does not exist.", str _unitObj) };

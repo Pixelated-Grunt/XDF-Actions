@@ -34,7 +34,7 @@ if (!isNull _playerObj) then {
     _putOk = ["players", [str _x, toArray(_playerHash)]] call FUNCMAIN(putSection);
     if (_putOk > 0) then {
         _count = _count + 1;
-    } else { ERROR_1("Failed to write states for player (%1).", str _x) }
+    }
 } forEach _allPlayers;
 
 _count

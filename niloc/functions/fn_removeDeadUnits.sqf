@@ -35,7 +35,7 @@ if (count _unitsHash > 0) then {
             _deadUnit = [_x, vehicles] call FUNCMAIN(getObjFromStr);
 
             if (!isNull _deadUnit) then {
-                if (_action == "delete") then { deleteVehicle _deadUnit } else { _deadUnit setDamage 1 };
+                if (_action == "delete") then { deleteVehicle _deadUnit } else { _deadUnit setDamage [1, false] };
                 _count = _count + 1;
             };
         };

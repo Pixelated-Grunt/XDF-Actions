@@ -24,7 +24,7 @@ _extraStats = [];
 switch (_type) do {
     case "unit": { _stats = UNIT_STATS; _extraStats = UNIT_STATS_EXTRA };
     case "player": { _stats = PLAYER_STATS };
-    case "vehicle": {};
+    case "vehicle": { _stats = VEHICLE_STATS };
     default {ERROR_1("Stats type (%1) is incorrect.", _type)};
 };
 

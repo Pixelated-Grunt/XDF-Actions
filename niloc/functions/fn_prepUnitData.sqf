@@ -11,7 +11,7 @@
  * HashMap that contains unit data <HASHMAP>
  *
  * Example:
- * _unitHash = ["B Alpha 1-1:1"] call XDF_fnc_prepUnitData
+ * _unitHash = [player] call XDF_fnc_prepUnitData
  *
  * Public: No
 **/
@@ -31,8 +31,7 @@ _unitHash = createHashMap;
 
     switch (_stat) do {
         // Base stats
-        // Assuming all units are not in water i.e. ATL
-        case "location": { _unitHash set [_stat, (getPosATL _unit)] };
+        case "location": { _unitHash set [_stat, (getPosASL _unit)] };
         case "loadout": { _unitHash set [_stat, (getUnitLoadout _unit)] };
         case "damage": {
             if HASACE3 then {
@@ -45,7 +44,7 @@ _unitHash = createHashMap;
             private _vehicle = objectParent _unit;
 
             if (!isNull _vehicle) then {
-                _unitHash set [_stat, [str _vehicle, getPosATL _vehicle]];
+                _unitHash set [_stat, [str _vehicle, getPosASL _vehicle]];
             };
         };
         // Player only stats

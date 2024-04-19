@@ -16,6 +16,7 @@ class XDF {
         class getSectionNames {};
         class markerToString {};
         class prepUnitData {};
+        class prepVehicleData {};
         class putSection {};
         class removeDeadUnits {};
         class restoreMissionState {};
@@ -26,6 +27,7 @@ class XDF {
         class savePlayersStates {};
         class saveUnitsStates {};
         class saveUserMarkers {};
+        class saveVehiclesStates {};
         class stringToMarker {};
         class updateMeta {};
     };

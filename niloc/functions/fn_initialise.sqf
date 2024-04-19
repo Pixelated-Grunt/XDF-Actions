@@ -18,7 +18,6 @@
 
 if (!isServer) exitWith { ERROR("NiLoc only runs on a server.") };
 
-waitUntil { time > 0 };
 addMissionEventHandler [
     "EntityKilled", {
         params ["_unit", "", "", ""];
@@ -37,24 +36,42 @@ addMissionEventHandler [
 //];
 
 addMissionEventHandler [
+    "PlayerConnected", {
+        params ["", "_uid", "_name", "_jip"];
+
+        private _sectionHash = ["session"] call FUNCMAIN(getSectionAsHashmap);
+        private _startTime = serverTime;
+
+        _sectionHash set ["session.player." + str _uid, [_name, _startTime, _jip]];
+        ["session", [_sectionHash]] call FUNCMAIN(putSection);
+    }
+];
+
+addMissionEventHandler [
     "HandleDisconnect", {
-        params ["_unit", "", "", ""];
+        params ["_unit", "", "_uid"];
 
-        private _sectionHash = ["players"] call FUNCMAIN(getSectionAsHashmap);
+        private ["_playersHash", "_sessionPlayerStats", "_playedTime"];
 
-        // Only save if record doesn't already exist
-        if ((count _sectionHash == 0) or !(str _unit in _sectionHash)) then {
+        _playersHash = ["players"] call FUNCMAIN(getSectionAsHashmap);
+        _sessionPlayerStats = (["session"] call FUNCMAIN(getSectionAsHashmap)) get _uid;
+        _playedTime = serverTime - (_sessionPlayerStats select 1);
+
+        // Only save if record doesn't already exist and connect time is > 5 mins
+        if (((count _playersHash == 0) || !(str _unit in _playersHash)) && _playedTime > 300) then {
             [_unit] call FUNCMAIN(savePlayersStates);
         };
     }
 ];
 
 INFO("==================== NiLOC Initialisation Starts ====================");
+
 INFO("-------------------- Setting Up Database --------------------");
 waitUntil { [] call FUNCMAIN(dbInit) };
 
 private _sessionHash = ["session", ["session.number"]] call FUNCMAIN(getSectionAsHashmap);
 
+waitUntil { time > 0 };
 if (_sessionHash get "session.number" > 1) then {
     private "_result";
 
