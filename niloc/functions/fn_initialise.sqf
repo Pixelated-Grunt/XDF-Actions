@@ -18,52 +18,6 @@
 
 if (!isServer) exitWith { ERROR("NiLoc only runs on a server.") };
 
-addMissionEventHandler [
-    "EntityKilled", {
-        params ["_unit", "", "", ""];
-
-        [_unit] call FUNCMAIN(handleDeadEntity);
-    }
-];
-
-// This EH only for dev branch 2.18
-//addMissionEventHandler [
-//    "EntityDeleted", {
-//        params ["_entity"];
-//
-//        [_entity] call FUNCMAIN(handleDeadEntity);
-//    }
-//];
-
-addMissionEventHandler [
-    "PlayerConnected", {
-        params ["", "_uid", "_name", "_jip"];
-
-        private _sectionHash = ["session"] call FUNCMAIN(getSectionAsHashmap);
-        private _startTime = serverTime;
-
-        _sectionHash set ["session.player." + str _uid, [_name, _startTime, _jip]];
-        ["session", [_sectionHash]] call FUNCMAIN(putSection);
-    }
-];
-
-addMissionEventHandler [
-    "HandleDisconnect", {
-        params ["_unit", "", "_uid"];
-
-        private ["_playersHash", "_sessionPlayerStats", "_playedTime"];
-
-        _playersHash = ["players"] call FUNCMAIN(getSectionAsHashmap);
-        _sessionPlayerStats = (["session"] call FUNCMAIN(getSectionAsHashmap)) get _uid;
-        _playedTime = serverTime - (_sessionPlayerStats select 1);
-
-        // Only save if record doesn't already exist and connect time is > 5 mins
-        if (((count _playersHash == 0) || !(str _unit in _playersHash)) && _playedTime > 300) then {
-            [_unit] call FUNCMAIN(savePlayersStates);
-        };
-    }
-];
-
 INFO("==================== NiLOC Initialisation Starts ====================");
 
 INFO("-------------------- Setting Up Database --------------------");
@@ -86,13 +40,13 @@ if (_sessionHash get "session.number" > 1) then {
     };
 
     INFO("-------------------- Handling Dead Units --------------------");
-    _result = [] call FUNCMAIN(removeDeadUnits);
+    _result = [] call FUNCMAIN(removeDeadEntities);
 
     if (_result == 0) then {
-        INFO("No dead units found to be handled.");
+        INFO("No dead entities found to be handled.");
     } else {
-        INFO("%1 dead units handled.", _result);
-        ["session", ["session.loaded.dead.units", _result]] call FUNCMAIN(putSection);
+        INFO("%1 dead entities handled.", _result);
+        ["session", ["session.loaded.dead.entities", _result]] call FUNCMAIN(putSection);
     };
 
     INFO("-------------------- Restoring Units States --------------------");
@@ -105,5 +59,51 @@ if (_sessionHash get "session.number" > 1) then {
         ["session", ["session.loaded.units", _result]] call FUNCMAIN(putSection);
     };
 };
+
+addMissionEventHandler [
+    "PlayerConnected", {
+        params ["", "_uid", "_name", "_jip"];
+
+        private _sectionHash = ["session"] call FUNCMAIN(getSectionAsHashmap);
+        private _startTime = serverTime;
+
+        _sectionHash set ["session.player." + _uid, [_name, _startTime, _jip]];
+        ["session", [_sectionHash]] call FUNCMAIN(putSection);
+    }
+];
+
+addMissionEventHandler [
+    "EntityKilled", {
+        params ["_unit", "", "", ""];
+
+        [_unit] call FUNCMAIN(handleDeadEntity);
+    }
+];
+
+// This EH only available in dev branch 2.18
+//addMissionEventHandler [
+//    "EntityDeleted", {
+//        params ["_entity"];
+//
+//        [_entity] call FUNCMAIN(handleDeadEntity);
+//    }
+//];
+
+addMissionEventHandler [
+    "HandleDisconnect", {
+        params ["_unit", "", "_uid"];
+
+        private ["_playersHash", "_sessionPlayerStats", "_playedTime"];
+
+        _playersHash = ["players"] call FUNCMAIN(getSectionAsHashmap);
+        _sessionPlayerStats = (["session"] call FUNCMAIN(getSectionAsHashmap)) get _uid;
+        _playedTime = serverTime - (_sessionPlayerStats select 1);
+
+        // Only save if record doesn't already exist and connect time is > 5 mins
+        if (((count _playersHash == 0) || !(str _unit in _playersHash)) && _playedTime > 300) then {
+            [_unit] call FUNCMAIN(savePlayersStates);
+        };
+    }
+];
 
 INFO("==================== NiLOC Initialisation Finished ====================");

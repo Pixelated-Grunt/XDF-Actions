@@ -18,7 +18,7 @@ class XDF {
         class prepUnitData {};
         class prepVehicleData {};
         class putSection {};
-        class removeDeadUnits {};
+        class removeDeadEntities {};
         class restoreMissionState {};
         class restoreUnitsStates {} ;
         class restoreUserMarkers {};

@@ -6,19 +6,19 @@
 #include "\x\cba\addons\main\script_macros_mission.hpp"
 
 // Sections to be preserved during purge before save
-#define SECTIONS_NO_PURGE ["session", "meta", "players", "units.DEAD"]
+#define SECTIONS_NO_PURGE ["session", "meta", "players", "dead.units"]
 
 // Check if object is a unit
 #define IS_UNIT(OBJ) if (OBJ isKindOf "Man") then [{true}, {false}]
 
 // Check if object is an actual vehicle including static weapons
-#define IS_VEHICLE(OBJ) if ((OBJ isKindOf "LandVehicle") || (OBJ isKindOf "Ship") || (OBJ isKindOf "Plane")) then [{true}, {false}]
+#define IS_VEHICLE(OBJ) if ((OBJ isKindOf "LandVehicle") || (OBJ isKindOf "Ship") || (OBJ isKindOf "Plane") || (OBJ isKindOf "Helicopter")) then [{true}, {false}]
+
+// All actual vehicles including static weapons
+#define ALL_VEHICLES vehicles select { if (IS_VEHICLE(_x)) then [{true}, {false}] }
 
 // Alive players
 #define ALL_PLAYERS call BIS_fnc_listPlayers select { alive _x }
-
-// All actual vehicles including static weapons
-#define ALL_VEHICLES vehicles select { if (IS_VEHICLE(_x) then [{true}, {false}] }
 
 // All AIs without players
 #define ALIVE_AIS allUnits select { !(_x in (call BIS_fnc_listPlayers)) } select { alive _x }
@@ -34,4 +34,4 @@
 #define UNIT_STATS_EXTRA ["type", "face"]
 
 // Vehicle stats
-#define VEHICLE_STATS ["objStr", "side", "location", "damage", "weaponCargo", "itemCargo", "magazineCargo", "backpackCargo", "crew"]
+#define VEHICLE_STATS ["objStr", "type", "side", "location", "damage", "weaponCargo", "itemCargo", "magazineCargo", "backpackCargo", "crew"]

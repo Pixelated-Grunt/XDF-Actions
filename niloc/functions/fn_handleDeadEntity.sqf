@@ -18,21 +18,16 @@
 
 params [["_object", objNull, [objNull]]];
 
-if ((isPlayer _object) || !(IS_UNIT(_object)) || !(IS_VEHICLE(_object))) exitWith { false };
+if ((isPlayer _object) || !((IS_UNIT(_object)) || (IS_VEHICLE(_object)))) exitWith { LOG("Not recording dead entity."), false };
 
-private ["_count", "_objHash", "_side", "_objStr", "_objtype"];
+private ["_count", "_side", "_objStr", "_objtype"];
 
-_objHash = createHashMap;
 _side = str side _object;
 _objStr = str _object;
 _count = 0;
 
-_objHash set ["side", _side];
-_objHash set ["type", typeOf _object];
-_objHash set ["location", getPosASL _object];
-
-if IS_UNIT(_object) then { _objType = "units" } else { _objType = "vehicles" };
-_count = [_objType + ".DEAD", [_objStr, toArray _objHash]] call FUNCMAIN(putSection);
+if (IS_UNIT(_object)) then { _objType = "units" } else { _objType = "vehicles" };
+_count = ["dead." + _objType, [_objStr, [typeOf _object, getPosASL _object, _side]]] call FUNCMAIN(putSection);
 
 // NOTE: 0 is a valid case, since an entity can be dead before the save happens
 if (_count > 0) then {
