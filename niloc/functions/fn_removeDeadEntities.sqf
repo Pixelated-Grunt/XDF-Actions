@@ -33,6 +33,7 @@ if (count _deadEntities > 0) then {
         private _deadObj = [_x, _aliveEntities] call FUNCMAIN(getObjFromStr);
 
         _deadObj = vehicle _deadObj;
+        LOG_1("_deadObj (%1) now is a vehicle", str _deadObj);
         if (!isNull _deadObj) then {
             private "_pos";
 
@@ -54,7 +55,7 @@ if (count _deadEntities > 0) then {
                 _deadObj setDamage [1, false];
             };
             _count = _count + 1;
-        } else { ERROR_1("Failed to find entity (%1) to kill or delete.", _x) }
+        } else { ERROR_1("Failed to find entity (%1) to kill or delete.", _x) };
     } forEach _deadEntities;   // Array of object strings not objects
 };
 

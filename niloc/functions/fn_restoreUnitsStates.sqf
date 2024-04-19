@@ -40,10 +40,10 @@ _aliveAIs = ALIVE_AIS;
             switch (_key) do {
                 case "objStr": {};
                 case "location": {
-                    // If unit is inside a vehicle leave it to the vehicle case
-                    if (isNull objectParent _unitObj) then {
+                    // If unit is inside a vehicle leave it to the restore vic function
+                    if !("vehicle" in keys _unitHash) then {
                         if ((getPosASL _unitObj) isNotEqualTo _value) then {
-                            _unitObj setPosATL _value;
+                            _unitObj setPosASL _value;
                         } else { LOG_2("Position (%1) of unit (%2) has not changed, not moving.", _value, str _unitObj) };
                     } else { LOG_1("Unit (%1) is inside a vehicle not moving.", str _unitObj) };
                 };
@@ -55,18 +55,7 @@ _aliveAIs = ALIVE_AIS;
                         [_unitObj, _value] call ace_medical_fnc_deserializeState;
                     } else { _unitObj setDamage _value };
                 };
-                case "vehicle": {
-                    private _vehObj = objNull;
-
-                    _vehObj = [_value select 0, vehicles] call FUNCMAIN(getObjFromStr);
-                    if (!isNull _vehObj) then {
-                        private _oldPos = _value select 1;
-
-                        if ((getPosASL _vehObj) isNotEqualTo _oldPos) then {
-                            _vehObj setPosATL _oldPos;
-                        } else { LOG_2("Position (%1) of vehicle (%2) has not changed, not moving.", _value select 0, str _vehObj) };
-                    } else { WARNING_1("Vehicle object (%1) does not exist.", str _unitObj) };
-                };
+                case "vehicle": {};
                 case "type": {};
                 case "face": {};
                 default { ERROR_2("No key (%1) defined for unit (%2) to restore.", _key, str _unitObj) };
