@@ -17,10 +17,9 @@
 
 params [["_sstring", ["", [""]]]];
 
-private ["_iniDBi", "_sections", "_results"];
+private ["_sections", "_results"];
 
-_iniDBi = [] call FUNCMAIN(getDbInstance);
-_sections = "getSections" call _iniDBi;
+_sections = keys (["meta"] call FUNCMAIN(getSectionAsHashmap));
 _results = [];
 
 if ((count _sections > 1) && (_sstring != "")) then {

@@ -22,7 +22,7 @@ if ((isPlayer _object) || !((IS_UNIT(_object)) || (IS_VEHICLE(_object)))) exitWi
 
 private ["_count", "_side", "_objStr", "_objtype"];
 
-_side = str side _object;
+_side = str side group _object;
 _objStr = str _object;
 _count = 0;
 
@@ -35,8 +35,6 @@ if (_count > 0) then {
     private _section = (if (_objType == "units") then [{ _objType + "." + _side }, { _objType }]);
     private _sectionHash = [_section] call FUNCMAIN(getSectionAsHashmap);
 
-    // NOTE: If the unit is inside a vehicle, it will not be found.
-    // It is okay since the function that removes destroyed vehicles should handle it.
     if (_objStr in _sectionHash) then {
         if ([_section, _objStr] call FUNCMAIN(deleteSectionKey)) then {
             true

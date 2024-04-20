@@ -20,46 +20,7 @@ if (!isServer) exitWith { ERROR("NiLoc only runs on a server.") };
 
 INFO("==================== NiLOC Initialisation Starts ====================");
 
-INFO("-------------------- Setting Up Database --------------------");
-waitUntil { [] call FUNCMAIN(dbInit) };
-
-private _sessionHash = ["session", ["session.number"]] call FUNCMAIN(getSectionAsHashmap);
-
-waitUntil { time > 0 };
-if (_sessionHash get "session.number" > 1) then {
-    private "_result";
-
-    INFO("-------------------- Loading User Map Markers --------------------");
-    _result = [] call FUNCMAIN(restoreUserMarkers);
-
-    if (_result == 0) then {
-        INFO("No user markers found in database to restore.")
-    } else {
-        INFO("%1 user markers loaded.", _result);
-        ["session", ["session.loaded.markers", _result]] call FUNCMAIN(putSection);
-    };
-
-    INFO("-------------------- Handling Dead Units --------------------");
-    _result = [] call FUNCMAIN(removeDeadEntities);
-
-    if (_result == 0) then {
-        INFO("No dead entities found to be handled.");
-    } else {
-        INFO("%1 dead entities handled.", _result);
-        ["session", ["session.loaded.dead.entities", _result]] call FUNCMAIN(putSection);
-    };
-
-    INFO("-------------------- Restoring Units States --------------------");
-    _result = [] call FUNCMAIN(restoreUnitsStates);
-
-    if (_result == 0) then {
-        INFO("No unit states found in database to restore.");
-    } else {
-        INFO("%1 units states had been restored.", _result);
-        ["session", ["session.loaded.units", _result]] call FUNCMAIN(putSection);
-    };
-};
-
+// Keep this before database initiation
 addMissionEventHandler [
     "PlayerConnected", {
         params ["", "_uid", "_name", "_jip"];
@@ -71,6 +32,46 @@ addMissionEventHandler [
         ["session", [_sectionHash]] call FUNCMAIN(putSection);
     }
 ];
+
+INFO("---------- Setting Up Database ----------");
+waitUntil { [] call FUNCMAIN(dbInit) };
+
+private _sessionHash = ["session", ["session.number"]] call FUNCMAIN(getSectionAsHashmap);
+
+waitUntil { time > 0 };
+if (_sessionHash get "session.number" > 1) then {
+    private "_result";
+
+    INFO("---------- Loading User Map Markers ----------");
+    _result = [] call FUNCMAIN(restoreUserMarkers);
+
+    if (_result == 0) then {
+        INFO("No user markers found in database to restore.")
+    } else {
+        INFO_1("%1 user markers loaded.", _result);
+        ["session", ["session.loaded.markers", _result]] call FUNCMAIN(putSection);
+    };
+
+    INFO("---------- Handling Dead Entities ----------");
+    _result = [] call FUNCMAIN(removeDeadEntities);
+
+    if (_result == 0) then {
+        INFO("No dead entities found to be handled.");
+    } else {
+        INFO_1("%1 dead entities handled.", _result);
+        ["session", ["session.loaded.dead.entities", _result]] call FUNCMAIN(putSection);
+    };
+
+    INFO("---------- Restoring Units States ----------");
+    _result = [] call FUNCMAIN(restoreUnitsStates);
+
+    if (_result == 0) then {
+        INFO("No unit states found in database to restore.");
+    } else {
+        INFO_1("%1 units states had been restored.", _result);
+        ["session", ["session.loaded.units", _result]] call FUNCMAIN(putSection);
+    };
+};
 
 addMissionEventHandler [
     "EntityKilled", {

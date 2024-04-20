@@ -18,45 +18,39 @@
 
 params[["_action", "kill", [""]]];
 
-private ["_unitsDeadHash", "_vehiclesDeadHash", "_deadEntities", "_count", "_entityKeys"];
+private ["_count", "_sections"];
 
-_unitsDeadHash = ["dead.units"] call FUNCMAIN(getSectionAsHashmap);
-_vehiclesDeadHash = ["dead.vehicles"] call FUNCMAIN(getSectionAsHashmap);
-_entityKeys = keys _unitsDeadHash + keys _vehiclesDeadHash;
-_deadEntities = _entityKeys arrayIntersect _entityKeys;
 _count = 0;
+_sections = ["dead."] call FUNCMAIN(getSectionNames);
 
-if (count _deadEntities > 0) then {
+if (count _sections == 0) exitWith { _count };
+
+{
+    private ["_sectionHash", "_aliveEntities"];
+
+    if (_x isEqualTo "dead.units") then {
+        _sectionHash = ["dead.units"] call FUNCMAIN(getSectionAsHashmap);
+        _aliveEntities = ALIVE_AIS;
+    } else {
+        _sectionHash = ["dead.vehicles"] call FUNCMAIN(getSectionAsHashmap);
+        _aliveEntities = ALL_VEHICLES;
+    };
 
     {
-        private _aliveEntities = (ALIVE_AIS) + (ALL_VEHICLES);
-        private _deadObj = [_x, _aliveEntities] call FUNCMAIN(getObjFromStr);
+        private _obj = [_x, _aliveEntities] call FUNCMAIN(getObjFromStr);
 
-        _deadObj = vehicle _deadObj;
-        LOG_1("_deadObj (%1) now is a vehicle", str _deadObj);
-        if (!isNull _deadObj) then {
-            private "_pos";
+        if !(isNull _obj) then {
+            private _pos = _y select 1;
 
-            LOG_1("_deadObj (%1) is typeOf (%2).", str _deadObj, typeOf _deadObj);
-            if (IS_UNIT(_deadObj)) then {
-                _pos = (_unitsDeadHash get _x) select 1;
-                LOG_1("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!_pos in units: (%1) from _x (%2).", _pos, _x);
+            if (_action isEqualTo "delete") then {
+                deleteVehicle _obj;
             } else {
-                _pos = (_vehiclesDeadHash get _x) select 1;
-                LOG_1("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!_pos in vehicles: (%1) from _x (%2).", _pos, _x);
-            };
-
-            if (_action == "delete") then {
-                deleteVehicle _deadObj;
-            } else {
-                // FIXME: _pos didn't return in some tests
-                LOG_1("=============================_pos in setDamage: (%1) from _x (%2).", _pos, _x);
-                //_deadObj setPosASL _pos;
-                _deadObj setDamage [1, false];
+                _obj setPosASL _pos;
+                _obj setDamage [1, false];
             };
             _count = _count + 1;
-        } else { ERROR_1("Failed to find entity (%1) to kill or delete.", _x) };
-    } forEach _deadEntities;   // Array of object strings not objects
-};
+        } else { ERROR_1("Failed to find object (%1) to kill.", _x) }
+    } forEach _sectionHash;
+} forEach _sections;
 
 _count

@@ -24,7 +24,7 @@ params [
     ["_targetKey", "", [""]]
 ];
 
-private ["_updateOk", "_iniDBi", "_value"];
+private ["_updateOk", "_iniDBi", "_value", "_metaValue"];
 
 _updateOk = false;
 _iniDBi = [] call FUNCMAIN(getDbInstance);
@@ -42,5 +42,10 @@ if (_action == "add") then {
         _updateOk = ["write", ["meta", _targetSection, (_value - [_targetKey])]] call _iniDBi;
     } else { WARNING_2("Key (%1) doesn't exist in meta or it's a wrong type for the value (%2) to be deleted.", _targetSection, _targetKey) };
 };
+
+// Update itself
+_metaValue = ["read", ["meta", "meta", []]] call _iniDBi;
+_metaValue pushBackUnique _targetSection;
+_updateOK = ["write", ["meta", "meta", _metaValue]] call _iniDBi;
 
 _updateOk
