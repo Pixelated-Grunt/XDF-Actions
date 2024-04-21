@@ -127,7 +127,7 @@ if (count _sectionHash == 0) exitWith { _count };
                     };
                 };
                 case default {};
-            };
+            };  // switch block
             _count = _count + 1;
         } else { INFO_1("Failed to find vehicle object (%1) among all vehicles.", _objStr) };
     } forEach _vehicleHash;

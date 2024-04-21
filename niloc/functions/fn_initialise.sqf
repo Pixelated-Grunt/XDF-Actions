@@ -38,7 +38,7 @@ waitUntil { [] call FUNCMAIN(dbInit) };
 
 private _sessionHash = ["session", ["session.number"]] call FUNCMAIN(getSectionAsHashmap);
 
-waitUntil { time > 0 };
+//waitUntil { time > 0 };
 if (_sessionHash get "session.number" > 1) then {
     private "_result";
 
