@@ -20,8 +20,11 @@ class XDF {
         class putSection {};
         class removeDeadEntities {};
         class restoreMissionState {};
+        class restorePlayerState {};
+        class restorePlayersStates {};
         class restoreUnitsStates {} ;
         class restoreUserMarkers {};
+        class restoreVehiclesStates {};
         class returnStats {};
         class saveMissionState {};
         class savePlayersStates {};

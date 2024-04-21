@@ -4,7 +4,7 @@
  * Save data of all players
  *
  * Arguments:
- * 0: Save all or a single player record <OBJECT> {default: objNull}
+ * 0: Save a single player instead of all <OBJECT> {default: objNull}
  *
  * Return Valuej:
  * Return number of player record saved <NUMBER>
@@ -31,7 +31,7 @@ if (!isNull _playerObj) then {
     private _playerHash = ["player", _x] call FUNCMAIN(prepUnitData);
     private _putOk = 0;
 
-    _putOk = ["players", [str _x, toArray(_playerHash)]] call FUNCMAIN(putSection);
+    _putOk = ["players", [_playerHash get "playerUID", toArray(_playerHash)]] call FUNCMAIN(putSection);
     if (_putOk > 0) then {
         _count = _count + 1;
     }
