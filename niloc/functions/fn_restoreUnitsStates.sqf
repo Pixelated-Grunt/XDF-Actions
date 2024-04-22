@@ -54,6 +54,7 @@ _aliveAIs = ALIVE_AIS;
                             [_unitObj, _value] call ace_medical_fnc_deserializeState;
                         } else { _unitObj setDamage _value };
                     };
+                    case "captive": { _unitObj setCaptive _value };
                     case "vehicle": {};
                     case "type": {};
                     case "face": {};

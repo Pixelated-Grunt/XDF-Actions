@@ -22,19 +22,17 @@ params [
     ["_objects", [], [[]]]
 ];
 
-private ["_object", "_idx"];
+private _object = objNull;
 
-_object = objNull;
-
-// Check for empty vehicle _objStr
-if (".p3d" in _objStr) then {
-    private _i = _objStr find "#";
-
-    if (_i != -1) then { _objStr = _objStr select [_i + 2] };
-
-    _idx = _objects findIf { _objStr in str _x }
-} else { _idx = _objects findIf { str _x == _objStr } };
-
-if (_idx != -1) then { _object = _objects select _idx };
+// Vehicle?
+if ("vic_" in _objStr) then {
+    {
+        if (_x getVariable[QGVAR(tag), nil] isEqualTo _objStr) exitWith { _x };
+    } forEach _objects;
+} else {
+    {
+        if ((getUserInfo(getPlayerID _x) select 2) isEqualTo _objStr) exitWith { _x };
+    } forEach _objects;
+};
 
 _object

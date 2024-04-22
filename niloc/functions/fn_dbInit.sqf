@@ -44,10 +44,10 @@ if !isNil(QUOTE(_iniDBi)) then {
     _sessionHash set ["session.start", systemTime];
     _sessionHash set ["session.start.utc", systemTimeUTC];
     _sessionHash set ["session.start.game", date];
-    _sessionHash set ["session.last.save", 0];
-    _sessionHash set ["session.last.load", 0];
     _sessionHash set ["session.start.units", count (ALIVE_AIS)];
     _sessionHash set ["session.start.vehicles", count (ALL_VEHICLES)];
+    _sessionHash set ["session.last.save", 0];
+    _sessionHash set ["session.last.load", 0];
 
     if (["session", [_sessionHash]] call FUNCMAIN(putSection) == 0) then {
         ERROR("Failed to write session data into database.");

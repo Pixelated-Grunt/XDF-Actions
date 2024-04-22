@@ -18,7 +18,10 @@
 
 params [["_object", objNull, [objNull]]];
 
-if ((isPlayer _object) || !((IS_UNIT(_object)) || (IS_VEHICLE(_object)))) exitWith { LOG("Not recording dead entity."), false };
+if ((isPlayer _object) || !((IS_UNIT(_object)) || (IS_VEHICLE(_object)))) exitWith {
+    LOG_1("Skip recording dead entity for (%1).", str _object);
+    false
+};
 
 private ["_count", "_side", "_objStr", "_objtype"];
 
@@ -27,7 +30,12 @@ _objStr = str _object;
 _count = 0;
 
 // Write to dead.x section
-if (IS_UNIT(_object)) then { _objType = "units" } else { _objType = "vehicles" };
+if (IS_UNIT(_object)) then {
+    _objType = "units"
+} else {
+    _objType = "vehicles";
+    _objStr = _object getVariable [QGVAR(tag), _objStr];
+};
 _count = ["dead." + _objType, [_objStr, [typeOf _object, getPosASL _object, _side]]] call FUNCMAIN(putSection);
 
 // Remove from alive section

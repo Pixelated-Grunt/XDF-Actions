@@ -24,10 +24,10 @@
 #define ALIVE_AIS allUnits select { !(_x in (call BIS_fnc_listPlayers)) } select { alive _x }
 
 // Base unit stats
-#define BASE_STATS ["location", "loadout", "damage", "vehicle"]
+#define BASE_STATS ["location", "loadout", "damage", "captive", "vehicle"]
 
 // Player stats
-#define PLAYER_STATS BASE_STATS + ["playerName", "playerUID"]
+#define PLAYER_STATS BASE_STATS + ["playerName", "playerUID", "rations"]
 
 // Unit stats
 #define UNIT_STATS BASE_STATS + ["objStr", "formation", "behaviour"]

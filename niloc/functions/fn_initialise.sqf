@@ -41,6 +41,14 @@ private _sessionHash = ["session", ["session.number"]] call FUNCMAIN(getSectionA
 //waitUntil { time > 0 };
 if (_sessionHash get "session.number" > 1) then {
     private "_result";
+    private _vicCount = 0;
+
+    INFO("---------- Tagging Vehicles ----------");
+    {
+        _vicCount = _vicCount + 1;
+        _x setVariable [QGVAR("tag"), "vic_" + str _vicCount];
+    } forEach ALL_VEHICLES;
+    INFO_1("%1 vehicles had been tagged.", _vicCount);
 
     INFO("---------- Loading User Map Markers ----------");
     _result = [] call FUNCMAIN(restoreUserMarkers);

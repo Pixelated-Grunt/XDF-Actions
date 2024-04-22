@@ -22,9 +22,13 @@ _allVehicles = ALL_VEHICLES;
 _count = 0;
 
 {
-    private _vehHash = [_x] call FUNCMAIN(prepVehicleData);
-    private _vehName = str _x;
-    private _res = 0;
+    private ["_vehHash", "_res", "_vehName"];
+
+    _vehHash = [_x] call FUNCMAIN(prepVehicleData);
+    _vehName = _x getVariable [QGVAR(tag), nil];
+    _res = 0;
+
+    if (isNil _vehName) then { WARNING_1("Vehicle (%1) is not tagged.", str _x); continue };
 
     if (count _vehHash != 0) then {
         _res = ["vehicles", [_vehName, toArray _vehHash]] call FUNCMAIN(putSection);

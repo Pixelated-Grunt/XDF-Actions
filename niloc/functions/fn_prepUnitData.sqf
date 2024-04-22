@@ -54,6 +54,13 @@ _unitHash = createHashMap;
             _unitHash set [_stat, (_playerInfo select 3)];
         };
         case "playerUID": { _unitHash set [_stat, (getPlayerUID _unit)] };
+        case "rations": {
+            private _hunger = _unit getVariable "acex_field_rations_hunger";
+            private _thirst = _unit getVariable "acex_field_rations_thirst";
+
+            _unitHash set [_stat, [_hunger, _thirst]];
+        };
+        case "captive": { _unitHash set [_stat, captive _unit] };
         // AI only stats
         case "objStr": { _unitHash set [_stat, str _unit] };
         case "formation": { _unitHash set [_stat, (formation _unit)] };
