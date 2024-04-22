@@ -1,7 +1,7 @@
 #include "script_macros.hpp"
 /*
  * Author: Pixelated_Grunt
- * Return object from matching string
+ * Return object from matching string for AIs and Vehicles only.
  *
  * Arguments:
  * 0: String of the object to match <STRING>
@@ -24,14 +24,16 @@ params [
 
 private _object = objNull;
 
-// Vehicle?
+// Tagged vehicle
 if ("vic_" in _objStr) then {
     {
-        if (_x getVariable[QGVAR(tag), nil] isEqualTo _objStr) exitWith { _x };
+        private _vicVar = _x getVariable [QGVAR(tag), nil];
+
+        if (_vicVar isEqualTo _objStr) exitWith { _object = _x };
     } forEach _objects;
-} else {
+} else {    // AI
     {
-        if ((getUserInfo(getPlayerID _x) select 2) isEqualTo _objStr) exitWith { _x };
+        if (str _x isEqualTo _objStr) exitWith { _object = _x };
     } forEach _objects;
 };
 

@@ -22,18 +22,22 @@ _allVehicles = ALL_VEHICLES;
 _count = 0;
 
 {
-    private ["_vehHash", "_res", "_vehName"];
+    if (IS_VEHICLE(_x)) then {
+        private ["_vehHash", "_res", "_vehName"];
 
-    _vehHash = [_x] call FUNCMAIN(prepVehicleData);
-    _vehName = _x getVariable [QGVAR(tag), nil];
-    _res = 0;
+        _vehName = _x getVariable [QGVAR(tag), false];
+        LOG_2("QGVAR(tag) is (%1) value is (%2).", QGVAR(tag), _x getVariable QGVAR(tag));
+        LOG_1("_vehName is (%1).", _vehName);
+        if (_vehName isEqualTo false) then { WARNING_1("Vehicle (%1) is not tagged.", str _x); continue };
 
-    if (isNil _vehName) then { WARNING_1("Vehicle (%1) is not tagged.", str _x); continue };
+        _vehHash = [_x] call FUNCMAIN(prepVehicleData);
+        _res = 0;
 
-    if (count _vehHash != 0) then {
-        _res = ["vehicles", [_vehName, toArray _vehHash]] call FUNCMAIN(putSection);
-        if (_res > 0) then { _count = _count + 1 }
-    } else { ERROR_1("Failed to get data for vehicle (%1).", _vehName) }
+        if (count _vehHash != 0) then {
+            _res = ["vehicles", [_vehName, toArray _vehHash]] call FUNCMAIN(putSection);
+            if (_res > 0) then { _count = _count + 1 }
+        } else { ERROR_1("Failed to get data for vehicle (%1).", _vehName) }
+    };
 } forEach _allVehicles;
 
 _count

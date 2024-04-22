@@ -33,11 +33,11 @@ if (count _keys > 0) then {
     {
         private "_value";
 
-        _value = ["read", [_section, _x, nil]] call _iniDBi;
-        _resHash set [_x, _value];
+        _value = ["read", [_section, _x]] call _iniDBi;
+        if (_value isNotEqualTo false) then { _resHash set [_x, _value] };
     } forEach _keys;
 } else {
-    WARNING_1("Section %1 from the NiLoc database does not have any data.");
+    WARNING_1("Trying to read from section (%1) that does not exist.", _section);
 };
 
 _resHash

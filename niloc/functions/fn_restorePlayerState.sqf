@@ -33,13 +33,11 @@ _playerHash = ((_sectionHash get _playerUID) select 0) createHashMapFromArray ((
     switch (_stat) do {
         case "playerName": {
             private _sessionHash = ["session", ["session.player.loaded"]] call FUNCMAIN(getSectionAsHashmap);
-            private _data = [];
+            private _data = _sessionHash get "session.player.loaded";
 
-            if (count _sessionHash > 0) then {
-                _data = _sessionHash get "session.player.loaded";
-            };
-
-            ["session", ["session.player.loaded", _data append _stat]] call FUNCMAIN(putSection);
+            if (count _sessionHash == 0) then { _data = [] };
+            _data pushBackUnique _value;
+            ["session", ["session.player.loaded", _data]] call FUNCMAIN(putSection);
         };
         case "playerUID": {};
         case "location": {};
@@ -49,14 +47,15 @@ _playerHash = ((_sectionHash get _playerUID) select 0) createHashMapFromArray ((
                 [_playerObj, _value] call ace_medical_fnc_deserializeState;
             } else { _playerObj setDamage _value };
         };
-        case "captive": { _playerObj setCaptive _playerObj };
+        case "captive": { _playerObj setCaptive _value };
         case "rations": {
-            _playerObj setVariable ["acex_field_rations_hunger", _value select 0, 100];
-            _playerObj setVariable ["acex_field_rations_thirst", _value select 1, 100];
+            _playerObj setVariable ["acex_field_rations_hunger", _value select 0];
+            _playerObj setVariable ["acex_field_rations_thirst", _value select 1];
         };
         case "vehicle": {};
         default {};
-    }
-} forEach keys _playerHash;
+    };
+
+} forEach _playerHash;
 
 true

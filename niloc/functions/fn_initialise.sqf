@@ -20,7 +20,7 @@ if (!isServer) exitWith { ERROR("NiLoc only runs on a server.") };
 
 INFO("==================== NiLOC Initialisation Starts ====================");
 
-// Keep this before database initiation
+// Keep this EH before database initiation
 addMissionEventHandler [
     "PlayerConnected", {
         params ["", "_uid", "_name", "_jip"];
@@ -37,18 +37,24 @@ INFO("---------- Setting Up Database ----------");
 waitUntil { [] call FUNCMAIN(dbInit) };
 
 private _sessionHash = ["session", ["session.number"]] call FUNCMAIN(getSectionAsHashmap);
+private _sessionNo = _sessionHash get "session.number";
+private _vicCount = 0;
+
+INFO_1("Database loaded, current game session is (%1).", _sessionNo);
 
 //waitUntil { time > 0 };
-if (_sessionHash get "session.number" > 1) then {
-    private "_result";
-    private _vicCount = 0;
-
-    INFO("---------- Tagging Vehicles ----------");
-    {
+INFO("---------- Tagging Vehicles ----------");
+{
+    if (IS_VEHICLE(_x)) then {
         _vicCount = _vicCount + 1;
-        _x setVariable [QGVAR("tag"), "vic_" + str _vicCount];
-    } forEach ALL_VEHICLES;
-    INFO_1("%1 vehicles had been tagged.", _vicCount);
+        _x setVariable [QGVAR(tag), "vic_" + str _vicCount];
+        INFO_2("Vechile (%1) is tagged as (%2).", str _x, _x getVariable QGVAR(tag));
+    };
+} forEach ALL_VEHICLES;
+INFO_1("%1 vehicles had been tagged.", _vicCount);
+
+if (_sessionNo > 1) then {
+    private _result = 0;
 
     INFO("---------- Loading User Map Markers ----------");
     _result = [] call FUNCMAIN(restoreUserMarkers);
@@ -70,15 +76,15 @@ if (_sessionHash get "session.number" > 1) then {
         ["session", ["session.loaded.dead.entities", _result]] call FUNCMAIN(putSection);
     };
 
-    INFO("---------- Restoring Units States ----------");
-    _result = [] call FUNCMAIN(restoreUnitsStates);
-
-    if (_result == 0) then {
-        INFO("No unit states found in database to restore.");
-    } else {
-        INFO_1("%1 units states had been restored.", _result);
-        ["session", ["session.loaded.units", _result]] call FUNCMAIN(putSection);
-    };
+//    INFO("---------- Restoring Units States ----------");
+//    _result = [] call FUNCMAIN(restoreUnitsStates);
+//
+//    if (_result == 0) then {
+//        INFO("No unit states found in database to restore.");
+//    } else {
+//        INFO_1("%1 units states had been restored.", _result);
+//        ["session", ["session.loaded.units", _result]] call FUNCMAIN(putSection);
+//    };
 };
 
 addMissionEventHandler [

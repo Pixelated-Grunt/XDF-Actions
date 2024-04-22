@@ -24,14 +24,19 @@ _sectionHash = ["vehicles"] call FUNCMAIN(getSectionAsHashmap);
 
 if (count _sectionHash == 0) exitWith { _count };
 
-{
-    private _objStr = _x;
-    private _vehicleHash = (_y select 0) createHashMapFromArray (_y select 1);
+{   //_sectionHash loop
+    private ["_objStr", "_vehicleHash", "_success", "_vehObj"];
 
-    {
-        private _stat = _x;
-        private _values = _y;
-        private _vehObj = [_objStr, _allVehicles] call FUNCMAIN(getObjFromStr);
+    _objStr = _x;
+    _vehObj = [_objStr, _allVehicles] call FUNCMAIN(getObjFromStr);
+    _vehicleHash = (_y select 0) createHashMapFromArray (_y select 1);
+
+    {   //_vehicleHash loop
+        private ["_stat", "_values"];
+
+        _stat = _x;
+        _values = _y;
+        _success = false;
 
         if !(isNull _vehObj) then {
             switch (_stat) do {
@@ -54,41 +59,39 @@ if (count _sectionHash == 0) exitWith { _count };
                     _currentCrews = crew _vehObj apply { str _x };
                     _values apply { _savedCrews pushBack (_x select 0) };
 
-                    if ((_currentCrews sort true) isNotEqualTo (_savedCrews sort true)) then {
-                        {
+                    _currentCrews sort true;
+                    _savedCrews sort true;
+
+                    if (_currentCrews isNotEqualTo _savedCrews) then {
+                        {   //forEach _values (crews) loop
                             private _crewObj = [_x select 0, (ALIVE_AIS)] call FUNCMAIN(getObjFromStr);
 
                             if !(isNull _crewObj) then {
-                                switch (_values select 1) do {
+                                switch (_x select 1) do {
                                     case "driver": {
+                                        LOG_2("Vehicle (%1) loading driver (%2).", str _vehObj, str _crewObj);
                                         _crewObj moveInDriver _vehObj;
-                                        if ((_values select 5) isNotEqualTo "") then {
-                                            _crewObj assignAsDriver _vehObj;
-                                        };
+                                        _crewObj assignAsDriver _vehObj;
                                     };
                                     case "commander": {
+                                        LOG_2("Vehicle (%1) loading commander (%2).", str _vehObj, str _crewObj);
                                         _crewObj moveInCommander _vehObj;
-                                        if ((_values select 5) isNotEqualTo "") then {
-                                            _crewObj assignAsCommander _vehObj;
-                                        };
+                                        _crewObj assignAsCommander _vehObj;
                                     };
                                     case "gunner": {
+                                        LOG_2("Vehicle (%1) loading gunner (%2).", str _vehObj, str _crewObj);
                                         _crewObj moveInGunner _vehObj;
-                                        if ((_values select 5) isNotEqualTo "") then {
-                                            _crewObj assignAsGunner _vehObj;
-                                        };
+                                        _crewObj assignAsGunner _vehObj;
                                     };
                                     case "turret": {
-                                        _crewObj moveInTurret [_vehObj, _values select 3];
-                                        if ((_values select 5) isNotEqualTo "") then {
-                                            _crewObj assignAsTurret [_vehObj, _values select 3];
-                                        };
+                                        LOG_2("Vehicle (%1) loading turret (%2).", str _vehObj, str _crewObj);
+                                        _crewObj moveInTurret [_vehObj, _x select 3];
+                                        _crewObj assignAsTurret [_vehObj, _x select 3];
                                     };
                                     case "cargo": {
-                                        _crewObj moveInCargo [_vehObj, _values select 2];
-                                        if ((_values select 5) isNotEqualTo "") then {
-                                            _crewObj assignAsCargoIndex [_vehObj, _values select 2];
-                                        };
+                                        LOG_2("Vehicle (%1) loading cargo (%2).", str _vehObj, str _crewObj);
+                                        _crewObj moveInCargo [_vehObj, _x select 2];
+                                        _crewObj assignAsCargoIndex [_vehObj, _x select 2];
                                     };
                                     default {};
                                 };
@@ -128,9 +131,14 @@ if (count _sectionHash == 0) exitWith { _count };
                 };
                 case default {};
             };  // switch block
-            _count = _count + 1;
-        } else { INFO_1("Failed to find vehicle object (%1) among all vehicles.", _objStr) };
-    } forEach _vehicleHash;
-} forEach _sectionHash;
+            _success = true;
+        };
+    } forEach _vehicleHash;     //each vehicle stats
+    if (_success) then {
+        _count = _count + 1;
+    } else {
+        INFO_1("Failed to find vehicle object (%1) among all vehicles.", _objStr);
+    };
+} forEach _sectionHash;     //each vehicle
 
 _count

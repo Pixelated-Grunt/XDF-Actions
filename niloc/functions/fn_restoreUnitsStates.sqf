@@ -54,7 +54,13 @@ _aliveAIs = ALIVE_AIS;
                             [_unitObj, _value] call ace_medical_fnc_deserializeState;
                         } else { _unitObj setDamage _value };
                     };
-                    case "captive": { _unitObj setCaptive _value };
+                    case "captive": {
+                        _unitObj setCaptive _value;
+
+                        if (HASACE3 && _value) then {
+                            [_unitObj, true] call ACE_captives_fnc_setHandcuffed;
+                        };
+                    };
                     case "vehicle": {};
                     case "type": {};
                     case "face": {};

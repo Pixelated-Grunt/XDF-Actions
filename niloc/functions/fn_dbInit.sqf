@@ -32,13 +32,17 @@ if !isNil(QUOTE(_iniDBi)) then {
         // New session.number
         _sessionHash set ["session.number", 1];
     } else {
-        // Continue of session.number
-        _sessionHash set ["session.number", (_sessionHash get "session.number") + 1];
-        // Purge existing section before write
+        // Preserve session.number before purging
+        private _sessionNumber = _sessionHash get "session.number";
+
+        // Purge existing section hashmap and db before write
+        INFO("Purging previous session section data.");
         if !(["deleteSection", "session"] call _iniDBi) exitWith {
             ERROR("Failed to delete session section from database.");
             false
         };
+        _sessionHash = createHashMap;
+        _sessionHash set ["session.number", _sessionNumber + 1];
     };
 
     _sessionHash set ["session.start", systemTime];
