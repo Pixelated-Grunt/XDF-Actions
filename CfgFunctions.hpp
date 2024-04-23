@@ -7,13 +7,15 @@ class XDF {
         class initialise {
             postInit = 1;
         };
+        class addAction {};
         class dbInit {};
         class deleteSectionKey {};
         class getDbInstance {};
         class getObjFromStr {};
         class getSectionAsHashmap {};
-        class handleDeadEntity {};
         class getSectionNames {};
+        class handleDeadEntity {};
+        class fn_loadWorld {};
         class markerToString {};
         class prepUnitData {};
         class prepVehicleData {};
@@ -31,6 +33,7 @@ class XDF {
         class saveUnitsStates {};
         class saveUserMarkers {};
         class saveVehiclesStates {};
+        class saveWorld {};
         class stringToMarker {};
         class updateMeta {};
     };

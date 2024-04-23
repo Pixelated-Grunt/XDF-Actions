@@ -18,7 +18,7 @@
 
 private ["_dbName", "_iniDBi", "_success"];
 
-_dbName = missionName call CBA_fnc_removeWhitespace;
+_dbName = missionName regexReplace ["(%20|%2e)/g", "_"];
 _iniDBi = ["new", _dbName] call OO_iniDBi;
 _success = false;
 

@@ -32,12 +32,12 @@ _playerHash = ((_sectionHash get _playerUID) select 0) createHashMapFromArray ((
 
     switch (_stat) do {
         case "playerName": {
-            private _sessionHash = ["session", ["session.player.loaded"]] call FUNCMAIN(getSectionAsHashmap);
-            private _data = _sessionHash get "session.player.loaded";
+            private _sessionHash = ["session", ["session.loaded.players"]] call FUNCMAIN(getSectionAsHashmap);
+            private _data = _sessionHash get "session.loaded.players";
 
             if (count _sessionHash == 0) then { _data = [] };
             _data pushBackUnique _value;
-            ["session", ["session.player.loaded", _data]] call FUNCMAIN(putSection);
+            ["session", ["session.loaded.players", _data]] call FUNCMAIN(putSection);
         };
         case "playerUID": {};
         case "location": {};

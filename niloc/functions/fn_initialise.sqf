@@ -56,35 +56,13 @@ INFO_1("%1 vehicles had been tagged.", _vicCount);
 if (_sessionNo > 1) then {
     private _result = 0;
 
-    INFO("---------- Loading User Map Markers ----------");
-    _result = [] call FUNCMAIN(restoreUserMarkers);
+    if(RETDEF(QGVAR(preloadMarkers), true)) then {
+        INFO("---------- Loading User Map Markers ----------");
+        _result = [] call FUNCMAIN(restoreUserMarkers);
 
-    if (_result == 0) then {
-        INFO("No user markers found in database to restore.")
-    } else {
         INFO_1("%1 user markers loaded.", _result);
         ["session", ["session.loaded.markers", _result]] call FUNCMAIN(putSection);
     };
-
-    INFO("---------- Handling Dead Entities ----------");
-    _result = [] call FUNCMAIN(removeDeadEntities);
-
-    if (_result == 0) then {
-        INFO("No dead entities found to be handled.");
-    } else {
-        INFO_1("%1 dead entities handled.", _result);
-        ["session", ["session.loaded.dead.entities", _result]] call FUNCMAIN(putSection);
-    };
-
-//    INFO("---------- Restoring Units States ----------");
-//    _result = [] call FUNCMAIN(restoreUnitsStates);
-//
-//    if (_result == 0) then {
-//        INFO("No unit states found in database to restore.");
-//    } else {
-//        INFO_1("%1 units states had been restored.", _result);
-//        ["session", ["session.loaded.units", _result]] call FUNCMAIN(putSection);
-//    };
 };
 
 addMissionEventHandler [
@@ -111,14 +89,35 @@ addMissionEventHandler [
         private ["_playersHash", "_sessionPlayerStats", "_playedTime"];
 
         _playersHash = ["players"] call FUNCMAIN(getSectionAsHashmap);
-        _sessionPlayerStats = (["session"] call FUNCMAIN(getSectionAsHashmap)) get _uid;
+        _sessionPlayerStats = (["session"] call FUNCMAIN(getSectionAsHashmap)) get "session.player." + _uid;
         _playedTime = serverTime - (_sessionPlayerStats select 1);
 
         // Only save if record doesn't already exist and connect time is > 5 mins
-        if (((count _playersHash == 0) || !(str _unit in _playersHash)) && _playedTime > 300) then {
+        if (((count _playersHash == 0) || !(_uid in _playersHash)) && _playedTime > 300) then {
             [_unit] call FUNCMAIN(savePlayersStates);
         };
     }
 ];
 
+// CBA EH for inventory changes
+["loadout", {
+    params ["_unit"];
+
+    private ["_accessItem", "_loadOut"];
+
+    _accessItem = RETDEF(QGVAR(accessItem), "ACE_SpraypaintRed");
+    _loadOut = (getUnitLoadout _unit) select [3, 3];
+
+    _unit setVariable [QGVAR(hasAccessItem), false];
+    {   // Uniform, vest and backpack
+        private _content = _x select 1;
+        {
+            if (_x isEqualTo _accessItem) then {
+                _unit setVariable [QGVAR(hasAccessItem), true];
+                LOG_2("Compared item (%1) against access item (%2).", _x, _accessItem);
+                break
+            };
+        } forEach _content;
+    } forEach _loadOut;
+}] call CBA_fnc_addPlayerEventHandler;
 INFO("==================== NiLOC Initialisation Finished ====================");
