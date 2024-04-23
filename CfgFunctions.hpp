@@ -15,7 +15,7 @@ class XDF {
         class getSectionAsHashmap {};
         class getSectionNames {};
         class handleDeadEntity {};
-        class fn_loadWorld {};
+        class loadWorld {};
         class markerToString {};
         class prepUnitData {};
         class prepVehicleData {};

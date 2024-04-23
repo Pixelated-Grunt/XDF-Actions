@@ -23,12 +23,12 @@ _count = 0;
 _lastSave = (["session", ["session.last.save"]] call FUNCMAIN(getSectionAsHashmap)) get "session.last.save";
 _minsFromLastSave = serverTime - _lastSave;
 
-if ((RETDEF(QGVAR(saveOnce), false)) && (_lastSave > 0)) exitWith {
+if ((missionNamespace getVariable [QGVAR(saveOnce), false]) && (_lastSave > 0)) exitWith {
     INFO("Save once per game session setting is on ... not saving.");
     false
 };
 
-if (_minsFromLastSave < RETDEF(QGVAR(minsBetweenSaves), 60)) exitWith {
+if ((missionNamespace getVariable [QGVAR(minsBetweenSaves), 60]) > _minsFromLastSave) exitWith {
     INFO("Too short between save ... not saving.");
     false
 };

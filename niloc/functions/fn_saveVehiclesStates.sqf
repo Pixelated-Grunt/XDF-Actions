@@ -26,8 +26,6 @@ _count = 0;
         private ["_vehHash", "_res", "_vehName"];
 
         _vehName = _x getVariable [QGVAR(tag), false];
-        LOG_2("QGVAR(tag) is (%1) value is (%2).", QGVAR(tag), _x getVariable QGVAR(tag));
-        LOG_1("_vehName is (%1).", _vehName);
         if (_vehName isEqualTo false) then { WARNING_1("Vehicle (%1) is not tagged.", str _x); continue };
 
         _vehHash = [_x] call FUNCMAIN(prepVehicleData);

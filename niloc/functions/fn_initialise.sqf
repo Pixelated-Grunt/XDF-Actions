@@ -56,7 +56,7 @@ INFO_1("%1 vehicles had been tagged.", _vicCount);
 if (_sessionNo > 1) then {
     private _result = 0;
 
-    if(RETDEF(QGVAR(preloadMarkers), true)) then {
+    if(missionNamespace getVariable [QGVAR(preloadMarkers), true]) then {
         INFO("---------- Loading User Map Markers ----------");
         _result = [] call FUNCMAIN(restoreUserMarkers);
 
@@ -103,21 +103,13 @@ addMissionEventHandler [
 ["loadout", {
     params ["_unit"];
 
-    private ["_accessItem", "_loadOut"];
+    private ["_accessItem", "_canAccess", "_items"];
 
-    _accessItem = RETDEF(QGVAR(accessItem), "ACE_SpraypaintRed");
-    _loadOut = (getUnitLoadout _unit) select [3, 3];
+    _accessItem = missionNamespace getVariable [QGVAR(accessItem), "ACE_SpraypaintRed"];
+    _items = items _unit;
+    _canAccess = if (_accessItem in _items) then [{true}, {false}];
 
-    _unit setVariable [QGVAR(hasAccessItem), false];
-    {   // Uniform, vest and backpack
-        private _content = _x select 1;
-        {
-            if (_x isEqualTo _accessItem) then {
-                _unit setVariable [QGVAR(hasAccessItem), true];
-                LOG_2("Compared item (%1) against access item (%2).", _x, _accessItem);
-                break
-            };
-        } forEach _content;
-    } forEach _loadOut;
+    LOG_1("_canAccess (%1).", _canAccess);
+    [_unit, _canAccess] call FUNCMAIN(addAction);
 }] call CBA_fnc_addPlayerEventHandler;
 INFO("==================== NiLOC Initialisation Finished ====================");

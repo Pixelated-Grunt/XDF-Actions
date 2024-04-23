@@ -21,7 +21,7 @@ private _count = 0;
 
 INFO("==================== Mission Loading Starts ====================");
 
-if !(RETDEF(QGVAR(preloadMarkers), true)) then {
+if !(missionNamespace getVariable [QGVAR(preloadMarkers), true]) then {
     INFO("-------------------- Loading User Map Markers --------------------");
     _count = [] call FUNCMAIN(restoreUserMarkers);
 
