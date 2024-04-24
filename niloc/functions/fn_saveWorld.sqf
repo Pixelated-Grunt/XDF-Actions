@@ -16,7 +16,7 @@
 **/
 
 
-if !(isServer) exitWith { ERROR("NiLoc system only works in MP games."); false };
+if !(isServer) exitWith { ERROR("NiLOC system only works in MP games."); false };
 private ["_lastSave", "_minsFromLastSave", "_count"];
 
 _count = 0;

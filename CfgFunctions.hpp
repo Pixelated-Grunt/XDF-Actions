@@ -1,13 +1,21 @@
 class XDF {
-    requiredAddons[] = {"cba_common"};
+    requiredAddons[] = { "cba_common" };
 
-    class NiLoc {
-        file = "xdf\niloc\functions";
+    class common {
+        file = "xdf\common\functions";
 
-        class initialise {
+        class common_init {
             postInit = 1;
         };
-        class addAction {};
+        class checkAccessItems {};
+    };
+
+    class NiLOC {
+        file = "xdf\niloc\functions";
+
+        class niloc_init {
+            postInit = 1;
+        };
         class dbInit {};
         class deleteSectionKey {};
         class getDbInstance {};
@@ -17,6 +25,7 @@ class XDF {
         class handleDeadEntity {};
         class loadWorld {};
         class markerToString {};
+        class nilocChildActions {};
         class prepUnitData {};
         class prepVehicleData {};
         class putSection {};
@@ -36,5 +45,11 @@ class XDF {
         class saveWorld {};
         class stringToMarker {};
         class updateMeta {};
+    };
+
+    class ERV {
+        file = "xdf\erv\functions";
+
+        class setERV {};
     };
 };

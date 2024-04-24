@@ -10,13 +10,13 @@
  * Nil
  *
  * Example:
- * [] call XDF_fnc_initialise
+ * [] call XDF_fnc_niloc_init
  *
  * Public: No
 **/
 
 
-if (!isServer) exitWith { ERROR("NiLoc only runs on a server.") };
+if (!isServer) exitWith { ERROR("NiLOC only runs on a server.") };
 
 INFO("==================== NiLOC Initialisation Starts ====================");
 
@@ -99,17 +99,4 @@ addMissionEventHandler [
     }
 ];
 
-// CBA EH for inventory changes
-["loadout", {
-    params ["_unit"];
-
-    private ["_accessItem", "_canAccess", "_items"];
-
-    _accessItem = missionNamespace getVariable [QGVAR(accessItem), "ACE_SpraypaintRed"];
-    _items = items _unit;
-    _canAccess = if (_accessItem in _items) then [{true}, {false}];
-
-    LOG_1("_canAccess (%1).", _canAccess);
-    [_unit, _canAccess] call FUNCMAIN(addAction);
-}] call CBA_fnc_addPlayerEventHandler;
 INFO("==================== NiLOC Initialisation Finished ====================");
