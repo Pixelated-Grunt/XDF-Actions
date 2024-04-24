@@ -42,5 +42,4 @@ switch (_component) do {
     };
 };
 
-LOG_3("_hasItem (%1) from _accessItems (%2) for (%3).", _hasItem, _accessItems, _component);
 _hasItem

@@ -26,7 +26,7 @@ _action = [
     "Load",
     "Load Mission",
     "a3\ui_f\data\igui\cfg\simpletasks\types\upload_ca.paa",
-    { [] call FUNCMAIN(loadWorld) },
+    { [] remoteExec [QFUNCMAIN(loadWorld), 2] },
     { true }
 ] call ace_interact_menu_fnc_createAction;
 _actions pushBack [_action, [], _target];
@@ -36,7 +36,7 @@ _action = [
     "Save",
     "Save Mission",
     "a3\ui_f\data\igui\cfg\simpletasks\types\download_ca.paa",
-    { [] call FUNCMAIN(saveWorld) },
+    { [] remoteExec [QFUNCMAIN(saveWorld), 2] },
     { true }
 ] call ace_interact_menu_fnc_createAction;
 _actions pushBack [_action, [], _target];

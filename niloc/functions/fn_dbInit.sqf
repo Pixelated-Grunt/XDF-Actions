@@ -23,25 +23,22 @@ _iniDBi = ["new", _dbName] call OO_iniDBi;
 _success = false;
 
 if !isNil(QUOTE(_iniDBi)) then {
-    private "_sessionHash";
+    private _sessionHash = createHashMap;
+    private "_sessionNumber";
 
     missionNamespace setVariable [QGVAR(Db), _iniDBi, true];
-    _sessionHash = ["session"] call FUNCMAIN(getSectionAsHashmap);
+    _sessionNumber = ["read", ["session", "session.number", 0]] call _iniDBi;
 
-    if (count _sessionHash == 0) then {
+    if (_sessionNumber == 0) then {
         // New session.number
         _sessionHash set ["session.number", 1];
     } else {
-        // Preserve session.number before purging
-        private _sessionNumber = _sessionHash get "session.number";
-
         // Purge existing section hashmap and db before write
         INFO("Purging previous session section data.");
         if !(["deleteSection", "session"] call _iniDBi) exitWith {
             ERROR("Failed to delete session section from database.");
             false
         };
-        _sessionHash = createHashMap;
         _sessionHash set ["session.number", _sessionNumber + 1];
     };
 
