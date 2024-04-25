@@ -5,7 +5,7 @@ Set of tools that are created for the [XDF](https://www.youtube.com/user/Xtremed
 MP only persistent system. The reason for another such system is that we can have full controls of what/when to load during plays that better fit our game flows.
 
 ### Features
-- External file based data store [INIDBI2](https://forums.bohemia.net/forums/topic/186131-inidbi2-save-and-load-data-to-the-server-or-your-local-computer-without-databases) without bloat up server/client profiles
+- External file based data store [INIDBI2](https://forums.bohemia.net/forums/topic/186131-inidbi2-save-and-load-data-to-the-server-or-your-local-computer-without-databases) to avoid bloat up server/client profiles
 - Script based, no additional mod to install (it requires CBA and ACE3)
 - Mission stats
   - time
