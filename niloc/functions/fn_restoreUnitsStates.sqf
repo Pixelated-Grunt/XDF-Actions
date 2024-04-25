@@ -47,18 +47,20 @@ _aliveAIs = ALIVE_AIS;
                         } else { LOG_1("Unit (%1) was inside a vehicle not moving.", str _unitObj) };
                     };
                     case "loadout": { _unitObj setUnitLoadout _value };
-                    case "formation": { _unitObj setFormation _value };
-                    case "behaviour": { _unitObj setCombatBehaviour _value };
+                    case "formation": { [_unitObj, _value] remoteExec ["setFormation", _unitObj] };
+                    case "behaviour": { [_unitObj, _value] remoteExec ["setCombatBehaviour", _unitObj] };
                     case "damage": {
                         if HASACE3 then {
-                            [_unitObj, _value] call ace_medical_fnc_deserializeState;
+                            [_unitObj, _value] remoteExec ["ace_medical_fnc_deserializeState", _unitObj];
                         } else { _unitObj setDamage _value };
                     };
                     case "captive": {
-                        _unitObj setCaptive _value;
-
-                        if (HASACE3 && _value) then {
-                            [_unitObj, true] call ACE_captives_fnc_setHandcuffed;
+                        if (_value) then {
+                            if (HASACE3) then {
+                                [_unitObj, _value] remoteExec ["ACE_captives_fnc_setHandcuffed", _unitObj];
+                            } else {
+                                [_unitObj, _value] remoteExec ["setCaptive", _unitObj];
+                            };
                         };
                     };
                     case "vehicle": {};

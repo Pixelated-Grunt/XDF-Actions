@@ -18,9 +18,10 @@
 
 params [["_playerObj", objNull, [objNull]]];
 
-private ["_sectionHash", "_playerHash", "_playerUID"];
+private ["_sectionHash", "_playerHash", "_playerID", "_playerUID"];
 
-_playerUID = (getUserInfo (getPlayerID _playerObj)) select 2;
+_playerID = getPlayerID _playerObj;
+_playerUID = (getUserInfo _playerID) select 2;
 _sectionHash = ["players", [_playerUID]] call FUNCMAIN(getSectionAsHashmap);
 
 if (count _sectionHash == 0) exitWith { WARNING_1("Can't find player UID (%1) in the database.", _playerUID); false };
@@ -44,10 +45,18 @@ _playerHash = ((_sectionHash get _playerUID) select 0) createHashMapFromArray ((
         case "loadout": { _playerObj setUnitLoadout _value };
         case "damage": {
             if HASACE3 then {
-                [_playerObj, _value] call ace_medical_fnc_deserializeState;
+                [_playerObj, _value] remoteExec ["ace_medical_fnc_deserializeState", _playerObj];
             } else { _playerObj setDamage _value };
         };
-        case "captive": { _playerObj setCaptive _value };
+        case "captive": {
+            if (_value) then {
+                if (HASACE3) then {
+                    [_playerObj, _value] remoteExec ["ACE_captives_fnc_setHandcuffed", _playerObj];
+                } else {
+                    [_playerObj, _value] remoteExec ["setCaptive", _playerObj];
+                };
+            };
+        };
         case "rations": {
             _playerObj setVariable ["acex_field_rations_hunger", _value select 0];
             _playerObj setVariable ["acex_field_rations_thirst", _value select 1];
