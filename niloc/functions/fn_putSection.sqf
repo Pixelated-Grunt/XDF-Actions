@@ -22,6 +22,7 @@
 **/
 
 
+if (!isServer) exitWith { ERROR("NiLOC only runs on a server.") };
 params [
     ["_section", "", [""]],
     ["_data", [], [[]]]

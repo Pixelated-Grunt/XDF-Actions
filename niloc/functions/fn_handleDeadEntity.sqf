@@ -16,6 +16,7 @@
 **/
 
 
+if (!isServer) exitWith { ERROR("NiLOC only runs on a server.") };
 params [["_object", objNull, [objNull]]];
 
 if ((isPlayer _object) || !((IS_UNIT(_object)) || (IS_VEHICLE(_object)))) exitWith {

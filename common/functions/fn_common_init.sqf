@@ -16,17 +16,13 @@
 **/
 
 
-
 if (hasInterface) then {
-    private ["_action"];
-
     // CBA EH for inventory changes
     ["loadout", {
         params ["_unit"];
 
         _unit setVariable [QGVAR(uniqueItems), uniqueUnitItems _unit];
     }, true] call CBA_fnc_addPlayerEventHandler;
-
 
     // If access items are detected create ACE menu root entry
     ["CaManBase", 1, ["ACE_SelfActions"], [
@@ -37,8 +33,8 @@ if (hasInterface) then {
         { [_this # 1] call FUNCMAIN(checkAccessItems) }
     ] call ace_interact_menu_fnc_createAction, true] call ace_interact_menu_fnc_addActionToClass;
 
-    // NiLOC menu
-    _action = [
+    // NiLOC submenu
+    ["CaManBase", 1, ["ACE_SelfActions", "XDF"], [
         "NiLOC",
         "NiLOC",
         "a3\ui_f_oldman\data\igui\cfg\holdactions\holdaction_sleep2_ca.paa",
@@ -46,11 +42,10 @@ if (hasInterface) then {
         { [_this # 1, _this # 2] call FUNCMAIN(checkAccessItems) },
         { _this call FUNCMAIN(nilocChildActions) },
         "NiLOC"
-    ] call ace_interact_menu_fnc_createAction;
-    ["CaManBase", 1, ["ACE_SelfActions", "XDF"], _action, true] call ace_interact_menu_fnc_addActionToClass;
+    ] call ace_interact_menu_fnc_createAction, true] call ace_interact_menu_fnc_addActionToClass;
 
     // ERV action
-    _action = [
+    ["CaManBase", 1, ["ACE_SelfActions", "XDF"], [
         "ERV",
         "Set Emergency RV",
         "a3\ui_f\data\map\markers\military\end_CA.paa",
@@ -58,6 +53,5 @@ if (hasInterface) then {
         { [_this # 1, _this # 2] call FUNCMAIN(checkAccessItems) },
         {},
         "ERV"
-    ] call ace_interact_menu_fnc_createAction;
-    ["CaManBase", 1, ["ACE_SelfActions", "XDF"], _action, true] call ace_interact_menu_fnc_addActionToClass;
+    ] call ace_interact_menu_fnc_createAction, true] call ace_interact_menu_fnc_addActionToClass;
 };

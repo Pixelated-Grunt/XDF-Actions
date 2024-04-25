@@ -18,7 +18,7 @@
 
 private ["_dbName", "_iniDBi", "_success"];
 
-_dbName = missionName regexReplace ["(%20|%2e)/g", "_"];
+_dbName = (missionName regexReplace ["(%20|%2e)/g", "_"]) regexReplace ["_*[vV]_*[0-9]+.*$/g", ""];
 _iniDBi = ["new", _dbName] call OO_iniDBi;
 _success = false;
 
