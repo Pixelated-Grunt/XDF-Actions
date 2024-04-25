@@ -11,11 +11,11 @@ MP only persistent system. The reason for another such system is that we can hav
   - time
   - all user placed map markers
 - Players stats
-  - locations
+  - locations (not load for players)
   - loadouts
   - health (every ACE medical records)
   - captive states
-  - in/out vehicles
+  - in/out vehicles (not load for players)
   - hunger / thirst
 - AI stats (everything in Players except hunger/thirst)
   - formations
