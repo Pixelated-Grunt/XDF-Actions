@@ -28,11 +28,14 @@ MP only persistent system. The reason for another such system is that we can hav
 - Dead entities
   - AIs / vehicles will be killed on session load in where they were killed
  
-# To Do
+### To Do
 - Add backpacks content in vehicles
 - Inventories for containers
 - UI for applying saved player states to any in game players and better visualaise saved data
 - Handle spawn-in entities e.g. via Zeus (very low priority)
+
+## ERV
+Simple mobile spawn point system, can be placed by different squads.
 
 # Notes
 You can do whatever you like with the codes as stated in the license file. Of course, it would be appreciated if you credit me in your work. This is created to fit XDF playstyle so if you have any requests (via bug reports) I might implement them if they also work for us.
