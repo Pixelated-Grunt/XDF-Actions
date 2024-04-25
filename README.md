@@ -34,7 +34,7 @@ MP only persistent system. The reason for another such system is that we can hav
 - UI for applying saved player states to any in game players and better visualaise saved data
 - Handle spawn-in entities e.g. via Zeus (very low priority)
 
-## ERV
+## XDF ERV
 Simple mobile spawn point system, can be placed by different squads.
 
 # Notes
