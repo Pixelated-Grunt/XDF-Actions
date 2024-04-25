@@ -11,11 +11,11 @@ MP only persistent system. The reason for another such system is that we can hav
   - time
   - all user placed map markers
 - Players stats
-  - locations
+  - locations (not load for players)
   - loadouts
   - health (every ACE medical records)
   - captive states
-  - in/out vehicles
+  - in/out vehicles (not load for players)
   - hunger / thirst
 - AI stats (everything in Players except hunger/thirst)
   - formations
@@ -31,7 +31,7 @@ MP only persistent system. The reason for another such system is that we can hav
 ### To Do
 - Add backpacks content in vehicles
 - Inventories for containers
-- UI for applying saved player states to any in game players and better visualaise saved data
+- UI for applying saved player states to any in game players and better visualise saved data
 - Handle spawn-in entities e.g. via Zeus (very low priority)
 
 ## XDF ERV
