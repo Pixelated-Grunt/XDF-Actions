@@ -2,7 +2,7 @@
 Set of tools that are created for the [XDF](https://www.youtube.com/user/Xtremedefenceforce/channels) Arma 3 unit.
 
 ## XDF NiLOC
-MP only presistent system. The reason for another such system is that we can have full controls of what/when to load during plays that better fit our game flows.
+MP only persistent system. The reason for another such system is that we can have full controls of what/when to load during plays that better fit our game flows.
 
 ### Features
 - External file based data store [INIDBI2](https://forums.bohemia.net/forums/topic/186131-inidbi2-save-and-load-data-to-the-server-or-your-local-computer-without-databases) without bloat up server/client profiles
@@ -24,7 +24,7 @@ MP only presistent system. The reason for another such system is that we can hav
   - locations
   - damages (all hit parts)
   - crews
-  - invertory (partial see To Do)
+  - inventory (partial see To Do)
 - Dead entities
   - AIs / vehicles will be killed on session load in where they were killed
  
@@ -35,4 +35,4 @@ MP only presistent system. The reason for another such system is that we can hav
 - Handle spawn-in entities e.g. via Zeus (very low priority)
 
 # Notes
-You can do whatever you like with the codes as stated in the license file. Of course, it would be appreicated if you credit me in your work. This is created to fit XDF playstyle so if you have any requirests (via bug reports) I might implement them if they also work for us.
+You can do whatever you like with the codes as stated in the license file. Of course, it would be appreciated if you credit me in your work. This is created to fit XDF playstyle so if you have any requests (via bug reports) I might implement them if they also work for us.
