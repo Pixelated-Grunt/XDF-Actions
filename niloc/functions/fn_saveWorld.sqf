@@ -19,10 +19,11 @@
 if !(isServer) exitWith { ERROR("NiLOC system only works in MP games."); false };
 params [["_player", objNull, [objNull]]];
 
-private ["_lastSave", "_minsFromLastSave", "_count"];
+private ["_lastSave", "_saveCounts", "_minsFromLastSave", "_count"];
 
 _count = 0;
 _lastSave = (["session", ["session.last.save"]] call FUNCMAIN(getSectionAsHashmap)) get "session.last.save";
+_saveCounts = (["session", ["session.save.counts"]] call FUNCMAIN(getSectionAsHashmap)) get "session.save.counts";
 _minsFromLastSave = diag_tickTime - _lastSave;
 
 if ((missionNamespace getVariable [QGVAR(saveOnce), false]) && (_lastSave > 0)) exitWith {
@@ -61,6 +62,7 @@ INFO_1("(%1) players had been saved.", _count);
 
 // Update session & player ace icon colour
 ["session", ["session.last.save", diag_tickTime]] call FUNCMAIN(putSection);
+["session", ["session.save.counts", _saveCounts + 1]] call FUNCMAIN(putSection);
 [_player, [QGVAR(saveStatusColour), HEX_GREEN]] remoteExec ["setVariable", _player];
 INFO("==================== Save Mission Finished ====================");
 

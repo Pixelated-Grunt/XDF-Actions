@@ -20,9 +20,9 @@ if !(isServer) exitWith { ERROR("NiLOC system only works in MP games."); false }
 params [["_player", objNull, [objNull]]];
 
 private _count = 0;
-private _sessionHash = ["session", ["session.last.save"]] call FUNCMAIN(getSectionAsHashmap);
+private _sessionHash = ["session", ["session.save.counts"]] call FUNCMAIN(getSectionAsHashmap);
 
-if (_sessionHash get "session.last.save" == 0) exitWith {
+if (_sessionHash get "session.save.counts" == 0) exitWith {
     INFO("There is no save data in the database ... load skipped.");
 
     [_player, [QGVAR(loadStatusColour), HEX_AMBER]] remoteExec ["setVariable", _player];

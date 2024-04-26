@@ -24,24 +24,22 @@ _success = false;
 
 if !isNil(QUOTE(_iniDBi)) then {
     private _sessionHash = createHashMap;
-    private "_sessionNumber";
+    private _sessionNumber = ["read", ["session", "session.number", 0]] call _iniDBi;
+    private _saveCounts = ["read", ["session", "session.save.counts", 0]] call _iniDBi;
 
     missionNamespace setVariable [QGVAR(Db), _iniDBi, true];
-    _sessionNumber = ["read", ["session", "session.number", 0]] call _iniDBi;
 
-    if (_sessionNumber == 0) then {
-        // New session.number
-        _sessionHash set ["session.number", 1];
-    } else {
+    if (_sessionNumber != 0) then {
         // Purge existing section hashmap and db before write
         INFO("Purging previous session section data.");
         if !(["deleteSection", "session"] call _iniDBi) exitWith {
             ERROR("Failed to delete session section from database.");
             false
         };
-        _sessionHash set ["session.number", _sessionNumber + 1];
     };
 
+    _sessionHash set ["session.number", _sessionNumber + 1];
+    _sessionHash set ["session.save.counts", _saveCounts];
     _sessionHash set ["session.start", systemTime];
     _sessionHash set ["session.start.utc", systemTimeUTC];
     _sessionHash set ["session.start.game", date];
