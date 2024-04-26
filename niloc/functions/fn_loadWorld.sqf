@@ -20,9 +20,16 @@ if !(isServer) exitWith { ERROR("NiLOC system only works in MP games."); false }
 params [["_player", objNull, [objNull]]];
 
 private _count = 0;
+private _sessionHash = ["session", ["session.last.save"]] call FUNCMAIN(getSectionAsHashmap);
+
+if (_sessionHash get "session.last.save" == 0) exitWith {
+    INFO("There is no save data in the database ... load skipped.");
+
+    [_player, [QGVAR(loadStatusColour), HEX_AMBER]] remoteExec ["setVariable", _player];
+    false
+};
 
 INFO("==================== Mission Loading Starts ====================");
-
 if !(missionNamespace getVariable [QGVAR(preloadMarkers), true]) then {
     INFO("-------------------- Loading User Map Markers --------------------");
     _count = [] call FUNCMAIN(restoreUserMarkers);
@@ -63,7 +70,7 @@ INFO_1("%1 players had been restored.", _count);
 
 // Update session & player ace menu icon colour
 ["session", ["session.last.load", diag_tickTime]] call FUNCMAIN(putSection);
-["_player", [QGVAR(loadStatusColour), HEX_GREEN]] remoteExec ["setVariable", _player];
+[_player, [QGVAR(loadStatusColour), HEX_GREEN]] remoteExec ["setVariable", _player];
 INFO("==================== Load Mission Finished ====================");
 
 true

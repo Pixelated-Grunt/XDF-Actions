@@ -32,14 +32,14 @@ _action = [
     { [_this # 1] remoteExec [QFUNCMAIN(loadWorld), 2] },
     { true },
     {},
-    nil,
+    _loadIcon,
     nil,
     nil,
     nil,
     {
-        params ["", "_player", "", "_actionData"];
+        params ["", "_player", "_icon", "_actionData"];
 
-        _actionData set [2, [_loadIcon], _player getVariable [QGVAR(loadStatusColour), HEX_WHITE]];
+        _actionData set [2, [_icon, _player getVariable [QGVAR(loadStatusColour), HEX_WHITE]]];
     }
 ] call ace_interact_menu_fnc_createAction;
 _actions pushBack [_action, [], _target];
@@ -52,14 +52,14 @@ _action = [
     { [_this # 1] remoteExec [QFUNCMAIN(saveWorld), 2] },
     { true },
     {},
-    nil,
+    _saveIcon,
     nil,
     nil,
     nil,
     {
-        params ["", "_player", "", "_actionData"];
+        params ["", "_player", "_icon", "_actionData"];
 
-        _actionData set [2, [_loadIcon], _player getVariable [QGVAR(saveStatusColour), HEX_WHITE]];
+        _actionData set [2, [_icon, _player getVariable [QGVAR(saveStatusColour), HEX_WHITE]]];
     }
 ] call ace_interact_menu_fnc_createAction;
 _actions pushBack [_action, [], _target];
