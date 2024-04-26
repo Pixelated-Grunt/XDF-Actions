@@ -25,7 +25,7 @@ addMissionEventHandler [
         params ["", "_uid", "_name", "_jip"];
 
         private _sectionHash = ["session"] call FUNCMAIN(getSectionAsHashmap);
-        private _startTime = serverTime;
+        private _startTime = diag_tickTime;
 
         _sectionHash set ["session.player." + _uid, [_name, _startTime, _jip]];
         ["session", [_sectionHash]] call FUNCMAIN(putSection);
@@ -89,7 +89,7 @@ addMissionEventHandler [
 
         _playersHash = ["players"] call FUNCMAIN(getSectionAsHashmap);
         _sessionPlayerStats = (["session"] call FUNCMAIN(getSectionAsHashmap)) get "session.player." + _uid;
-        _playedTime = serverTime - (_sessionPlayerStats select 1);
+        _playedTime = diag_tickTime - (_sessionPlayerStats select 1);
 
         // Only save if record doesn't already exist and connect time is > 5 mins
         if (((count _playersHash == 0) || !(_uid in _playersHash)) && _playedTime > 300) then {

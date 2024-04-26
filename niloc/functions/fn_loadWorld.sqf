@@ -60,7 +60,7 @@ _count = [] call FUNCMAIN(restorePlayersStates);
 INFO_1("%1 players had been restored.", _count);
 
 // Update session
-["session", ["session.last.load", serverTime]] call FUNCMAIN(putSection);
+["session", ["session.last.load", diag_tickTime]] call FUNCMAIN(putSection);
 INFO("==================== Load Mission Finished ====================");
 
 true

@@ -21,7 +21,7 @@ private ["_lastSave", "_minsFromLastSave", "_count"];
 
 _count = 0;
 _lastSave = (["session", ["session.last.save"]] call FUNCMAIN(getSectionAsHashmap)) get "session.last.save";
-_minsFromLastSave = serverTime - _lastSave;
+_minsFromLastSave = diag_tickTime - _lastSave;
 
 if ((missionNamespace getVariable [QGVAR(saveOnce), false]) && (_lastSave > 0)) exitWith {
     INFO("Save once per game session setting is on ... not saving.");
@@ -56,7 +56,7 @@ _count = [] call FUNCMAIN(savePlayersStates);
 INFO_1("(%1) players had been saved.", _count);
 
 // Update session
-["session", ["session.last.save", serverTime]] call FUNCMAIN(putSection);
+["session", ["session.last.save", diag_tickTime]] call FUNCMAIN(putSection);
 INFO("==================== Save Mission Finished ====================");
 
 true
