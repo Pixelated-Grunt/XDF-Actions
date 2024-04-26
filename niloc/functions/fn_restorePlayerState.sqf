@@ -58,8 +58,10 @@ _playerHash = ((_sectionHash get _playerUID) select 0) createHashMapFromArray ((
             };
         };
         case "rations": {
-            _playerObj setVariable ["acex_field_rations_hunger", _value select 0];
-            _playerObj setVariable ["acex_field_rations_thirst", _value select 1];
+            _value params ["_hunger", "_thirst"];
+
+            [_playerObj, ["acex_field_rations_hunger", _hunger]] remoteExec ["setVariable", _playerObj];
+            [_playerObj, ["acex_field_rations_thirst", _thirst]] remoteExec ["setVariable", _playerObj];
         };
         case "vehicle": {};
         default {};

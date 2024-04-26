@@ -16,13 +16,21 @@
 **/
 
 
-private ["_allVehicles", "_sectionHash", "_count"];
+private ["_allVehicles", "_sectionHash", "_count", "_fnc_moveOut"];
 
 _count = 0;
 _allVehicles = ALL_VEHICLES;
 _sectionHash = ["vehicles"] call FUNCMAIN(getSectionAsHashmap);
 
 if (count _sectionHash == 0) exitWith { _count };
+
+_fnc_moveOut = {
+    params ["_unit"];
+
+    if !(isNull objectParent _unit) then {
+        [_unit] remoteExec ["moveOut", _unit];
+    }
+};
 
 {   //_sectionHash loop
     private ["_objStr", "_vehicleHash", "_success", "_vehObj"];
@@ -59,6 +67,7 @@ if (count _sectionHash == 0) exitWith { _count };
                     _currentCrews = crew _vehObj apply { str _x };
                     _values apply { _savedCrews pushBack (_x select 0) };
 
+                    if ( count _savedCrews == 0 ) exitWith { INFO_1("Vehicle (%1) had no crew. Skipping.", _objStr) };
                     _currentCrews sort true;
                     _savedCrews sort true;
 
@@ -69,34 +78,46 @@ if (count _sectionHash == 0) exitWith { _count };
                             if !(isNull _crewObj) then {
                                 switch (_x select 1) do {
                                     case "driver": {
-                                        LOG_2("Vehicle (%1) loading driver (%2).", str _vehObj, str _crewObj);
-                                        _crewObj moveInDriver _vehObj;
+                                        LOG_2("Vehicle (%1) loading driver (%2).", str _objStr, str _crewObj);
+
+                                        [_crewObj] call _fnc_moveOut;
+                                        [_crewObj, _vehObj] remoteExec ["moveInDriver", _vehObj];
                                         _crewObj assignAsDriver _vehObj;
                                     };
                                     case "commander": {
-                                        LOG_2("Vehicle (%1) loading commander (%2).", str _vehObj, str _crewObj);
-                                        _crewObj moveInCommander _vehObj;
+                                        LOG_2("Vehicle (%1) loading commander (%2).", str _objStr, str _crewObj);
+
+                                        [_crewObj] call _fnc_moveOut;
+                                        [_crewObj, _vehObj] remoteExec ["moveInCommander", _vehObj];
                                         _crewObj assignAsCommander _vehObj;
                                     };
                                     case "gunner": {
-                                        LOG_2("Vehicle (%1) loading gunner (%2).", str _vehObj, str _crewObj);
-                                        _crewObj moveInGunner _vehObj;
+                                        LOG_2("Vehicle (%1) loading gunner (%2).", str _objStr, str _crewObj);
+
+                                        [_crewObj] call _fnc_moveOut;
+                                        [_crewObj, _vehObj] remoteExec ["moveInGunner", _vehObj];
                                         _crewObj assignAsGunner _vehObj;
                                     };
                                     case "turret": {
-                                        LOG_2("Vehicle (%1) loading turret (%2).", str _vehObj, str _crewObj);
-                                        _crewObj moveInTurret [_vehObj, _x select 3];
-                                        _crewObj assignAsTurret [_vehObj, _x select 3];
+                                        private _idx = _x select 3;
+
+                                        LOG_2("Vehicle (%1) loading turret (%2).", str _objStr, str _crewObj);
+                                        [_crewObj] call _fnc_moveOut;
+                                        [[_crewObj, [_vehObj, _idx]]] remoteExec ["moveInTurret", _vehObj];
+                                        _crewObj assignAsTurret [_vehObj, _idx];
                                     };
                                     case "cargo": {
-                                        LOG_2("Vehicle (%1) loading cargo (%2).", str _vehObj, str _crewObj);
-                                        _crewObj moveInCargo [_vehObj, _x select 2];
-                                        _crewObj assignAsCargoIndex [_vehObj, _x select 2];
+                                        private _idx = _x select 2;
+
+                                        LOG_2("Vehicle (%1) loading cargo (%2).", str _objStr, str _crewObj);
+                                        [_crewObj] call _fnc_moveOut;
+                                        [[_crewObj, [_vehObj, _idx]]] remoteExec ["moveInCargo", _vehObj];
+                                        _crewObj assignAsCargoIndex [_vehObj, _idx];
                                     };
                                     default {};
                                 };
                             };
-                        } forEach _values;
+                        } forEach _values;  // crews
                     } else { INFO_1("Vehicle (%1) has the same crew. Skipping.", _objStr) };
                 };
                 case "itemCargo": {
