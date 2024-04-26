@@ -4,7 +4,7 @@
  * Central function to load previously saved mission data
  *
  * Arguments:
- * Nil
+ * 0: player who loads the game <OBJECT>
  *
  * Return Valuej:
  * Return true if all items are loaded false if otherwise <BOOL>
@@ -17,6 +17,8 @@
 
 
 if !(isServer) exitWith { ERROR("NiLOC system only works in MP games."); false };
+params [["_player", objNull, [objNull]]];
+
 private _count = 0;
 
 INFO("==================== Mission Loading Starts ====================");
@@ -59,8 +61,9 @@ _count = [] call FUNCMAIN(restorePlayersStates);
 
 INFO_1("%1 players had been restored.", _count);
 
-// Update session
+// Update session & player ace menu icon colour
 ["session", ["session.last.load", diag_tickTime]] call FUNCMAIN(putSection);
+["_player", [QGVAR(loadStatusColour), HEX_GREEN]] remoteExec ["setVariable", _player];
 INFO("==================== Load Mission Finished ====================");
 
 true

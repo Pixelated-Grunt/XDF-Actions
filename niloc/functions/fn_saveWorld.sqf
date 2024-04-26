@@ -4,7 +4,7 @@
  * Central function to save the mission
  *
  * Arguments:
- * Nil
+ * 0: player who saves the game <OBJECT>
  *
  * Return Valuej:
  * Return true if all items are saved false if otherwise <BOOL>
@@ -17,6 +17,8 @@
 
 
 if !(isServer) exitWith { ERROR("NiLOC system only works in MP games."); false };
+params [["_player", objNull, [objNull]]];
+
 private ["_lastSave", "_minsFromLastSave", "_count"];
 
 _count = 0;
@@ -25,11 +27,13 @@ _minsFromLastSave = diag_tickTime - _lastSave;
 
 if ((missionNamespace getVariable [QGVAR(saveOnce), false]) && (_lastSave > 0)) exitWith {
     INFO("Save once per game session setting is on ... not saving.");
+    [_player, [QGVAR(saveStatusColour), HEX_RED]] remoteExec ["setVariable", _player];
     false
 };
 
 if ((missionNamespace getVariable [QGVAR(minsBetweenSaves), 60]) > _minsFromLastSave) exitWith {
     INFO("Too short between save ... not saving.");
+    [_player, [QGVAR(saveStatusColour), HEX_AMBER]] remoteExec ["setVariable", _player];
     false
 };
 
@@ -55,8 +59,9 @@ INFO("-------------------- Saving Players --------------------");
 _count = [] call FUNCMAIN(savePlayersStates);
 INFO_1("(%1) players had been saved.", _count);
 
-// Update session
+// Update session & player ace icon colour
 ["session", ["session.last.save", diag_tickTime]] call FUNCMAIN(putSection);
+[_player, [QGVAR(saveStatusColour), HEX_GREEN]] remoteExec ["setVariable", _player];
 INFO("==================== Save Mission Finished ====================");
 
 true
