@@ -1,4 +1,6 @@
+#include "BaseControls"
 #include "gui_macros.hpp"
+#include "..\functions\script_macros"
 
 class RscNiLOCDialog {
     idd = IDD_NILOCGUI_RSCNILOCDIALOG;
@@ -53,10 +55,10 @@ class RscNiLOCDialog {
         w = 28 * GUI_GRID_CENTER_W;
         h = 1.5 * GUI_GRID_CENTER_H;
         colorBackground[] = {
-            "(profilenamespace getvariable ['GUI_BCG_RGB_R',0.3843])",
-            "(profilenamespace getvariable ['GUI_BCG_RGB_G',0.7019])",
-            "(profilenamespace getvariable ['GUI_BCG_RGB_B',0.8862])",
-            "(profilenamespace getvariable ['GUI_BCG_RGB_A',0.7])"
+            "(profilenamespace getvariable ['GUI_BCG_RGB_R', 0.3843])",
+            "(profilenamespace getvariable ['GUI_BCG_RGB_G', 0.7019])",
+            "(profilenamespace getvariable ['GUI_BCG_RGB_B', 0.8862])",
+            "(profilenamespace getvariable ['GUI_BCG_RGB_A', 0.7])"
         };
     };
     class CloseButton: RscButton
@@ -70,17 +72,18 @@ class RscNiLOCDialog {
     };
     class SavedPlayersButton: CloseButton
     {
-        text = "S.PLAYERS"; //--- ToDo: Localize;
+        text = "O.PLAYERS"; //--- ToDo: Localize;
         x = 19 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
         y = 4.8 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
         w = 4.5 * GUI_GRID_CENTER_W;
     };
     class OnlinePlayersButton: CloseButton
     {
-        text = "O.PLAYERS"; //--- ToDo: Localize;
+        text = "S.PLAYERS"; //--- ToDo: Localize;
         x = 24 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
         y = 4.8 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
         w = 4.5 * GUI_GRID_CENTER_W;
+        onButtonClick = "onlinePlayers call XDF_NiLOC_fnc_guiFillLeftListBox";
     };
     class SavesInfoButton: CloseButton
     {

@@ -22,6 +22,7 @@ class XDF {
         class getObjFromStr {};
         class getSectionAsHashmap {};
         class getSectionNames {};
+        class guiFillLeftListBox {};
         class handleDeadEntity {};
         class loadWorld {};
         class markerToString {};
