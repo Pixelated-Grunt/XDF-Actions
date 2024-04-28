@@ -7,6 +7,7 @@ class RscNiLOCDialog {
 
     controls[]=
     {
+        BackgroundFrame,
         LeftListBox,
         RightInfoBox,
         TitleTextBox,
@@ -30,9 +31,9 @@ class RscNiLOCDialog {
     {
         idc = IDC_NILOCGUI_LISTBOX;
         x = 5.5 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
-        y = 5 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
+        y = 4.8 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
         w = 13 * GUI_GRID_CENTER_W;
-        h = 16 * GUI_GRID_CENTER_H;
+        h = 16.2 * GUI_GRID_CENTER_H;
         colorBackground[] = { .1, .1, .1, .7 };
     };
     class RightInfoBox: RscStructuredText
@@ -62,57 +63,51 @@ class RscNiLOCDialog {
     {
         text = "CLOSE"; //--- ToDo: Localize;
         x = 29 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
-        y = 21.5 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
+        y = 21.2 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
         w = 4.5 * GUI_GRID_CENTER_W;
-        h = 1 * GUI_GRID_CENTER_H;
+        h = 1.5 * GUI_GRID_CENTER_H;
         onButtonClick = "closeDialog 2;";
     };
     class SavedPlayersButton: CloseButton
     {
         text = "S.PLAYERS"; //--- ToDo: Localize;
         x = 19 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
-        y = 5 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
+        y = 4.8 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
         w = 4.5 * GUI_GRID_CENTER_W;
-        h = 1 * GUI_GRID_CENTER_H;
     };
     class OnlinePlayersButton: CloseButton
     {
         text = "O.PLAYERS"; //--- ToDo: Localize;
         x = 24 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
-        y = 5 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
+        y = 4.8 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
         w = 4.5 * GUI_GRID_CENTER_W;
-        h = 1 * GUI_GRID_CENTER_H;
     };
     class SavesInfoButton: CloseButton
     {
         text = "SAVE INFO"; //--- ToDo: Localize;
         x = 29 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
-        y = 5 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
+        y = 4.8 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
         w = 4.5 * GUI_GRID_CENTER_W;
-        h = 1 * GUI_GRID_CENTER_H;
     };
     class SelectButton: CloseButton
     {
         text = "SELECT"; //--- ToDo: Localize;
         x = 5.5 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
-        y = 21.5 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
+        y = 21.2 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
         w = 4 * GUI_GRID_CENTER_W;
-        h = 1 * GUI_GRID_CENTER_H;
     };
     class ClearButton: CloseButton
     {
-        text = "CLEAR"; //--- ToDo: Localize;
+        text = "CLEAR SEL."; //--- ToDo: Localize;
         x = 10 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
-        y = 21.5 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
+        y = 21.2 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
         w = 4 * GUI_GRID_CENTER_W;
-        h = 1 * GUI_GRID_CENTER_H;
     };
     class ConfirmButton: CloseButton
     {
         text = "CONFIRM"; //--- ToDo: Localize;
         x = 14.5 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
-        y = 21.5 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
+        y = 21.2 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
         w = 4 * GUI_GRID_CENTER_W;
-        h = 1 * GUI_GRID_CENTER_H;
     };
 };
