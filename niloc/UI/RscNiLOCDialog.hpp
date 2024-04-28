@@ -1,6 +1,6 @@
-#include "BaseControls"
+#include "BaseControls.hpp"
 #include "gui_macros.hpp"
-#include "..\functions\script_macros"
+#include "..\functions\script_macros.hpp"
 
 class RscNiLOCDialog {
     idd = IDD_NILOCGUI_RSCNILOCDIALOG;
@@ -68,22 +68,22 @@ class RscNiLOCDialog {
         y = 21.2 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
         w = 4.5 * GUI_GRID_CENTER_W;
         h = 1.5 * GUI_GRID_CENTER_H;
-        onButtonClick = "closeDialog 2;";
+        onButtonClick = QUOTE(closeDialog 2);
     };
-    class SavedPlayersButton: CloseButton
+    class OnlinePlayersButton: CloseButton
     {
         text = "O.PLAYERS"; //--- ToDo: Localize;
         x = 19 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
         y = 4.8 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
         w = 4.5 * GUI_GRID_CENTER_W;
+        onButtonClick = QUOTE(['onlinePlayers'] call FUNCMAIN(guiFillLeftListBox));
     };
-    class OnlinePlayersButton: CloseButton
+    class SavedPlayersButton: CloseButton
     {
         text = "S.PLAYERS"; //--- ToDo: Localize;
         x = 24 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
         y = 4.8 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
         w = 4.5 * GUI_GRID_CENTER_W;
-        onButtonClick = "onlinePlayers call XDF_NiLOC_fnc_guiFillLeftListBox";
     };
     class SavesInfoButton: CloseButton
     {

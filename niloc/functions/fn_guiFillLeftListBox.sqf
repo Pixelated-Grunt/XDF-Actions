@@ -42,7 +42,7 @@ switch (_type) do {
             {
                 private _idx = _displayCtrl lbAdd (_x select 0);
 
-                _displayCtrl lbSetData [_idx, _x select 1];
+                _displayCtrl lbSetData [_idx, str (_x select 1)];
             } forEach _playersList;
         };
     };
