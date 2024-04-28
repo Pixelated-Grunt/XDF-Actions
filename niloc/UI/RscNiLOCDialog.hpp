@@ -1,11 +1,11 @@
 #include "gui_macros.hpp"
 
 class RscNiLOCDialog {
-    idd = 1800;
+    idd = IDD_NILOCGUI_RSCNILOCDIALOG;
     movingEnable = false;
+    enableSimulation = 1;
 
     controls[] = {
-        MainFrame,
         LeftListBox,
         RightInfoBox,
         TitleBar,
@@ -19,11 +19,12 @@ class RscNiLOCDialog {
     };
 
     class MainFrame: RscFrame {
-        idc = IDC_NILOCGUI_MAINFRAME;
+        idc = -1;
         x = 5 * GUI_GRID_W + GUI_GRID_X;
         y = 2.5 * GUI_GRID_H + GUI_GRID_Y;
         w = 29 * GUI_GRID_W;
         h = 20.5 * GUI_GRID_H;
+        colorBackground[] = { 0, 0, 0, .7 };
     };
 
     class LeftListBox: RscListbox {
@@ -32,6 +33,7 @@ class RscNiLOCDialog {
         y = 5 * GUI_GRID_H + GUI_GRID_Y;
         w = 13 * GUI_GRID_W;
         h = 15.5 * GUI_GRID_H;
+        colorBackground[] = { .1, .1, .1, .9 };
     };
 
     class RightInfoBox: RscStructuredText {
@@ -40,6 +42,7 @@ class RscNiLOCDialog {
         y = 7 * GUI_GRID_H + GUI_GRID_Y;
         w = 14.5 * GUI_GRID_W;
         h = 13.5 * GUI_GRID_H;
+        colorBackground[] = { .1, .1, .1, .9 };
     };
 
     class TitleBar: RscText {
@@ -48,9 +51,25 @@ class RscNiLOCDialog {
         y = 3 * GUI_GRID_H + GUI_GRID_Y;
         w = 28 * GUI_GRID_W;
         h = 1.5 * GUI_GRID_H;
+        colorBackground[] = {
+            "(profilenamespace getvariable ['GUI_BCG_RGB_R', 0.3843])",
+            "(profilenamespace getvariable ['GUI_BCG_RGB_G', 0.7019])",
+            "(profilenamespace getvariable ['GUI_BCG_RGB_B', 0.8862])",
+            "(profilenamespace getvariable ['GUI_BCG_RGB_A', 0.7])"
+        };
     };
 
-    class SavePlayersButton: RscButton {
+    class CloseButton: RscButtonMenu {
+        idc = -1
+        text = "CLOSE"; //--- ToDo: Localize;
+        x = 29 * GUI_GRID_W + GUI_GRID_X;
+        y = 21 * GUI_GRID_H + GUI_GRID_Y;
+        w = 4.5 * GUI_GRID_W;
+        h = 1.5 * GUI_GRID_H;
+        onButtonClick = "closeDialog IDC_CANCEL;";
+    };
+
+    class SavePlayersButton: CloseButton {
         idc = IDC_NILOCGUI_SPLAYERSBUTTON;
         text = "S.PLAYERS"; //--- ToDo: Localize;
         x = 19 * GUI_GRID_W + GUI_GRID_X;
@@ -59,7 +78,7 @@ class RscNiLOCDialog {
         h = 1.5 * GUI_GRID_H;
     };
 
-    class OnlinePlayersButton: RscButton {
+    class OnlinePlayersButton: CloseButton {
         idc = IDC_NILOCGUI_OPLAYERSBUTTON;
         text = "O.PLAYERS"; //--- ToDo: Localize;
         x = 24 * GUI_GRID_W + GUI_GRID_X;
@@ -68,7 +87,7 @@ class RscNiLOCDialog {
         h = 1.5 * GUI_GRID_H;
     };
 
-    class SaveInfoButton: RscButton {
+    class SaveInfoButton: CloseButton {
         idc = IDC_NILOCGUI_SAVEINFOBUTTON;
         text = "SAVE INFO"; //--- ToDo: Localize;
         x = 29 * GUI_GRID_W + GUI_GRID_X;
@@ -77,7 +96,7 @@ class RscNiLOCDialog {
         h = 1.5 * GUI_GRID_H;
     };
 
-    class SelectButton: RscButton {
+    class SelectButton: CloseButton {
         idc = IDC_NILOCGUI_SELECTBUTTON;
         text = "SELECT"; //--- ToDo: Localize;
         x = 5.5 * GUI_GRID_W + GUI_GRID_X;
@@ -86,7 +105,7 @@ class RscNiLOCDialog {
         h = 1.5 * GUI_GRID_H;
     };
 
-    class ClearButton: RscButton {
+    class ClearButton: CloseButton {
         idc = IDC_NILOCGUI_CLEARBUTTON;
         text = "CLEAR"; //--- ToDo: Localize;
         x = 10 * GUI_GRID_W + GUI_GRID_X;
@@ -95,21 +114,12 @@ class RscNiLOCDialog {
         h = 1.5 * GUI_GRID_H;
     };
 
-    class ConfirmButton: RscButton {
+    class ConfirmButton: CloseButton {
         idc = IDC_NILOCGUI_CONFIRMBUTTON;
         text = "CONFIRM"; //--- ToDo: Localize;
         x = 14.5 * GUI_GRID_W + GUI_GRID_X;
         y = 21 * GUI_GRID_H + GUI_GRID_Y;
         w = 4 * GUI_GRID_W;
-        h = 1.5 * GUI_GRID_H;
-    };
-
-    class CloseButton: RscButton {
-        idc = IDC_NILOCGUI_CLOSEBUTTON;
-        text = "CLOSE"; //--- ToDo: Localize;
-        x = 29 * GUI_GRID_W + GUI_GRID_X;
-        y = 21 * GUI_GRID_H + GUI_GRID_Y;
-        w = 4.5 * GUI_GRID_W;
         h = 1.5 * GUI_GRID_H;
     };
 }
