@@ -5,121 +5,124 @@ class RscNiLOCDialog {
     movingEnable = false;
     enableSimulation = 1;
 
-    controls[] = {
-        LeftListBox,
-        RightInfoBox,
-        TitleBar,
-        SavePlayersButton,
-        OnlinePlayersButton,
-        SaveInfoButton,
-        SelectButton,
-        ClearButton,
-        ConfirmButton,
-        CloseButton
+    controls[]=
+    {
+        MAINFRAME,
+        LISTBOX,
+        INFOBOX,
+        HEADER,
+        SPLAYERS,
+        OPLAYERS,
+        SAVEINO,
+        SELECTBUTTON,
+        CLEARBUTTON,
+        CONFIRMBUTTON,
+        CLOSEBUTTON
     };
 
-    class MainFrame: RscFrame {
-        idc = -1;
-        x = 5 * GUI_GRID_W + GUI_GRID_X;
-        y = 2.5 * GUI_GRID_H + GUI_GRID_Y;
-        w = 29 * GUI_GRID_W;
-        h = 20.5 * GUI_GRID_H;
-        colorBackground[] = { 0, 0, 0, .7 };
+    class MAINFRAME: RscFrame
+    {
+        idc = 1800;
+        x = 5 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
+        y = 2.5 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
+        w = 29 * GUI_GRID_CENTER_W;
+        h = 20.5 * GUI_GRID_CENTER_H;
     };
-
-    class LeftListBox: RscListbox {
-        idc = IDC_NILOCGUI_LISTBOX;
-        x = 5.5 * GUI_GRID_W + GUI_GRID_X;
-        y = 5 * GUI_GRID_H + GUI_GRID_Y;
-        w = 13 * GUI_GRID_W;
-        h = 15.5 * GUI_GRID_H;
-        colorBackground[] = { .1, .1, .1, .9 };
+    class LISTBOX: RscListbox
+    {
+        idc = 1500;
+        x = 5.5 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
+        y = 5 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
+        w = 13 * GUI_GRID_CENTER_W;
+        h = 16 * GUI_GRID_CENTER_H;
+        colorBackground[] = { .1, .1, .1, .7 };
     };
-
-    class RightInfoBox: RscStructuredText {
-        idc = IDC_NILOCGUI_INFOBOX;
-        x = 19 * GUI_GRID_W + GUI_GRID_X;
-        y = 7 * GUI_GRID_H + GUI_GRID_Y;
-        w = 14.5 * GUI_GRID_W;
-        h = 13.5 * GUI_GRID_H;
-        colorBackground[] = { .1, .1, .1, .9 };
+    class INFOBOX: RscStructuredText
+    {
+        idc = 1100;
+        x = 19 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
+        y = 6.5 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
+        w = 14.5 * GUI_GRID_CENTER_W;
+        h = 14.5 * GUI_GRID_CENTER_H;
+        colorBackground[] = { .1, .1, .1, .7 };
     };
-
-    class TitleBar: RscText {
-        idc = IDC_NILOCGUI_TITLEBAR;
-        x = 5.5 * GUI_GRID_W + GUI_GRID_X;
-        y = 3 * GUI_GRID_H + GUI_GRID_Y;
-        w = 28 * GUI_GRID_W;
-        h = 1.5 * GUI_GRID_H;
+    class HEADER: RscText
+    {
+        idc = 1000;
+        x = 5.5 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
+        y = 3 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
+        w = 28 * GUI_GRID_CENTER_W;
+        h = 1.5 * GUI_GRID_CENTER_H;
         colorBackground[] = {
-            "(profilenamespace getvariable ['GUI_BCG_RGB_R', 0.3843])",
-            "(profilenamespace getvariable ['GUI_BCG_RGB_G', 0.7019])",
-            "(profilenamespace getvariable ['GUI_BCG_RGB_B', 0.8862])",
-            "(profilenamespace getvariable ['GUI_BCG_RGB_A', 0.7])"
+            "(profilenamespace getvariable ['GUI_BCG_RGB_R',0.3843])",
+            "(profilenamespace getvariable ['GUI_BCG_RGB_G',0.7019])",
+            "(profilenamespace getvariable ['GUI_BCG_RGB_B',0.8862])",
+            "(profilenamespace getvariable ['GUI_BCG_RGB_A',0.7])"
         };
     };
-
-    class CloseButton: RscButtonMenu {
-        idc = -1
-        text = "CLOSE"; //--- ToDo: Localize;
-        x = 29 * GUI_GRID_W + GUI_GRID_X;
-        y = 21 * GUI_GRID_H + GUI_GRID_Y;
-        w = 4.5 * GUI_GRID_W;
-        h = 1.5 * GUI_GRID_H;
-        onButtonClick = "closeDialog IDC_CANCEL;";
-    };
-
-    class SavePlayersButton: CloseButton {
-        idc = IDC_NILOCGUI_SPLAYERSBUTTON;
+    class SPLAYERS: RscButton
+    {
+        idc = 1600;
         text = "S.PLAYERS"; //--- ToDo: Localize;
-        x = 19 * GUI_GRID_W + GUI_GRID_X;
-        y = 5 * GUI_GRID_H + GUI_GRID_Y;
-        w = 4.5 * GUI_GRID_W;
-        h = 1.5 * GUI_GRID_H;
+        x = 19 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
+        y = 5 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
+        w = 4.5 * GUI_GRID_CENTER_W;
+        h = 1 * GUI_GRID_CENTER_H;
     };
-
-    class OnlinePlayersButton: CloseButton {
-        idc = IDC_NILOCGUI_OPLAYERSBUTTON;
+    class OPLAYERS: RscButton
+    {
+        idc = 1601;
         text = "O.PLAYERS"; //--- ToDo: Localize;
-        x = 24 * GUI_GRID_W + GUI_GRID_X;
-        y = 5 * GUI_GRID_H + GUI_GRID_Y;
-        w = 4.5 * GUI_GRID_W;
-        h = 1.5 * GUI_GRID_H;
+        x = 24 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
+        y = 5 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
+        w = 4.5 * GUI_GRID_CENTER_W;
+        h = 1 * GUI_GRID_CENTER_H;
     };
-
-    class SaveInfoButton: CloseButton {
-        idc = IDC_NILOCGUI_SAVEINFOBUTTON;
+    class SAVEINO: RscButton
+    {
+        idc = 1602;
         text = "SAVE INFO"; //--- ToDo: Localize;
-        x = 29 * GUI_GRID_W + GUI_GRID_X;
-        y = 5 * GUI_GRID_H + GUI_GRID_Y;
-        w = 4.5 * GUI_GRID_W;
-        h = 1.5 * GUI_GRID_H;
+        x = 29 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
+        y = 5 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
+        w = 4.5 * GUI_GRID_CENTER_W;
+        h = 1 * GUI_GRID_CENTER_H;
     };
-
-    class SelectButton: CloseButton {
-        idc = IDC_NILOCGUI_SELECTBUTTON;
+    class SELECTBUTTON: RscButton
+    {
+        idc = 1603;
         text = "SELECT"; //--- ToDo: Localize;
-        x = 5.5 * GUI_GRID_W + GUI_GRID_X;
-        y = 21 * GUI_GRID_H + GUI_GRID_Y;
-        w = 4 * GUI_GRID_W;
-        h = 1.5 * GUI_GRID_H;
+        x = 5.5 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
+        y = 21.5 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
+        w = 4 * GUI_GRID_CENTER_W;
+        h = 1 * GUI_GRID_CENTER_H;
     };
-
-    class ClearButton: CloseButton {
-        idc = IDC_NILOCGUI_CLEARBUTTON;
+    class CLEARBUTTON: RscButton
+    {
+        idc = 1604;
         text = "CLEAR"; //--- ToDo: Localize;
-        x = 10 * GUI_GRID_W + GUI_GRID_X;
-        y = 21 * GUI_GRID_H + GUI_GRID_Y;
-        w = 4 * GUI_GRID_W;
-        h = 1.5 * GUI_GRID_H;
+        x = 10 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
+        y = 21.5 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
+        w = 4 * GUI_GRID_CENTER_W;
+        h = 1 * GUI_GRID_CENTER_H;
     };
-
-    class ConfirmButton: CloseButton {
-        idc = IDC_NILOCGUI_CONFIRMBUTTON;
+    class CONFIRMBUTTON: RscButton
+    {
+        idc = 1605;
         text = "CONFIRM"; //--- ToDo: Localize;
-        x = 14.5 * GUI_GRID_W + GUI_GRID_X;
-        y = 21 * GUI_GRID_H + GUI_GRID_Y;
-        w = 4 * GUI_GRID_W;
-        h = 1.5 * GUI_GRID_H;
+        x = 14.5 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
+        y = 21.5 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
+        w = 4 * GUI_GRID_CENTER_W;
+        h = 1 * GUI_GRID_CENTER_H;
     };
-}
+    class CLOSEBUTTON: RscButton
+    {
+        //idc = 1606;
+        idc = -1;
+        text = "CLOSE"; //--- ToDo: Localize;
+        x = 29 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
+        y = 21.5 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
+        w = 4.5 * GUI_GRID_CENTER_W;
+        h = 1 * GUI_GRID_CENTER_H;
+        onButtonClick = "closeDialog 2;";
+    };
+};
