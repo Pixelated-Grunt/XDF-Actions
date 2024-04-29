@@ -25,6 +25,7 @@ _loadIcon = "a3\ui_f\data\igui\cfg\simpletasks\types\upload_ca.paa";
 _saveIcon = "a3\ui_f\data\igui\cfg\simpletasks\types\download_ca.paa";
 _actions = [];
 
+LOG_1("_saveCounts is (%1).", _saveCounts);
 // Load action
 _action = [
     "Load",
@@ -33,7 +34,9 @@ _action = [
     { [_this # 1] remoteExec [QFUNCMAIN(loadWorld), 2] },
     {
         params ["", "", "_params"];
-        if (_params # 1 > 0) then [{true}, {false}]
+        LOG_1("_params is (%1).", _params);
+        private _cond = if (_params # 1 > 0) then [{true}, {false}];
+        _cond
     },
     {},
     [_loadIcon, _saveCounts],

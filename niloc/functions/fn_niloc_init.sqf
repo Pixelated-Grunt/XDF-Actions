@@ -24,11 +24,13 @@ addMissionEventHandler [
     "PlayerConnected", {
         params ["", "_uid", "_name", "_jip"];
 
-        private _sectionHash = ["session"] call FUNCMAIN(getSectionAsHashmap);
-        private _startTime = diag_tickTime;
+        if (_name isNotEqualTo "__SERVER__") then {
+            private _sectionHash = ["session"] call FUNCMAIN(getSectionAsHashmap);
+            private _startTime = diag_tickTime;
 
-        _sectionHash set ["session.player." + _uid, [_name, _startTime, _jip]];
-        ["session", [_sectionHash]] call FUNCMAIN(putSection);
+            _sectionHash set ["session.player." + _uid, [_name, _startTime, _jip]];
+            ["session", [_sectionHash]] call FUNCMAIN(putSection);
+        };
     }
 ];
 
@@ -83,7 +85,7 @@ addMissionEventHandler [
 
 addMissionEventHandler [
     "HandleDisconnect", {
-        params ["_unit", "", "_uid"];
+        params ["_unit", "", "_uid", "_name"];
 
         private ["_playersHash", "_sessionPlayerStats", "_playedTime"];
 
@@ -93,7 +95,7 @@ addMissionEventHandler [
 
         // Only save if record doesn't already exist and connect time is > 5 mins
         if (((count _playersHash == 0) || !(_uid in _playersHash)) && _playedTime > 300) then {
-            [_unit] call FUNCMAIN(savePlayersStates);
+            [_unit, _uid, _name] call FUNCMAIN(savePlayersStates);
         };
     }
 ];
