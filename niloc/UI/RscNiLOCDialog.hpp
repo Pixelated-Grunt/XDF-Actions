@@ -15,7 +15,7 @@ class RscNiLOCDialog {
         TitleTextBox,
         SavedPlayersButton,
         OnlinePlayersButton,
-        SavesInfoButton,
+        DatabaseButton,
         SelectButton,
         ClearButton,
         ConfirmButton,
@@ -37,6 +37,7 @@ class RscNiLOCDialog {
         w = 13 * GUI_GRID_CENTER_W;
         h = 16.2 * GUI_GRID_CENTER_H;
         colorBackground[] = { .1, .1, .1, .7 };
+        onLBSelChanged = QUOTE([] spawn FUNCMAIN(guiLeftListBoxSelect));
     };
     class RightInfoBox: RscStructuredText
     {
@@ -84,13 +85,15 @@ class RscNiLOCDialog {
         x = 24 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
         y = 4.8 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
         w = 4.5 * GUI_GRID_CENTER_W;
+        onButtonClick = QUOTE(['savedPlayers'] call FUNCMAIN(guiFillLeftListBox));
     };
-    class SavesInfoButton: CloseButton
+    class DatabaseButton: CloseButton
     {
-        text = "SAVE INFO"; //--- ToDo: Localize;
+        text = "DATABASE"; //--- ToDo: Localize;
         x = 29 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
         y = 4.8 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
         w = 4.5 * GUI_GRID_CENTER_W;
+        onButtonClick = QUOTE(['database'] call FUNCMAIN(guiFillLeftListBox));
     };
     class SelectButton: CloseButton
     {
