@@ -100,4 +100,6 @@ addMissionEventHandler [
     }
 ];
 
+addMissionEventHandler ["MPEnded", { [] call FUNCMAIN(backupDatabase) }];
+
 INFO("==================== NiLOC Initialisation Finished ====================");

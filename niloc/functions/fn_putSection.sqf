@@ -8,6 +8,7 @@
  * 0: The name of the section to write to <STRING>
  * 1: An array of values to be written <ARRAY>
  *      Array can contain hashmap(s), array(s) or a string
+ * 2: Optional db instance <OBJECT>
  *
  * Return Value:
  * Number of records written <NUMBER>
@@ -25,11 +26,12 @@
 if (!isServer) exitWith { ERROR("NiLOC only runs on a server.") };
 params [
     ["_section", "", [""]],
-    ["_data", [], [[]]]
+    ["_data", [], [[]]],
+    ["_db", objNull, [objNull]]
 ];
 private ["_iniDBi", "_recordsPut", "_writeOk"];
 
-_iniDBi = [] call FUNCMAIN(getDbInstance);
+_iniDBi = if (isNull _db) then [{[] call FUNCMAIN(getDbInstance)}, {_db}];
 _recordsPut = 0;
 _writeOk = false;
 

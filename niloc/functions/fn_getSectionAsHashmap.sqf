@@ -6,6 +6,7 @@
  * Arguments:
  * 0: The name of the section to return <STRING>
  * 1: Optional filter of keys that will be returned instead <ARRAY>
+ * 2: Optional database instance <OBJECT>
  *
  * Return Value:
  * A hashmap with all key value pairs from the section <HASHMAP>
@@ -20,11 +21,12 @@
 if (!isServer) exitWith { ERROR("NiLOC only runs on a server.") };
 params [
     ["_section", "", [""]],
-    ["_filter", [], [[]]]
+    ["_filter", [], [[]]],
+    ["_db", objNull, [objNull]]
 ];
 private ["_keys", "_resHash", "_iniDBi"];
 
-_iniDBi = [] call FUNCMAIN(getDbInstance);
+_iniDBi = if (isNull _db) then [{[] call FUNCMAIN(getDbInstance)}, {_db}];
 _resHash = createHashMap;
 _keys = ["read", ["meta", _section, []]] call _iniDBi;
 

@@ -16,6 +16,7 @@ class XDF {
         class niloc_init {
             postInit = 1;
         };
+        class backupDatabase {};
         class dbInit {};
         class deleteSectionKey {};
         class getDbInstance {};

@@ -25,7 +25,7 @@ _success = false;
 if !isNil(QUOTE(_iniDBi)) then {
     private _sessionHash = createHashMap;
     private _sessionNumber = ["read", ["session", "session.number", 0]] call _iniDBi;
-    private _saveCounts = ["read", ["session", "session.save.counts", 0]] call _iniDBi;
+    private _saveCount = ["read", ["session", "session.save.count", 0]] call _iniDBi;
 
     missionNamespace setVariable [QGVAR(Db), _iniDBi, true];
 
@@ -39,7 +39,7 @@ if !isNil(QUOTE(_iniDBi)) then {
     };
 
     _sessionHash set ["session.number", _sessionNumber + 1];
-    _sessionHash set ["session.save.counts", _saveCounts];
+    _sessionHash set ["session.save.count", _saveCount];
     _sessionHash set ["session.start", systemTime];
     _sessionHash set ["session.start.utc", systemTimeUTC];
     _sessionHash set ["session.start.game", date];
@@ -51,7 +51,10 @@ if !isNil(QUOTE(_iniDBi)) then {
     if (["session", [_sessionHash]] call FUNCMAIN(putSection) == 0) then {
         ERROR("Failed to write session data into database.");
         _success = false
-    } else { _success = true };
+    } else {
+        missionNamespace setVariable [QGVAR(saveCount), _saveCount];
+        _success = true
+    };
 } else { ERROR("Failed to create a new IniDBI2 database instance.") };
 
 _success
