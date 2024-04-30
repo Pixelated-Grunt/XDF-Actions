@@ -28,7 +28,7 @@ if (IS_OBJECT(_iniDBiNew)) then {
     {
         private _sectionHash = [_x] call FUNCMAIN(getSectionAsHashmap);
 
-        [_x, [_sectionHash], _newDbName] call FUNCMAIN(putSection);
+        [_x, [_sectionHash], _newDbName, false] call FUNCMAIN(putSection);
     } forEach _sections;
 
     if (count [_iniDBiNew] call FUNCMAIN(getSectionNames) == count _sections) then {
