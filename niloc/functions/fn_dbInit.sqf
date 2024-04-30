@@ -52,7 +52,7 @@ if !isNil(QUOTE(_iniDBi)) then {
         ERROR("Failed to write session data into database.");
         _success = false
     } else {
-        missionNamespace setVariable [QGVAR(saveCount), _saveCount];
+        missionNamespace setVariable [QGVAR(saveCount), _saveCount, true];
         _success = true
     };
 } else { ERROR("Failed to create a new IniDBI2 database instance.") };

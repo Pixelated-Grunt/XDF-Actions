@@ -25,7 +25,6 @@ _loadIcon = "a3\ui_f\data\igui\cfg\simpletasks\types\upload_ca.paa";
 _saveIcon = "a3\ui_f\data\igui\cfg\simpletasks\types\download_ca.paa";
 _actions = [];
 
-[format ["_saveCount is (%1).", _saveCount]] remoteExec ["diag_log", 2];
 // Load action
 _action = [
     "Load",

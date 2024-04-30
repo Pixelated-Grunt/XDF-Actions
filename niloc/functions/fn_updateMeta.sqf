@@ -28,23 +28,23 @@ private ["_updateOk", "_iniDBi", "_value", "_metaValue"];
 
 _updateOk = false;
 _iniDBi = [] call FUNCMAIN(getDbInstance);
-_value = ["read", ["meta", _targetSection]] call _iniDBi;
+_value = ["read", ["meta", _targetSection, []]] call _iniDBi;
 
 if (_action == "add") then {
-    if (typeName _value isEqualTo "ARRAY") then {
-        _value pushBackUnique _targetKey;
-        _updateOk = ["write", ["meta", _targetSection, _value]] call _iniDBi;
-    } else {
-        _updateOk = ["write", ["meta", _targetSection, [_targetKey]]] call _iniDBi;
-    };
+    _value pushBackUnique _targetKey;
+    _updateOk = ["write", ["meta", _targetSection, _value]] call _iniDBi;
 } else {
-    if ((_action == "delete") && (typeName _value isEqualTo "ARRAY")) then {
+    if ((_action == "delete") && (count _value > 0)) then {
         _updateOk = ["write", ["meta", _targetSection, (_value - [_targetKey])]] call _iniDBi;
     } else { WARNING_2("Key (%1) doesn't exist in meta or it's a wrong type for the value (%2) to be deleted.", _targetSection, _targetKey) };
 };
 
 // Update itself
 _metaValue = ["read", ["meta", "meta", []]] call _iniDBi;
+
+// Create meta section meta key the 1st time
+if (count _metaValue == 0) then { _metaValue pushBackUnique "meta" };
+
 _metaValue pushBackUnique _targetSection;
 _updateOK = ["write", ["meta", "meta", _metaValue]] call _iniDBi;
 

@@ -28,12 +28,12 @@ if (!isServer) exitWith { ERROR("NiLOC only runs on a server.") };
 params [
     ["_section", "", [""]],
     ["_data", [], [[]]],
-    ["_db", objNull, [objNull]],
+    ["_db", "", ["", {}]],
     ["_updateMeta", true, [true]]
 ];
 private ["_iniDBi", "_recordsPut", "_writeOk"];
 
-_iniDBi = if (isNull _db) then [{[] call FUNCMAIN(getDbInstance)}, {_db}];
+_iniDBi = if (IS_CODE(_db)) then [{_db}, {[] call FUNCMAIN(getDbInstance)}];
 _recordsPut = 0;
 _writeOk = false;
 

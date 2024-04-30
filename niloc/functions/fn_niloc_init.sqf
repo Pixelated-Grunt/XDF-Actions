@@ -100,6 +100,16 @@ addMissionEventHandler [
     }
 ];
 
-addMissionEventHandler ["MPEnded", { [] call FUNCMAIN(backupDatabase) }];
+addMissionEventHandler [
+    "MPEnded", {
+        private _lastSave = (["session", ["session.last.save"]] call FUNCMAIN(getSectionAsHashmap)) get "session.last.save";
+
+        if (_lastSave > 0) then {
+            [] call FUNCMAIN(backupDatabase);
+        } else {
+            INFO_1("There was (%1) save in this session ... skipping backup.", _lastSave);
+        }
+    }
+];
 
 INFO("==================== NiLOC Initialisation Finished ====================");

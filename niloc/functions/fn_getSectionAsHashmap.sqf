@@ -22,11 +22,11 @@ if (!isServer) exitWith { ERROR("NiLOC only runs on a server.") };
 params [
     ["_section", "", [""]],
     ["_filter", [], [[]]],
-    ["_db", objNull, [objNull]]
+    ["_db", "", ["", {}]]
 ];
 private ["_keys", "_resHash", "_iniDBi"];
 
-_iniDBi = if (isNull _db) then [{[] call FUNCMAIN(getDbInstance)}, {_db}];
+_iniDBi = if (IS_CODE(_db)) then [{_db}, {[] call FUNCMAIN(getDbInstance)}];
 _resHash = createHashMap;
 _keys = ["read", ["meta", _section, []]] call _iniDBi;
 
