@@ -8,6 +8,8 @@
  * 0: The name of the section to write to <STRING>
  * 1: An array of values to be written <ARRAY>
  *      Array can contain hashmap(s), array(s) or a string
+ * 2: Optional db instance <OBJECT>
+ * 3: Optional update meta section <BOOL> {default: true}
  *
  * Return Value:
  * Number of records written <NUMBER>
@@ -25,11 +27,13 @@
 if (!isServer) exitWith { ERROR("NiLOC only runs on a server.") };
 params [
     ["_section", "", [""]],
-    ["_data", [], [[]]]
+    ["_data", [], [[]]],
+    ["_db", "", ["", {}]],
+    ["_updateMeta", true, [true]]
 ];
 private ["_iniDBi", "_recordsPut", "_writeOk"];
 
-_iniDBi = [] call FUNCMAIN(getDbInstance);
+_iniDBi = if (IS_CODE(_db)) then [{_db}, {[] call FUNCMAIN(getDbInstance)}];
 _recordsPut = 0;
 _writeOk = false;
 
@@ -39,7 +43,7 @@ switch (typeName (_data select 0)) do {
             {
                 _writeOk = ["write", [_section, _x, _y]] call _iniDBi;
                 if (_writeOk) then {
-                    ["add", _section, _x] call FUNCMAIN(updateMeta);
+                    if (_updateMeta) then { ["add", _section, _x] call FUNCMAIN(updateMeta) };
                     _recordsPut = _recordsPut + 1;
                 } else { ERROR_3("Failed to write key (%1) with value (%2) to section (%3)", _x, _y, _section) };
             } forEach _x;   //hashmap
@@ -52,7 +56,7 @@ switch (typeName (_data select 0)) do {
 
             _writeOk = ["write", [_section, _key, _value]] call _iniDBi;
             if (_writeOk) then {
-                ["add", _section, _key] call FUNCMAIN(updateMeta);
+                if (_updateMeta) then { ["add", _section, _key] call FUNCMAIN(updateMeta) };
                 _recordsPut = _recordsPut + 1;
             } else { ERROR_3("Failed to write key (%1) with value (%2) to section (%3)", _key, _value, _section) };
         } forEach _data;
@@ -63,7 +67,7 @@ switch (typeName (_data select 0)) do {
 
         _writeOk = ["write", [_section, _key, _value]] call _iniDBi;
         if (_writeOk) then {
-            ["add", _section, _key] call FUNCMAIN(updateMeta);
+            if (_updateMeta) then { ["add", _section, _key] call FUNCMAIN(updateMeta) };
             _recordsPut = _recordsPut + 1;
         } else { ERROR_3("Failed to write key (%1) with value (%2) to section (%3)", _key, _value, _section) };
     };

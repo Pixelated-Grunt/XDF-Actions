@@ -18,9 +18,9 @@
 
 params ["_target"];
 
-private ["_action", "_actions", "_loadIcon", "_saveIcon", "_saveCounts"];
+private ["_action", "_actions", "_loadIcon", "_saveIcon", "_saveCount"];
 
-_saveCounts = ["session", ["session.save.counts"]] call FUNCMAIN(getSectionAsHashmap) get "session.save.counts";
+_saveCount = missionNamespace getVariable [QGVAR(saveCount), 0];
 _loadIcon = "a3\ui_f\data\igui\cfg\simpletasks\types\upload_ca.paa";
 _saveIcon = "a3\ui_f\data\igui\cfg\simpletasks\types\download_ca.paa";
 _actions = [];
@@ -31,12 +31,9 @@ _action = [
     "Load Mission",
     _loadIcon,
     { [_this # 1] remoteExec [QFUNCMAIN(loadWorld), 2] },
-    {
-        params ["", "", "_params"];
-        if (_params # 1 > 0) then [{true}, {false}]
-    },
+    { _this # 2 # 1 > 0 },
     {},
-    [_loadIcon, _saveCounts],
+    [_loadIcon, _saveCount],
     nil,
     nil,
     nil,

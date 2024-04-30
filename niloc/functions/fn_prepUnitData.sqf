@@ -51,9 +51,9 @@ _unitHash = createHashMap;
         case "playerName": {
             private _playerInfo = getUserInfo(getPlayerID _unit);
 
-            _unitHash set [_stat, (_playerInfo select 3)];
+            _unitHash set [_stat, _playerInfo select 3];
         };
-        case "playerUID": { _unitHash set [_stat, (getPlayerUID _unit)] };
+        case "playerUID": { _unitHash set [_stat, getPlayerUID _unit] };
         case "rations": {
             private _hunger = _unit getVariable ["acex_field_rations_hunger", 0];
             private _thirst = _unit getVariable ["acex_field_rations_thirst", 0];

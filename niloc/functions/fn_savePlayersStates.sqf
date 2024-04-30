@@ -1,10 +1,12 @@
 #include "script_macros.hpp"
 /*
  * Author: Pixelated_Grunt
- * Save data of all players
+ * Save data for a single or all players
  *
  * Arguments:
  * 0: Save a single player instead of all <OBJECT> {default: objNull}
+ * 1: Player's UID <STRING>
+ * 2: Player's name <STRING>
  *
  * Return Valuej:
  * Return number of player record saved <NUMBER>
@@ -17,7 +19,11 @@
 
 
 if (!isServer) exitWith { ERROR("NiLOC only runs on a server.") };
-params [["_playerObj", objNull, [objNull]]];
+params [
+    ["_playerObj", objNull, [objNull]],
+    ["_uid", "", [""]],
+    ["_name", "", [""]]
+];
 
 private ["_allPlayers", "_count"];
 
@@ -29,8 +35,14 @@ if (!isNull _playerObj) then {
 };
 
 {
-    private _playerHash = ["player", _x] call FUNCMAIN(prepUnitData);
+    private _playerHash = ["player", _x, _uid, _name] call FUNCMAIN(prepUnitData);
     private _putOk = 0;
+
+    // Deals with disconnected players with empty uid and name
+    if ((_uid != "") && (_name != "")) then {
+        _playerHash set ["playerUID", _uid];
+        _playerHash set ["playerName", _name];
+    };
 
     _putOk = ["players", [_playerHash get "playerUID", toArray(_playerHash)]] call FUNCMAIN(putSection);
     if (_putOk > 0) then {
