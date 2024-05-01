@@ -26,12 +26,13 @@ _displayCtrl = (findDisplay IDD_NILOCGUI_RSCNILOCDIALOG) displayCtrl IDC_NILOCGU
 _titleBar = _mainDialog displayCtrl IDC_NILOCGUI_TITLEBAR;
 lbClear _displayCtrl;
 
+LOG_2("_titleBar: (%1) type: (%2)", _titleBar, typeName _titleBar);
 if (_type isEqualTo "onlinePlayers") then {
     private ["_onlinePlayers", "_playersList"];
 
     _titleBar ctrlSetStructuredText parseText "
-        <t align='left'>XDF NiLOC</t>
-        <t align='right'>ONLINE PLAYERS LIST</t>";
+        <t align='left' valign='middle'>XDF NiLOC</t>
+        <t align='right' valign='middle'>ONLINE PLAYERS LIST</t>";
 
     _onlinePlayers = ALL_PLAYERS;
     _playersList = _onlinePlayers apply {
@@ -60,9 +61,10 @@ if (_type isEqualTo "onlinePlayers") then {
         {
             private ["_uid", "_playerName", "_idx"];
 
-            _uid = x;
-            _playerName = _y select 2;
+            _uid = _x;
+            _playerName = _y select 1 select 2;
 
+            LOG_1("_playerName in fill listbox function (%1).", _playerName);
             _idx = _displayCtrl lbAdd _playerName;
             _displayCtrl lbSetData [_idx, _uid];
         } forEach _playersHash;
