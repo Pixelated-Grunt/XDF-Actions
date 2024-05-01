@@ -74,16 +74,14 @@ class RscNiLOCDialog {
         x = 21.8 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
         y = 23.9 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
         w = 4.5 * GUI_GRID_CENTER_W;
-        h = 1.5 * GUI_GRID_CENTER_H;
+        h = 1.1 * GUI_GRID_CENTER_H;
     };
-    class bnClose: RscButton
+    class bnClose: bnApply
     {
         idc = IDC_NILOCGUI_BNCLOSE;
         text = "CLOSE"; //--- ToDo: Localize;
         x = 26.4 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
         y = 23.9 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
-        w = 4.5 * GUI_GRID_CENTER_W;
-        h = 1.5 * GUI_GRID_CENTER_H;
         onButtonClick = QUOTE(closeDialog IDC_EXIT_TO_MAIN);
     };
     class stbInfo: RscStructuredText
@@ -137,6 +135,7 @@ class RscNiLOCDialog {
                 y = 12.3 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
                 w = 3.8 * GUI_GRID_CENTER_W;
                 h = 1.1 * GUI_GRID_CENTER_H;
+                onButtonClick = QUOTE(closeDialog IDC_CANCEL);
             };
             class bnYes: RscButton
             {
