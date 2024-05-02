@@ -75,6 +75,7 @@ class RscNiLOCDialog {
         y = 23.9 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
         w = 4.5 * GUI_GRID_CENTER_W;
         h = 1.1 * GUI_GRID_CENTER_H;
+        onButtonClick = QUOTE([] call FUNCMAIN(guiApplyBtnClicked));
     };
     class bnClose: bnApply
     {
@@ -123,7 +124,7 @@ class RscNiLOCDialog {
                 idc = IDC_NILOCGUI_STBCONFIRMATION;
                 x = 11.5 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
                 y = 7.2 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
-                w = 13 * GUI_GRID_CENTER_W;
+                w = 16 * GUI_GRID_CENTER_W;
                 h = 5 * GUI_GRID_CENTER_H;
                 colorBackground[] = { .1, .1, .1, .7 };
             };
@@ -135,7 +136,7 @@ class RscNiLOCDialog {
                 y = 12.3 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
                 w = 3.8 * GUI_GRID_CENTER_W;
                 h = 1.1 * GUI_GRID_CENTER_H;
-                onButtonClick = QUOTE(closeDialog IDC_CANCEL);
+                onButtonClick = QUOTE(IDC_NILOCGUI_CTRLGRPCONFIRMATION ctrlShow false);
             };
             class bnYes: RscButton
             {
@@ -145,6 +146,7 @@ class RscNiLOCDialog {
                 y = 12.3 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
                 w = 3.8 * GUI_GRID_CENTER_W;
                 h = 1.1 * GUI_GRID_CENTER_H;
+                onButtonClick = QUOTE([] call FUNCMAIN(guiYesBtnSetProfile));
             };
         };
     };

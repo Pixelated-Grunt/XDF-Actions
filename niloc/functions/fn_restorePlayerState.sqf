@@ -5,6 +5,7 @@
  *
  * Arguments:
  * 0: Player to be restored <OBJECT>
+ * 1: Profile UID in database to use <STRING>
  *
  * Return Value:
  * Successful restored player state <BOOL>
@@ -16,12 +17,15 @@
 **/
 
 
-params [["_playerObj", objNull, [objNull]]];
+params [
+    ["_playerObj", objNull, [objNull]],
+    ["_uid", "", [""]]
+];
 
 private ["_sectionHash", "_playerHash", "_playerID", "_playerUID"];
 
 _playerID = getPlayerID _playerObj;
-_playerUID = (getUserInfo _playerID) select 2;
+_playerUID = if (_uid != "") then [{_uid}, {(getUserInfo _playerID) select 2}];
 _sectionHash = ["players", [_playerUID]] call FUNCMAIN(getSectionAsHashmap);
 
 if (count _sectionHash == 0) exitWith { WARNING_1("Can't find player UID (%1) in the database.", _playerUID); false };
@@ -33,12 +37,12 @@ _playerHash = ((_sectionHash get _playerUID) select 0) createHashMapFromArray ((
 
     switch (_stat) do {
         case "playerName": {
-            private _sessionHash = ["session", ["session.loaded.players"]] call FUNCMAIN(getSectionAsHashmap);
-            private _data = _sessionHash get "session.loaded.players";
+            private _sessionHash = ["session", ["session.loaded.profiles"]] call FUNCMAIN(getSectionAsHashmap);
+            private _data = _sessionHash get "session.loaded.profiles";
 
             if (count _sessionHash == 0) then { _data = [] };
             _data pushBackUnique _value;
-            ["session", ["session.loaded.players", _data]] call FUNCMAIN(putSection);
+            ["session", ["session.loaded.profiles", _data]] call FUNCMAIN(putSection);
         };
         case "playerUID": {};
         case "location": {};

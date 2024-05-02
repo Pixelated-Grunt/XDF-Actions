@@ -23,8 +23,11 @@ class XDF {
         class getObjFromStr {};
         class getSectionAsHashmap {};
         class getSectionNames {};
-        class guiFillLeftListBox {};
-        class guiLeftListBoxSelect {};
+        class guiApplyBtnClicked {};
+        class guiFillInfoBox {};
+        class guiFillListBox {};
+        class guiOpenGui {};
+        class guiYesBtnSetProfile {};
         class handleDeadEntity {};
         class loadWorld {};
         class markerToString {};
