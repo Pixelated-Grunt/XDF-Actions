@@ -38,7 +38,7 @@ if (hasInterface) then {
         "NiLOC",
         "NiLOC",
         "a3\ui_f_oldman\data\igui\cfg\holdactions\holdaction_sleep2_ca.paa",
-        {},
+        { [] call FUNCMAIN(guiOpenGui) },
         { [_this # 1, _this # 2] call FUNCMAIN(checkAccessItems) },
         { _this call FUNCMAIN(nilocChildActions) },
         "NiLOC"
