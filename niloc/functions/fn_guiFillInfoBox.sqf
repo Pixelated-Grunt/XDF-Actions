@@ -51,7 +51,7 @@ _infoBox ctrlSetStructuredText parseText format [
 <t align='left' size='0.7'>Session No.:</t> <t align='right' size='0.7'>%2</t><br />
 <t align='left' size='0.7'>Session Start:</t> <t align='right' size='0.7'>%3</t><br />
 <t align='left' size='0.7'>Session Start (UTC):</t> <t align='right' size='0.7'>%4</t><br />
-<t align='left' size='0.7'>Session Last Save:</t> <t align='right' size='0.7'>%5</t><br />
+<t align='left' size='0.7'>Session Save Count:</t> <t align='right' size='0.7'>%5</t><br />
 <t align='left' size='0.7'>Session Last Load:</t> <t align='right' size='0.7'>%6</t><br />
 <t align='left' size='0.7'>Session Markers Loaded:</t> <t align='right' size='0.7'>%7</t><br />
 <t align='left' size='0.7'>Session Profiles Loaded:</t> <t align='right' size='0.7'>%8</t><br />
@@ -60,7 +60,7 @@ _infoBox ctrlSetStructuredText parseText format [
 _sessionHash get "session.number",
 [_sessionStart] call _fnc_timeToStr,
 [_sessionStartUtc] call _fnc_timeToStr,
-_sessionHash get "session.last.save",
+_sessionHash get "session.save.count",
 _sessionHash get "session.last.load",
 _sessionHash get "session.loaded.markers",
 count (_sessionHash get "session.loaded.profiles"),

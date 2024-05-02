@@ -23,9 +23,12 @@ _iniDBi = ["new", _dbName] call OO_iniDBi;
 _success = false;
 
 if !isNil(QUOTE(_iniDBi)) then {
-    private _sessionHash = createHashMap;
-    private _sessionNumber = ["read", ["session", "session.number", 0]] call _iniDBi;
-    private _saveCount = ["read", ["session", "session.save.count", 0]] call _iniDBi;
+    private ["_sessionHash", "_sessionNumber", "_saveCount", "_lastSave"];
+
+    _sessionHash = createHashMap;
+    _sessionNumber = ["read", ["session", "session.number", 0]] call _iniDBi;
+    _saveCount = ["read", ["session", "session.save.count", 0]] call _iniDBi;
+    _lastSave = ["read", ["session", "session.last.save", 0]] call _iniDBi;
 
     missionNamespace setVariable [QGVAR(Db), _iniDBi, true];
 
@@ -38,7 +41,8 @@ if !isNil(QUOTE(_iniDBi)) then {
         };
     };
 
-    _sessionHash set ["session.number", _sessionNumber + 1];
+    if (_lastSave > 0) then { _sessionNumber = _sessionNumber + 1 };
+    _sessionHash set ["session.number", _sessionNumber];
     _sessionHash set ["session.save.count", _saveCount];
     _sessionHash set ["session.start", systemTime];
     _sessionHash set ["session.start.utc", systemTimeUTC];
