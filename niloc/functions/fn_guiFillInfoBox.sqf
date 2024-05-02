@@ -18,48 +18,51 @@
 
 if !(hasInterface) exitWith {};
 params ["_infoBox", "_sessionHash", "_separator", "_iniDBi", "_sessionStart", "_sessionStartUtc", "_fnc_timeToStr"];
+disableSerialization;
 
 _iniDBi = [] call FUNCMAIN(getDbInstance);
 _infoBox = (findDisplay IDD_NILOCGUI_RSCNILOCDIALOG) displayCtrl IDC_NILOCGUI_STBINFO;
 _sessionHash = ["session"] call FUNCMAIN(getSectionAsHashmap);
-_separator = "<br />----------------------------------------<br />";
+_separator = "---------------------------------------------------------------------------------" +
+    "--------------------------------------------------------------------------------";
 _sessionStart = _sessionHash get "session.start";
 _sessionStartUtc = _sessionHash get "session.start.utc";
 
 _fnc_timeToStr = {
     params [["_timeArray", [], [[]]]];
 
+    private _newArray = _timeArray apply { if (count str _x == 1) then [{"0"+str _x}, {_x}]};
     private _timeStr = format ["%1/%2/%3 %4:%5:%6",
-        _timeArray select 0,
-        _timeArray select 1,
-        _timeArray select 2,
-        _timeArray select 3,
-        _timeArray select 4,
-        _timeArray select 5,
-        _timeArray select 6,
+        _newArray select 0,
+        _newArray select 1,
+        _newArray select 2,
+        _newArray select 3,
+        _newArray select 4,
+        _newArray select 5,
+        _newArray select 6
     ];
     _timeStr
 };
 
 _infoBox ctrlSetStructuredText parseText format [
-    "<t align='left'>NiLOC Session Info:</t>
-    <t align='left'>%9</t>
-    <t align='left'>Database:</t> <t align='right'>%1</t>
-    <t align='left'>No. of Session:</t> <t align='right'>%2</t>
-    <t align='left'>Session Start:</t> <t align='right'>%3</t>
-    <t align='left'>Session Start (UTC):</t> <t align='right'>%4</t>
-    <t align='left'>Session Last Save:</t> <t align='right'>%5</t>
-    <t align='left'>Session Last Load:</t> <t align='right'>%6</t>
-    <t align='left'>Session Markers Loaded:</t> <t align='right'%7</t>
-    <t align='left'>Session Profiles Loaded:</t>
-    <t align='left'>%8</t><br />",
-    _separator,
-    "getDbName" call _iniDBi,
-    _sessionHash get "session.number",
-    [_sessionStart] call _fnc_timeToStr,
-    [_sessionStartUtc] call _fnc_timeToStr,
-    _sessionHash get "session.last.save",
-    _sessionHash get "session.last.load",
-    _sessionHash get "session.loaded.markers",
-    _sessionHash get "session.loaded.profiles"
-]
+"<t size='0.3'>&#160;</t><br/><t align='center' size='0.8' font='LCD14'>-= NiLOC CURRENT SESSION INFO =-</t><br />
+<t align='left' size='0.7'>%10</t><br />
+<t align='left' size='0.7'>Database:</t> <t align='right' size='0.7'>%1</t><br />
+<t align='left' size='0.7'>Session No.:</t> <t align='right' size='0.7'>%2</t><br />
+<t align='left' size='0.7'>Session Start:</t> <t align='right' size='0.7'>%3</t><br />
+<t align='left' size='0.7'>Session Start (UTC):</t> <t align='right' size='0.7'>%4</t><br />
+<t align='left' size='0.7'>Session Last Save:</t> <t align='right' size='0.7'>%5</t><br />
+<t align='left' size='0.7'>Session Last Load:</t> <t align='right' size='0.7'>%6</t><br />
+<t align='left' size='0.7'>Session Markers Loaded:</t> <t align='right' size='0.7'>%7</t><br />
+<t align='left' size='0.7'>Session Profiles Loaded:</t> <t align='right' size='0.7'>%8</t><br />
+<t align='left' size='0.7'>%9</t><br />",
+"getDbName" call _iniDBi,
+_sessionHash get "session.number",
+[_sessionStart] call _fnc_timeToStr,
+[_sessionStartUtc] call _fnc_timeToStr,
+_sessionHash get "session.last.save",
+_sessionHash get "session.last.load",
+_sessionHash get "session.loaded.markers",
+count (_sessionHash get "session.loaded.profiles"),
+_sessionHash get "session.loaded.profiles",
+_separator]

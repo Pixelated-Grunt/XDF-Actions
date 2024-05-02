@@ -18,7 +18,7 @@
 
 if !(hasInterface) exitWith {};
 
-private ["_idx", "_playerId", "_savedUid", "_playerObj"];
+private ["_display", "_idx", "_playerId", "_savedUid", "_playerObj"];
 
 // Online player ID
 _idx = lbCurSel IDC_NILOCGUI_LBONLINEPLAYERS;
@@ -29,11 +29,12 @@ _idx = lbCurSel IDC_NILOCGUI_LBSAVEDPLAYERS;
 _savedUid = lbData [IDC_NILOCGUI_LBSAVEDPLAYERS, _idx];
 
 _playerObj = (getUserInfo _playerId) select 10;
+_display = findDisplay IDD_NILOCGUI_RSCNILOCDIALOG;
 
 if (IS_OBJECT(_playerObj)) then {
     [_playerObj, _savedUid] call FUNCMAIN(restorePlayerState);
-    IDC_NILOCGUI_CTRLGRPCONFIRMATION ctrlShow false;
-    IDC_NILOCGUI_BNAPPLY ctrlEnable true;
-    IDC_NILOCGUI_BNCLOSE ctrlEnable true;
+    (_display displayCtrl IDC_NILOCGUI_CTRLGRPCONFIRMATION) ctrlShow false;
+    (_display displayCtrl IDC_NILOCGUI_BNAPPLY) ctrlEnable true;
+    (_display displayCtrl IDC_NILOCGUI_BNCLOSE) ctrlEnable true;
     [] call FUNCMAIN(guiFillInfoBox)
 }

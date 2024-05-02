@@ -28,21 +28,24 @@ if (_type isEqualTo "onlinePlayers") then {
 
     _displayCtrl = _mainDialog displayCtrl IDC_NILOCGUI_LBONLINEPLAYERS;
     lbClear _displayCtrl;
-    _onlinePlayers = ALL_PLAYERS;
+    _onlinePlayers = call BIS_fnc_listPlayers;
     _playersList = _onlinePlayers apply {
         private _playerInfo = [];
 
         _playerInfo pushBack getPlayerID _x;
-        _playerInfo pushBack (getUserInfo (_playerInfo # 0) # 5);
+        _playerInfo pushBack (getUserInfo (_playerInfo # 0) # 4);
         _playerInfo
     };
 
     if (count _playersList > 0) then {
+
         {
             private _idx = _displayCtrl lbAdd (_x select 1);
 
-            _displayCtrl lbSetData [_idx, str (_x select 0)];
+            _displayCtrl lbSetData [_idx, (_x select 0)];
         } forEach _playersList;
+
+        _displayCtrl lbSetCurSel 0;
     }
 } else {
     if (_type isEqualTo "savedPlayers") then {
@@ -50,14 +53,20 @@ if (_type isEqualTo "onlinePlayers") then {
 
         _displayCtrl = _mainDialog displayCtrl IDC_NILOCGUI_LBSAVEDPLAYERS;
         lbClear _displayCtrl;
-        {
-            private ["_uid", "_playerName", "_idx"];
 
-            _uid = _x;
-            _playerName = _y select 1 select 2;
+        if (count _playersHash > 0) then {
 
-            _idx = _displayCtrl lbAdd _playerName;
-            _displayCtrl lbSetData [_idx, _uid];
-        } forEach _playersHash;
-    }
+            {
+                private ["_uid", "_playerName", "_idx"];
+
+                _uid = _x;
+                _playerName = _y select 1 select 2;
+
+                _idx = _displayCtrl lbAdd _playerName;
+                _displayCtrl lbSetData [_idx, _uid];
+            } forEach _playersHash;
+
+            _displayCtrl lbSetCurSel 0;
+        };
+    };
 }
