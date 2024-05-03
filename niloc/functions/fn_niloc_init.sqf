@@ -63,6 +63,7 @@ if (_sessionNo > 1) then {
 
         INFO_1("%1 user markers loaded.", _result);
         ["session", ["session.loaded.markers", _result]] call FUNCMAIN(putSection);
+        missionNamespace setVariable [QGVAR(loadedMarkers), _markers, true];
     };
 };
 

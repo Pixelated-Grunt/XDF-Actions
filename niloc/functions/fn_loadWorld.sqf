@@ -20,6 +20,7 @@ if !(isServer) exitWith { ERROR("NiLOC system only works in MP games."); false }
 params [["_player", objNull, [objNull]]];
 
 private _count = 0;
+private _lastLoad = 0;
 private _sessionHash = ["session", ["session.save.count"]] call FUNCMAIN(getSectionAsHashmap);
 
 if (_sessionHash get "session.save.count" == 0) exitWith {
@@ -36,6 +37,7 @@ if !(missionNamespace getVariable [QGVAR(preloadMarkers), true]) then {
 
     INFO_1("%1 user markers loaded.", _count);
     ["session", ["session.loaded.markers", _count]] call FUNCMAIN(putSection);
+    missionNamespace setVariable [QGVAR(loadedMarkers), _count, true];
 };
 
 INFO("---------- Restoring Mission Parameters ----------");
@@ -69,7 +71,9 @@ _count = [] call FUNCMAIN(restorePlayersStates);
 INFO_1("%1 players had been restored.", _count);
 
 // Update session & player ace menu icon colour
-["session", ["session.last.load", diag_tickTime]] call FUNCMAIN(putSection);
+_lastLoad = diag_tickTime;
+["session", ["session.last.load", _lastLoad]] call FUNCMAIN(putSection);
+missionNamespace setVariable [QGVAR(lastLoad), _lastLoad, true];
 [_player, [QGVAR(loadStatusColour), HEX_GREEN]] remoteExec ["setVariable", _player];
 INFO("==================== Load Mission Finished ====================");
 

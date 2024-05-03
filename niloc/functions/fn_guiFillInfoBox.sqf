@@ -17,16 +17,13 @@
 
 
 if !(hasInterface) exitWith {};
-params ["_infoBox", "_sessionHash", "_separator", "_iniDBi", "_sessionStart", "_sessionStartUtc", "_fnc_timeToStr"];
+
+private ["_separator", "_infoBox", "_fnc_timeToStr"];
 disableSerialization;
 
-_iniDBi = [] call FUNCMAIN(getDbInstance);
 _infoBox = (findDisplay IDD_NILOCGUI_RSCNILOCDIALOG) displayCtrl IDC_NILOCGUI_STBINFO;
-_sessionHash = ["session"] call FUNCMAIN(getSectionAsHashmap);
 _separator = "---------------------------------------------------------------------------------" +
     "--------------------------------------------------------------------------------";
-_sessionStart = _sessionHash get "session.start";
-_sessionStartUtc = _sessionHash get "session.start.utc";
 
 _fnc_timeToStr = {
     params [["_timeArray", [], [[]]]];
@@ -48,7 +45,7 @@ _infoBox ctrlSetStructuredText parseText format [
 "<t size='0.3'>&#160;</t><br/><t align='center' size='0.8' font='LCD14'>-= NiLOC CURRENT SESSION INFO =-</t><br />
 <t align='left' size='0.7'>%10</t><br />
 <t align='left' size='0.7'>Database:</t> <t align='right' size='0.7'>%1</t><br />
-<t align='left' size='0.7'>Session No.:</t> <t align='right' size='0.7'>%2</t><br />
+<t align='left' size='0.7'>Session No. Since Last Save:</t> <t align='right' size='0.7'>%2</t><br />
 <t align='left' size='0.7'>Session Start:</t> <t align='right' size='0.7'>%3</t><br />
 <t align='left' size='0.7'>Session Start (UTC):</t> <t align='right' size='0.7'>%4</t><br />
 <t align='left' size='0.7'>Session Save Count:</t> <t align='right' size='0.7'>%5</t><br />
@@ -56,13 +53,13 @@ _infoBox ctrlSetStructuredText parseText format [
 <t align='left' size='0.7'>Session Markers Loaded:</t> <t align='right' size='0.7'>%7</t><br />
 <t align='left' size='0.7'>Session Profiles Loaded:</t> <t align='right' size='0.7'>%8</t><br />
 <t align='left' size='0.7'>%9</t><br />",
-"getDbName" call _iniDBi,
-_sessionHash get "session.number",
-[_sessionStart] call _fnc_timeToStr,
-[_sessionStartUtc] call _fnc_timeToStr,
-_sessionHash get "session.save.count",
-_sessionHash get "session.last.load",
-_sessionHash get "session.loaded.markers",
-count (_sessionHash get "session.loaded.profiles"),
-_sessionHash get "session.loaded.profiles",
+missionNamespace getVariable QGVAR(dbName),
+missionNamespace getVariable QGVAR(sessionNumber),
+(missionNamespace getVariable QGVAR(sessionStart)) call _fnc_timeToStr,
+(missionNamespace getVariable QGVAR(sessionStartUtc)) call _fnc_timeToStr,
+missionNamespace getVariable QGVAR(saveCount),
+missionNamespace getVariable QGVAR(lastLoad),
+missionNamespace getVariable QGVAR(loadedMarkers),
+count (missionNamespace getVariable QGVAR(loadedProfiles)),
+missionNamespace getVariable QGVAR(loadedProfiles),
 _separator]

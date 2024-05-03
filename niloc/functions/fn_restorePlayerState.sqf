@@ -43,6 +43,7 @@ _playerHash = ((_sectionHash get _playerUID) select 0) createHashMapFromArray ((
             if (count _sessionHash == 0) then { _data = [] };
             _data pushBackUnique _value;
             ["session", ["session.loaded.profiles", _data]] call FUNCMAIN(putSection);
+            missionNamespace setVariable [QGVAR(loadedProfiles), _data, true];
         };
         case "playerUID": {};
         case "location": {};

@@ -58,7 +58,14 @@ if !isNil(QUOTE(_iniDBi)) then {
         ERROR("Failed to write session data into database.");
         _success = false
     } else {
+        missionNamespace setVariable [QGVAR(dbName), _dbName, true];
+        missionNamespace setVariable [QGVAR(sessionNumber), _sessionNumber, true];
         missionNamespace setVariable [QGVAR(saveCount), _saveCount, true];
+        missionNamespace setVariable [QGVAR(sessionStart), _sessionHash get "session.start", true];
+        missionNamespace setVariable [QGVAR(sessionStartUtc), _sessionHash get "session.start.utc", true];
+        missionNamespace setVariable [QGVAR(lastLoad), 0, true];
+        missionNamespace setVariable [QGVAR(loadedMarkers), 0, true];
+        missionNamespace setVariable [QGVAR(loadedProfiles), [], true];
         _success = true
     };
 } else { ERROR("Failed to create a new IniDBI2 database instance.") };
