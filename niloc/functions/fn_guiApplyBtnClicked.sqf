@@ -18,18 +18,16 @@
 
 if !(hasInterface) exitWith {};
 
-private ["_display", "_idx", "_playerId", "_savedUid", "_savedName", "_playerName", "_confirmBox"];
+private ["_display", "_idx", "_savedName", "_playerName", "_confirmBox"];
 disableSerialization;
 
-// Online player ID
+// Online player
 _idx = lbCurSel IDC_NILOCGUI_LBONLINEPLAYERS;
-_playerId = lbData [IDC_NILOCGUI_LBONLINEPLAYERS, _idx];
-_playerName = getUserInfo _playerId select 4;
+_playerName = lbText [IDC_NILOCGUI_LBONLINEPLAYERS, _idx];
 
-// Saved player UID
+// Saved player
 _idx = lbCurSel IDC_NILOCGUI_LBSAVEDPLAYERS;
-_savedUid = lbData [IDC_NILOCGUI_LBSAVEDPLAYERS, _idx];
-_savedName = ((["players", [_savedUid]] call FUNCMAIN(getSectionAsHashmap)) get _savedUid) # 1 # 2;
+_savedName = lbText [IDC_NILOCGUI_LBSAVEDPLAYERS, _idx];
 
 _display = findDisplay IDD_NILOCGUI_RSCNILOCDIALOG;
 _confirmBox = _display displayCtrl IDC_NILOCGUI_STBCONFIRMATION;
