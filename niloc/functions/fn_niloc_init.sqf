@@ -16,7 +16,7 @@
 **/
 
 
-if (!isServer) exitWith { ERROR("NiLOC only runs on a server.") };
+if (!isServer) exitWith {};
 INFO("==================== NiLOC Initialisation Starts ====================");
 
 // Keep this EH before database initiation
