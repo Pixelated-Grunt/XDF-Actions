@@ -1,5 +1,5 @@
-#include "BaseControls.hpp"
-#include "gui_macros.hpp"
+#include "..\..\common\gui_base_classes.hpp"
+#include "ui_macros.hpp"
 #include "..\functions\script_macros.hpp"
 
 class RscNiLOCDialog {
