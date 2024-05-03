@@ -36,7 +36,7 @@ class RscNiLOCDialog {
     };
     class tbSavedPlayers: RscText
     {
-        idc = IDC_NILOCGUI_TBSAVEDPLAYERS;
+        idc = -1;
         text = "SAVED PLAYERS"; //--- ToDo: Localize;
         x = 4.8 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
         y = 1.2 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
@@ -51,7 +51,7 @@ class RscNiLOCDialog {
     };
     class tbOnlinePlayers: RscText
     {
-        idc = IDC_NILOCGUI_LBONLINEPLAYERS;
+        idc = -1;
         text = "ONLINE PLAYERS"; //--- ToDo: Localize;
         x = 17.9 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
         y = 1.2 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
@@ -83,6 +83,7 @@ class RscNiLOCDialog {
     };
     class tbThinLine: RscText
     {
+        idc = -1;
         x = 4.8 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
         y = 15.1 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
         w = 26.1 * GUI_GRID_CENTER_W;
@@ -115,7 +116,7 @@ class RscNiLOCDialog {
         class Controls {
             class tbConfirmation: RscText
             {
-                idc = IDC_NILOCGUI_TBCONFIRMATION;
+                idc = -1;
                 text = "CONFIRMATION"; //--- ToDo: Localize;
                 x = 6.5 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
                 y = 6 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
@@ -139,7 +140,7 @@ class RscNiLOCDialog {
             };
             class bnNo: RscButton
             {
-                idc = IDC_NILOCGUI_BNNO;
+                idc = -1;
                 text = "NO"; //--- ToDo: Localize;
                 x = 19.7 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
                 y = 14.5 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
@@ -150,7 +151,7 @@ class RscNiLOCDialog {
             };
             class bnYes: bnNo
             {
-                idc = IDC_NILOCGUI_BNYES;
+                idc = -1;
                 text = "YES"; //--- ToDo: Localize;
                 x = 15.8 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
                 onButtonClick = QUOTE([] call FUNCMAIN(guiYesBtnSetProfile));

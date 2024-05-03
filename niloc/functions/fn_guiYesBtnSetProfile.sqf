@@ -32,9 +32,9 @@ _playerObj = (getUserInfo _playerId) select 10;
 _display = findDisplay IDD_NILOCGUI_RSCNILOCDIALOG;
 
 if (IS_OBJECT(_playerObj)) then {
-    [_playerObj, _savedUid] call FUNCMAIN(restorePlayerState);
+    [_playerObj, _savedUid] remoteExec [QFUNCMAIN(restorePlayerState), 2];
     (_display displayCtrl IDC_NILOCGUI_CTRLGRPCONFIRMATION) ctrlShow false;
-    (_display displayCtrl IDC_NILOCGUI_BNAPPLY) ctrlEnable true;
-    (_display displayCtrl IDC_NILOCGUI_BNCLOSE) ctrlEnable true;
+//    (_display displayCtrl IDC_NILOCGUI_BNAPPLY) ctrlEnable true;
+//    (_display displayCtrl IDC_NILOCGUI_BNCLOSE) ctrlEnable true;
     [] call FUNCMAIN(guiFillInfoBox)
 }
