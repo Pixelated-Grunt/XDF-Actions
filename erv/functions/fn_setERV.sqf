@@ -1,7 +1,7 @@
 #include "script_macros.hpp"
 /*
  * Author: Pixelated_Grunt
- * Initialise the ERV function
+ * Initialise the ERV action
  *
  * Arguments:
  * Nil
@@ -10,7 +10,7 @@
  * Nil
  *
  * Example:
- * [] call XDF_fnc_common_init
+ * [] call XDF_fnc_setERV
  *
  * Public: No
 **/

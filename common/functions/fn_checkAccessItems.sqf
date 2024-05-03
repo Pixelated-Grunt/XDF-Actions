@@ -1,7 +1,7 @@
 #include "script_macros.hpp"
 /*
  * Author: Pixelated_Grunt
- * Common setup for all XDF tools
+ * Check if player has certain items to enable Ace menu
  *
  * Arguments:
  * 0: Unit to check <OBJECT>
