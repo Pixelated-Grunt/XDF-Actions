@@ -17,128 +17,133 @@
 
 
 if (!isServer) exitWith {};
-INFO("==================== NiLOC Initialisation Starts ====================");
+[
+    { [] call FUNCMAIN(dbInit) },
+    {
+        INFO("==================== NiLOC Initialisation Starts ====================");
 
-// Keep this EH before database initiation
-addMissionEventHandler [
-    "PlayerConnected", {
-        params ["_id", "_uid", "_name", "_jip"];
+        // Keep this EH before database initiation
+        addMissionEventHandler [
+            "PlayerConnected", {
+                params ["_id", "_uid", "_name", "_jip"];
 
-        private _playerObj = getUserInfo _id select 10;
-        private _playerArray = [];
-        private _playersHash = uiNamespace getVariable [QGVAR(onlinePlayers), createHashMap];
+                private _playerObj = getUserInfo _id select 10;
+                private _playerArray = [];
+                private _playersHash = uiNamespace getVariable [QGVAR(onlinePlayers), createHashMap];
 
-        if (_name isNotEqualTo "__SERVER__") then {
-            private _sectionHash = ["session"] call FUNCMAIN(getSectionAsHashmap);
-            private _startTime = diag_tickTime;
+                if (_name isNotEqualTo "__SERVER__") then {
+                    private _sectionHash = ["session"] call FUNCMAIN(getSectionAsHashmap);
+                    private _startTime = diag_tickTime;
 
-            _sectionHash set ["session.player." + _uid, [_name, _startTime, _jip]];
-            ["session", [_sectionHash]] call FUNCMAIN(putSection);
-        };
+                    _sectionHash set ["session.player." + _uid, [_name, _startTime, _jip]];
+                    ["session", [_sectionHash]] call FUNCMAIN(putSection);
+                };
 
-        _playerArray pushBack _uid;
-        _playerArray pushBack _name;
-        _playerArray pushBack _playerObj;
-        _playersHash set [_uid, _playersHash];
-        uiNamespace setVariable [QGVAR(onlinePlayers), _playersHash, true];
-    }
-];
+                _playerArray pushBack _uid;
+                _playerArray pushBack _name;
+                _playerArray pushBack _playerObj;
+                _playersHash set [_uid, _playersHash];
+                uiNamespace setVariable [QGVAR(onlinePlayers), _playersHash, true];
+            }
+        ];
 
-INFO("---------- Setting Up Database ----------");
-waitUntil { [] call FUNCMAIN(dbInit) };
+        INFO("---------- Setting Up Database ----------");
+        //waitUntil { [] call FUNCMAIN(dbInit) };
 
-private _sessionHash = ["session", ["session.number"]] call FUNCMAIN(getSectionAsHashmap);
-private _sessionNo = _sessionHash get "session.number";
-private _vicCount = 0;
+        private _sessionHash = ["session", ["session.number"]] call FUNCMAIN(getSectionAsHashmap);
+        private _sessionNo = _sessionHash get "session.number";
+        private _vicCount = 0;
 
-INFO_1("Database loaded, current game session is (%1).", _sessionNo);
+        INFO_1("Database loaded, current game session is (%1).", _sessionNo);
 
-INFO("---------- Tagging Vehicles ----------");
-{
-    if (IS_VEHICLE(_x)) then {
-        _vicCount = _vicCount + 1;
-        _x setVariable [QGVAR(tag), "vic_" + str _vicCount];
-        INFO_2("Vechile (%1) is tagged as (%2).", str _x, _x getVariable QGVAR(tag));
-    };
-} forEach ALL_VEHICLES;
-INFO_1("%1 vehicles had been tagged.", _vicCount);
-
-if (_sessionNo > 1) then {
-    private _result = 0;
-    private _savedPlayers = ["players"] call FUNCMAIN(getSectionAsHashmap);
-
-    if (missionNamespace getVariable [QGVAR(preloadMarkers), true]) then {
-        INFO("---------- Loading User Map Markers ----------");
-        _result = [] call FUNCMAIN(restoreUserMarkers);
-
-        INFO_1("%1 user markers loaded.", _result);
-        ["session", ["session.loaded.markers", _result]] call FUNCMAIN(putSection);
-        missionNamespace setVariable [QGVAR(loadedMarkers), _result, true];
-    };
-
-    _result = count _savedPlayers;
-    if (_result > 0) then {
-        private _playersHash = createHashMap;
-
-        INFO("---------- Pushing Saved Players to UI Namespace ----------");
+        INFO("---------- Tagging Vehicles ----------");
         {
-            // key:uid value:name
-            _playersHash set [_x, _y # 1 # 2];
-        } forEach _savedPlayers;
+            if (IS_VEHICLE(_x)) then {
+                _vicCount = _vicCount + 1;
+                _x setVariable [QGVAR(tag), "vic_" + str _vicCount];
+                INFO_2("Vechile (%1) is tagged as (%2).", str _x, _x getVariable QGVAR(tag));
+            };
+        } forEach ALL_VEHICLES;
+        INFO_1("%1 vehicles had been tagged.", _vicCount);
 
-        uiNamespace setVariable [QGVAR(savedPlayers), _playersHash, true];
-        INFO_1("%1 saved users pushed to UI Namespace.", _result);
-    };
-};
+        if (_sessionNo > 1) then {
+            private _result = 0;
+            private _savedPlayers = ["players"] call FUNCMAIN(getSectionAsHashmap);
 
-addMissionEventHandler [
-    "EntityKilled", {
-        params ["_unit", "", "", ""];
+            if (missionNamespace getVariable [QGVAR(preloadMarkers), true]) then {
+                INFO("---------- Loading User Map Markers ----------");
+                _result = [] call FUNCMAIN(restoreUserMarkers);
 
-        [_unit] call FUNCMAIN(handleDeadEntity);
-    }
-];
+                INFO_1("%1 user markers loaded.", _result);
+                ["session", ["session.loaded.markers", _result]] call FUNCMAIN(putSection);
+                missionNamespace setVariable [QGVAR(loadedMarkers), _result, true];
+            };
 
-// This EH only available in dev branch 2.18
-//addMissionEventHandler [
-//    "EntityDeleted", {
-//        params ["_entity"];
-//
-//        [_entity] call FUNCMAIN(handleDeadEntity);
-//    }
-//];
+            _result = count _savedPlayers;
+            if (_result > 0) then {
+                private _playersHash = createHashMap;
 
-addMissionEventHandler [
-    "HandleDisconnect", {
-        params ["_unit", "", "_uid", "_name"];
+                INFO("---------- Pushing Saved Players to UI Namespace ----------");
+                {
+                    // key:uid value:name
+                    _playersHash set [_x, _y # 1 # 2];
+                } forEach _savedPlayers;
 
-        private _lastSave = (["session"] call FUNCMAIN(getSectionAsHashmap)) get "session.last.save";
-        private _playersHash = uiNamespace getVariable [QGVAR(onlinePlayers), createHashMap];
-
-        if (count _playersHash > 0) then {
-            _playersHash deleteAt _uid;
-            uiNamespace setVariable [QGVAR(onlinePlayers), _playersHash, true];
+                uiNamespace setVariable [QGVAR(savedPlayers), _playersHash, true];
+                INFO_1("%1 saved users pushed to UI Namespace.", _result);
+            };
         };
 
-        if (_lastSave == 0) then {
-            private _playerStats = (["session"] call FUNCMAIN(getSectionAsHashmap)) get "session.player." + _uid;
-            private _playedTime = diag_tickTime - (_playerStats select 1);
+        addMissionEventHandler [
+            "EntityKilled", {
+                params ["_unit", "", "", ""];
 
-            if (_playedTime > 300) then {
-                [_unit, _uid, _name] call FUNCMAIN(savePlayersStates);
-            } else { INFO_1("Player (%1) played less than 5 mins ... skipping save.", _name); }
-        } else { INFO_1("Current session save record exist ... skipping player (%1) save.", _name); }
+                [_unit] call FUNCMAIN(handleDeadEntity);
+            }
+        ];
+
+        // This EH only available in dev branch 2.18
+        //addMissionEventHandler [
+        //    "EntityDeleted", {
+        //        params ["_entity"];
+        //
+        //        [_entity] call FUNCMAIN(handleDeadEntity);
+        //    }
+        //];
+
+        addMissionEventHandler [
+            "HandleDisconnect", {
+                params ["_unit", "", "_uid", "_name"];
+
+                private _lastSave = (["session"] call FUNCMAIN(getSectionAsHashmap)) get "session.last.save";
+                private _playersHash = uiNamespace getVariable [QGVAR(onlinePlayers), createHashMap];
+
+                if (count _playersHash > 0) then {
+                    _playersHash deleteAt _uid;
+                    uiNamespace setVariable [QGVAR(onlinePlayers), _playersHash, true];
+                };
+
+                if (_lastSave == 0) then {
+                    private _playerStats = (["session"] call FUNCMAIN(getSectionAsHashmap)) get "session.player." + _uid;
+                    private _playedTime = diag_tickTime - (_playerStats select 1);
+
+                    if (_playedTime > 300) then {
+                        [_unit, _uid, _name] call FUNCMAIN(savePlayersStates);
+                    } else { INFO_1("Player (%1) played less than 5 mins ... skipping save.", _name); }
+                } else { INFO_1("Current session save record exist ... skipping player (%1) save.", _name); }
+            }
+        ];
+
+        addMissionEventHandler [
+            "MPEnded", {
+                private _lastSave = (["session", ["session.last.save"]] call FUNCMAIN(getSectionAsHashmap)) get "session.last.save";
+
+                if (_lastSave > 0) then {
+                    [] call FUNCMAIN(backupDatabase);
+                } else { INFO("There was no saves in this session ... skipping backup.") }
+            }
+        ];
+
+        INFO("==================== NiLOC Initialisation Finished ====================")
     }
-];
-
-addMissionEventHandler [
-    "MPEnded", {
-        private _lastSave = (["session", ["session.last.save"]] call FUNCMAIN(getSectionAsHashmap)) get "session.last.save";
-
-        if (_lastSave > 0) then {
-            [] call FUNCMAIN(backupDatabase);
-        } else { INFO("There was no saves in this session ... skipping backup.") }
-    }
-];
-
-INFO("==================== NiLOC Initialisation Finished ====================");
+] call CBA_fnc_waitUntilAndExecute
