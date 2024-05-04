@@ -25,10 +25,11 @@ params [
     ["_name", "", [""]]
 ];
 
-private ["_allPlayers", "_count"];
+private ["_allPlayers", "_count", "_savedPlayers"];
 
 _count = 0;
 _allPlayers = ALL_PLAYERS;
+_savedPlayers = uiNamespace getVariable [QGVAR(savedPlayers), createHashMap];
 
 if (!isNull _playerObj) then {
     _allPlayers = [_playerObj];
@@ -47,7 +48,11 @@ if (!isNull _playerObj) then {
     _putOk = ["players", [_playerHash get "playerUID", toArray(_playerHash)]] call FUNCMAIN(putSection);
     if (_putOk > 0) then {
         _count = _count + 1;
-    }
+    };
+
+    _savedPlayers set [_uid, _name];
 } forEach _allPlayers;
+
+uiNamespace setVariable [QGVAR(savedPlayers), _savedPlayers, true];
 
 _count
