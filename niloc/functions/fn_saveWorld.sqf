@@ -19,9 +19,10 @@
 if !(isServer) exitWith { ERROR("NiLOC system only works in MP games."); false };
 params [["_player", objNull, [objNull]]];
 
-private ["_lastSave", "_saveCount", "_minsFromLastSave", "_count"];
+private ["_lastSave", "_saveCount", "_minsFromLastSave", "_count", "_oldMarkers"];
 
 _count = 0;
+_oldMarkers = ["markers"] call FUNCMAIN(getSectionAsHashmap);
 _lastSave = (["session", ["session.last.save"]] call FUNCMAIN(getSectionAsHashmap)) get "session.last.save";
 _saveCount = (["session", ["session.save.count"]] call FUNCMAIN(getSectionAsHashmap)) get "session.save.count";
 _minsFromLastSave = diag_tickTime - _lastSave;
@@ -45,6 +46,10 @@ _count = [] call FUNCMAIN(saveMissionState);
 INFO_1("(%1) mission parameters had been saved.", _count);
 
 INFO("-------------------- Saving User Map Markers --------------------");
+{
+    ["markers", _x] call FUNCMAIN(deleteSectionKey);
+} forEach _oldMarkers;
+
 _count = [] call FUNCMAIN(saveUserMarkers);
 INFO_1("(%1) user placed markers had been saved.", _count);
 

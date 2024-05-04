@@ -19,7 +19,6 @@
 **/
 
 
-params ["_section", "_key"];
 params [
     ["_section", "", [""]],
     ["_key", "", [""]],

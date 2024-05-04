@@ -33,7 +33,7 @@ _fnc_replacePlayerID = {
     _return = "";
 
     while {(_pos != -1) && (count _str > 0)} do {
-        _return = _return + (_str select [0, _pos]) + "0";
+        _return = _return + (_str select [0, _pos]) + "#0";
 
         _str = (_str select [_pos + _len]);
         _pos = _str find "#";
