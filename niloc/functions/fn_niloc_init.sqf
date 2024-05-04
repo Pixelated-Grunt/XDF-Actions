@@ -48,8 +48,6 @@ if (!isServer) exitWith {};
         ];
 
         INFO("---------- Setting Up Database ----------");
-        //waitUntil { [] call FUNCMAIN(dbInit) };
-
         private _sessionHash = ["session", ["session.number"]] call FUNCMAIN(getSectionAsHashmap);
         private _sessionNo = _sessionHash get "session.number";
         private _vicCount = 0;
@@ -144,6 +142,13 @@ if (!isServer) exitWith {};
             }
         ];
 
+        missionNamespace setVariable [QGVAR(enable), true, true];
         INFO("==================== NiLOC Initialisation Finished ====================")
+    },
+    [],
+    20,
+    {
+        ERROR("NiLOC database failed to initialise ... disable the system.");
+        missionNamespace setVariable [QGVAR(enable), false, true]
     }
 ] call CBA_fnc_waitUntilAndExecute

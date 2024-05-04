@@ -39,7 +39,7 @@ if (hasInterface) then {
         "NiLOC",
         "a3\ui_f_oldman\data\igui\cfg\holdactions\holdaction_sleep2_ca.paa",
         { [] call FUNCMAIN(guiOpenGui) },
-        { [_this # 1, _this # 2] call FUNCMAIN(checkAccessItems) },
+        { [_this # 1, _this # 2] call FUNCMAIN(checkAccessItems) && missionNamespace getVariable [QEGVAR(niloc,enable), false] },
         { _this call FUNCMAIN(nilocChildActions) },
         "NiLOC"
     ] call ace_interact_menu_fnc_createAction, true] call ace_interact_menu_fnc_addActionToClass;

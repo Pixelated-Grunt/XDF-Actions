@@ -36,5 +36,9 @@ if (IS_OBJECT(_playerObj)) then {
     [_playerObj, _savedUid] remoteExec [QFUNCMAIN(restorePlayerState), 2];
     (_display displayCtrl IDC_NILOCGUI_CTRLGRPCONFIRMATION) ctrlShow false;
     (_display displayCtrl IDC_NILOCGUI_BNAPPLY) ctrlEnable true;
-    [] call FUNCMAIN(guiFillInfoBox);
+    [
+        FUNCMAIN(guiFillInfoBox),
+        [],
+        1
+    ] call CBA_fnc_waitAndExecute
 }
