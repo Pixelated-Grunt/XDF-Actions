@@ -25,7 +25,7 @@ disableSerialization;
 _mainDialog = findDisplay IDD_NILOCGUI_RSCNILOCDIALOG;
 
 if (_type isEqualTo "onlinePlayers") then {
-    private _onlinePlayers = uiNamespace getVariable [QGVAR(onlinePlayers), createHashMap];
+    private _onlinePlayers = missionNamespace getVariable [QGVAR(onlinePlayers), createHashMap];
 
     if (count _onlinePlayers > 0) then {
         _displayCtrl = _mainDialog displayCtrl IDC_NILOCGUI_LBONLINEPLAYERS;
@@ -41,7 +41,7 @@ if (_type isEqualTo "onlinePlayers") then {
         _displayCtrl lbSetCurSel 0;
     }
 } else {
-    private _playersHash = uiNamespace getVariable [QGVAR(savedPlayers), createHashMap];
+    private _playersHash = missionNamespace getVariable [QGVAR(savedPlayers), createHashMap];
 
     if (count _playersHash > 0) then {
         _displayCtrl = _mainDialog displayCtrl IDC_NILOCGUI_LBSAVEDPLAYERS;

@@ -23,6 +23,7 @@ class RscNiLOCDialog {
     class lbSavedPlayers: RscListbox
     {
         idc = IDC_NILOCGUI_LBSAVEDPLAYERS;
+        sizeEx = (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.8);
         x = 4.8 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
         y = 2.4 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
         w = 13 * GUI_GRID_CENTER_W;
@@ -147,7 +148,7 @@ class RscNiLOCDialog {
                 w = 3.8 * GUI_GRID_CENTER_W;
                 h = 1.1 * GUI_GRID_CENTER_H;
                 colorBackground[] = { 0, 0, 0, 1 };
-                onButtonClick = QUOTE(((findDisplay IDD_NILOCGUI_RSCNILOCDIALOG) displayCtrl IDC_NILOCGUI_CTRLGRPCONFIRMATION) ctrlShow false);
+                onButtonClick = QUOTE(private _display=findDisplay IDD_NILOCGUI_RSCNILOCDIALOG; (_display displayCtrl IDC_NILOCGUI_CTRLGRPCONFIRMATION) ctrlShow false; (_display displayCtrl IDC_NILOCGUI_BNAPPLY) ctrlEnable true);
             };
             class bnYes: bnNo
             {

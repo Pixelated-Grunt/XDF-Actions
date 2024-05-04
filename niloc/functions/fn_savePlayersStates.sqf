@@ -29,7 +29,7 @@ private ["_allPlayers", "_count", "_savedPlayers"];
 
 _count = 0;
 _allPlayers = ALL_PLAYERS;
-_savedPlayers = uiNamespace getVariable [QGVAR(savedPlayers), createHashMap];
+_savedPlayers = missionNamespace getVariable [QGVAR(savedPlayers), createHashMap];
 
 if (!isNull _playerObj) then {
     _allPlayers = [_playerObj];
@@ -53,6 +53,6 @@ if (!isNull _playerObj) then {
     _savedPlayers set [_uid, _name];
 } forEach _allPlayers;
 
-uiNamespace setVariable [QGVAR(savedPlayers), _savedPlayers, true];
+missionNamespace setVariable [QGVAR(savedPlayers), _savedPlayers, true];
 
 _count

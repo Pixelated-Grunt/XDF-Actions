@@ -23,7 +23,7 @@ private ["_display", "_idx", "_playerUid", "_savedUid", "_playerObj", "_onlinePl
 // Online player
 _idx = lbCurSel IDC_NILOCGUI_LBONLINEPLAYERS;
 _playerUid = lbData [IDC_NILOCGUI_LBONLINEPLAYERS, _idx];
-_onlinePlayers = uiNamespace getVariable [QGVAR(onlinePlayers), createHashMap];
+_onlinePlayers = missionNamespace getVariable [QGVAR(onlinePlayers), createHashMap];
 
 // Saved player
 _idx = lbCurSel IDC_NILOCGUI_LBSAVEDPLAYERS;
@@ -35,7 +35,6 @@ _display = findDisplay IDD_NILOCGUI_RSCNILOCDIALOG;
 if (IS_OBJECT(_playerObj)) then {
     [_playerObj, _savedUid] remoteExec [QFUNCMAIN(restorePlayerState), 2];
     (_display displayCtrl IDC_NILOCGUI_CTRLGRPCONFIRMATION) ctrlShow false;
-    [] call FUNCMAIN(guiFillInfoBox);
     (_display displayCtrl IDC_NILOCGUI_BNAPPLY) ctrlEnable true;
-//    (_display displayCtrl IDC_NILOCGUI_BNCLOSE) ctrlEnable true;
+    [] call FUNCMAIN(guiFillInfoBox);
 }

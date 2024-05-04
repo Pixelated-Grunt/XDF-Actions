@@ -25,25 +25,25 @@ if (!isServer) exitWith {};
         // Keep this EH before database initiation
         addMissionEventHandler [
             "PlayerConnected", {
-                params ["_id", "_uid", "_name", "_jip"];
-
-                private _playerObj = getUserInfo _id select 10;
-                private _playerArray = [];
-                private _playersHash = uiNamespace getVariable [QGVAR(onlinePlayers), createHashMap];
+                params ["", "_uid", "_name", "_jip", "", "_idstr"];
 
                 if (_name isNotEqualTo "__SERVER__") then {
-                    private _sectionHash = ["session"] call FUNCMAIN(getSectionAsHashmap);
-                    private _startTime = diag_tickTime;
+                    private ["_sectionHash", "_playerObj", "_playerArray", "_playersHash"];
 
-                    _sectionHash set ["session.player." + _uid, [_name, _startTime, _jip]];
+                    _playerObj = (getUserInfo _idstr) select 10;
+                    _playerArray = [];
+                    _playersHash = missionNamespace getVariable [QGVAR(onlinePlayers), createHashMap];
+                    _sectionHash = ["session"] call FUNCMAIN(getSectionAsHashmap);
+
+                    _sectionHash set ["session.player." + _uid, [_name, diag_tickTime, _jip]];
                     ["session", [_sectionHash]] call FUNCMAIN(putSection);
-                };
 
-                _playerArray pushBack _uid;
-                _playerArray pushBack _name;
-                _playerArray pushBack _playerObj;
-                _playersHash set [_uid, _playersHash];
-                uiNamespace setVariable [QGVAR(onlinePlayers), _playersHash, true];
+                    _playerArray pushBack _uid;
+                    _playerArray pushBack _name;
+                    _playerArray pushBack _playerObj;
+                    _playersHash set [_uid, _playerArray];
+                    missionNamespace setVariable [QGVAR(onlinePlayers), _playersHash, true];
+                };
             }
         ];
 
@@ -89,7 +89,7 @@ if (!isServer) exitWith {};
                     _playersHash set [_x, _y # 1 # 2];
                 } forEach _savedPlayers;
 
-                uiNamespace setVariable [QGVAR(savedPlayers), _playersHash, true];
+                missionNamespace setVariable [QGVAR(savedPlayers), _playersHash, true];
                 INFO_1("%1 saved users pushed to UI Namespace.", _result);
             };
         };
@@ -116,11 +116,11 @@ if (!isServer) exitWith {};
                 params ["_unit", "", "_uid", "_name"];
 
                 private _lastSave = (["session"] call FUNCMAIN(getSectionAsHashmap)) get "session.last.save";
-                private _playersHash = uiNamespace getVariable [QGVAR(onlinePlayers), createHashMap];
+                private _playersHash = missionNamespace getVariable [QGVAR(onlinePlayers), createHashMap];
 
                 if (count _playersHash > 0) then {
                     _playersHash deleteAt _uid;
-                    uiNamespace setVariable [QGVAR(onlinePlayers), _playersHash, true];
+                    missionNamespace setVariable [QGVAR(onlinePlayers), _playersHash, true];
                 };
 
                 if (_lastSave == 0) then {

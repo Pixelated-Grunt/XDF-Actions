@@ -32,11 +32,10 @@ _savedName = lbText [IDC_NILOCGUI_LBSAVEDPLAYERS, _idx];
 _display = findDisplay IDD_NILOCGUI_RSCNILOCDIALOG;
 _confirmBox = _display displayCtrl IDC_NILOCGUI_STBCONFIRMATION;
 (_display displayCtrl IDC_NILOCGUI_BNAPPLY) ctrlEnable false;
-//(_display displayCtrl IDC_NILOCGUI_BNCLOSE) ctrlEnable false;
 (_display displayCtrl IDC_NILOCGUI_CTRLGRPCONFIRMATION) ctrlShow true;
 
 _confirmBox ctrlSetStructuredText parseText format [
-    "<t align='left'>Really apply </t><t color='#ff0000'>%1</t><t color='#ffffff'> save file to </t><t color='#0000ff'>%2</t><t color='#ffffff'>?</t>",
+    "<t align='left'>Really apply [%1] save file to [%2]?",
     _savedName,
     _playerName
 ]

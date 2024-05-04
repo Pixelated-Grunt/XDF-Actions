@@ -44,19 +44,19 @@ _fnc_timeToStr = {
 _infoBox ctrlSetStructuredText parseText format [
 "<t size='0.3'>&#160;</t><br/><t align='center' size='0.8' font='LCD14'>-= NiLOC CURRENT SESSION INFO =-</t><br />
 <t align='left' size='0.7'>%10</t><br />
-<t align='left' size='0.7'>Database:</t> <t align='right' size='0.7'>%1</t><br />
-<t align='left' size='0.7'>Session No. Since Last Save:</t> <t align='right' size='0.7'>%2</t><br />
-<t align='left' size='0.7'>Session Start:</t> <t align='right' size='0.7'>%3</t><br />
-<t align='left' size='0.7'>Session Start (UTC):</t> <t align='right' size='0.7'>%4</t><br />
-<t align='left' size='0.7'>Session Save Count:</t> <t align='right' size='0.7'>%5</t><br />
-<t align='left' size='0.7'>Session Last Load:</t> <t align='right' size='0.7'>%6</t><br />
-<t align='left' size='0.7'>Session Markers Loaded:</t> <t align='right' size='0.7'>%7</t><br />
-<t align='left' size='0.7'>Session Profiles Loaded:</t> <t align='right' size='0.7'>%8</t><br />
-<t align='left' size='0.7'>%9</t><br />",
+<t align='left' font='PuristaMedium' size='0.7'>Database:</t> <t align='right' font='PuristaLight' color='#ffff00' size='0.7'>%1</t><br />
+<t align='left' font='PuristaMedium' size='0.7'>Session No. Since Last Save:</t> <t align='right' font='PuristaLight' size='0.7'>%2</t><br />
+<t align='left' font='PuristaMedium' size='0.7'>Session Start:</t> <t align='right' font='PuristaLight' size='0.7'>%3</t><br />
+<t align='left' font='PuristaMedium' size='0.7'>Session Start (UTC):</t> <t align='right' font='PuristaLight' size='0.7'>%4</t><br />
+<t align='left' font='PuristaMedium' size='0.7'>Session Save Count:</t> <t align='right' font='PuristaLight' size='0.7'>%5</t><br />
+<t align='left' font='PuristaMedium' size='0.7'>Session Last Load:</t> <t align='right' font='PuristaLight' size='0.7'>%6</t><br />
+<t align='left' font='PuristaMedium' size='0.7'>Session Markers Loaded:</t> <t align='right' font='PuristaLight' size='0.7'>%7</t><br />
+<t align='left' font='PuristaMedium' size='0.7'>Session Profiles Loaded:</t> <t align='right' font='PuristaLight' size='0.7'>%8</t><br />
+<t align='left' font='PuristaLight' size='0.7'>%9</t><br />",
 missionNamespace getVariable QGVAR(dbName),
 missionNamespace getVariable QGVAR(sessionNumber),
-(missionNamespace getVariable QGVAR(sessionStart)) call _fnc_timeToStr,
-(missionNamespace getVariable QGVAR(sessionStartUtc)) call _fnc_timeToStr,
+[(missionNamespace getVariable QGVAR(sessionStart))] call _fnc_timeToStr,
+[(missionNamespace getVariable QGVAR(sessionStartUtc))] call _fnc_timeToStr,
 missionNamespace getVariable QGVAR(saveCount),
 missionNamespace getVariable QGVAR(lastLoad),
 missionNamespace getVariable QGVAR(loadedMarkers),
