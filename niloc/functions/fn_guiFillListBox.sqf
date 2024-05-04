@@ -20,53 +20,43 @@ if !(hasInterface) exitWith {};
 params [["_type", "", [""]]];
 
 private ["_displayCtrl", "_mainDialog"];
+disableSerialization;
 
 _mainDialog = findDisplay IDD_NILOCGUI_RSCNILOCDIALOG;
 
 if (_type isEqualTo "onlinePlayers") then {
-    private ["_onlinePlayers", "_playersList"];
+    private _onlinePlayers = uiNamespace getVariable [QGVAR(onlinePlayers), createHashMap];
 
-    _displayCtrl = _mainDialog displayCtrl IDC_NILOCGUI_LBONLINEPLAYERS;
-    lbClear _displayCtrl;
-    _onlinePlayers = call BIS_fnc_listPlayers;
-    _playersList = _onlinePlayers apply {
-        private _playerInfo = [];
-
-        _playerInfo pushBack getPlayerID _x;
-        _playerInfo pushBack (getUserInfo (_playerInfo # 0) # 4);
-        _playerInfo
-    };
-
-    if (count _playersList > 0) then {
+    if (count _onlinePlayers > 0) then {
+        _displayCtrl = _mainDialog displayCtrl IDC_NILOCGUI_LBONLINEPLAYERS;
+        lbClear _displayCtrl;
 
         {
-            private _idx = _displayCtrl lbAdd (_x select 1);
+            private _idx = _displayCtrl lbAdd (_y select 1);
 
-            _displayCtrl lbSetData [_idx, (_x select 0)];
-        } forEach _playersList;
+            // _x:uid
+            _displayCtrl lbSetData [_idx, _x];
+        } forEach _onlinePlayers;
 
         _displayCtrl lbSetCurSel 0;
     }
 } else {
-    if (_type isEqualTo "savedPlayers") then {
-        private _playersHash = ["players"] call FUNCMAIN(getSectionAsHashmap);
+    private _playersHash = uiNamespace getVariable [QGVAR(savedPlayers), createHashMap];
 
+    if (count _playersHash > 0) then {
         _displayCtrl = _mainDialog displayCtrl IDC_NILOCGUI_LBSAVEDPLAYERS;
         lbClear _displayCtrl;
 
-        if (count _playersHash > 0) then {
+        {
+            private ["_uid", "_playerName", "_idx"];
 
-            {
-                private ["_uid", "_playerName", "_idx"];
+            _uid = _x;
+            _playerName = _y;
 
-                _uid = _x;
-                _playerName = _y select 1 select 2;
+            _idx = _displayCtrl lbAdd _playerName;
+            _displayCtrl lbSetData [_idx, _uid];
+        } forEach _playersHash;
 
-                _idx = _displayCtrl lbAdd _playerName;
-                _displayCtrl lbSetData [_idx, _uid];
-            } forEach _playersHash;
-
-            _displayCtrl lbSetCurSel 0;
-        };
+        _displayCtrl lbSetCurSel 0;
     };
 }

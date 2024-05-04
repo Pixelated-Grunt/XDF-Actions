@@ -25,7 +25,7 @@ addMissionEventHandler [
         params ["_id", "_uid", "_name", "_jip"];
 
         private _playerObj = getUserInfo _id select 10;
-        private _playerHash = createHashMap;
+        private _playerArray = [];
         private _playersHash = uiNamespace getVariable [QGVAR(onlinePlayers), createHashMap];
 
         if (_name isNotEqualTo "__SERVER__") then {
@@ -36,9 +36,9 @@ addMissionEventHandler [
             ["session", [_sectionHash]] call FUNCMAIN(putSection);
         };
 
-        _playerHash set ["name", _name];
-        _playerHash set ["uid", _uid];
-        _playerHash set ["object", _playerObj];
+        _playerArray pushBack _uid;
+        _playerArray pushBack _name;
+        _playerArray pushBack _playerObj;
         _playersHash set [_uid, _playersHash];
         uiNamespace setVariable [QGVAR(onlinePlayers), _playersHash, true];
     }

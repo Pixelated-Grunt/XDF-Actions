@@ -31,7 +31,7 @@ _savedName = lbText [IDC_NILOCGUI_LBSAVEDPLAYERS, _idx];
 
 _display = findDisplay IDD_NILOCGUI_RSCNILOCDIALOG;
 _confirmBox = _display displayCtrl IDC_NILOCGUI_STBCONFIRMATION;
-//(_display displayCtrl IDC_NILOCGUI_BNAPPLY) ctrlEnable false;
+(_display displayCtrl IDC_NILOCGUI_BNAPPLY) ctrlEnable false;
 //(_display displayCtrl IDC_NILOCGUI_BNCLOSE) ctrlEnable false;
 (_display displayCtrl IDC_NILOCGUI_CTRLGRPCONFIRMATION) ctrlShow true;
 
