@@ -22,7 +22,11 @@ INFO("==================== NiLOC Initialisation Starts ====================");
 // Keep this EH before database initiation
 addMissionEventHandler [
     "PlayerConnected", {
-        params ["", "_uid", "_name", "_jip"];
+        params ["_id", "_uid", "_name", "_jip"];
+
+        private _playerObj = getUserInfo _id select 10;
+        private _playerHash = createHashMap;
+        private _playersHash = uiNamespace getVariable [QGVAR(onlinePlayers), createHashMap];
 
         if (_name isNotEqualTo "__SERVER__") then {
             private _sectionHash = ["session"] call FUNCMAIN(getSectionAsHashmap);
@@ -31,6 +35,12 @@ addMissionEventHandler [
             _sectionHash set ["session.player." + _uid, [_name, _startTime, _jip]];
             ["session", [_sectionHash]] call FUNCMAIN(putSection);
         };
+
+        _playerHash set ["name", _name];
+        _playerHash set ["uid", _uid];
+        _playerHash set ["object", _playerObj];
+        _playersHash set [_uid, _playersHash];
+        uiNamespace setVariable [QGVAR(onlinePlayers), _playersHash, true];
     }
 ];
 
@@ -43,7 +53,6 @@ private _vicCount = 0;
 
 INFO_1("Database loaded, current game session is (%1).", _sessionNo);
 
-//waitUntil { time > 0 };
 INFO("---------- Tagging Vehicles ----------");
 {
     if (IS_VEHICLE(_x)) then {
@@ -56,14 +65,29 @@ INFO_1("%1 vehicles had been tagged.", _vicCount);
 
 if (_sessionNo > 1) then {
     private _result = 0;
+    private _savedPlayers = ["players"] call FUNCMAIN(getSectionAsHashmap);
 
-    if(missionNamespace getVariable [QGVAR(preloadMarkers), true]) then {
+    if (missionNamespace getVariable [QGVAR(preloadMarkers), true]) then {
         INFO("---------- Loading User Map Markers ----------");
         _result = [] call FUNCMAIN(restoreUserMarkers);
 
         INFO_1("%1 user markers loaded.", _result);
         ["session", ["session.loaded.markers", _result]] call FUNCMAIN(putSection);
-        missionNamespace setVariable [QGVAR(loadedMarkers), _markers, true];
+        missionNamespace setVariable [QGVAR(loadedMarkers), _result, true];
+    };
+
+    _result = count _savedPlayers;
+    if (_result > 0) then {
+        private _playersHash = createHashMap;
+
+        INFO("---------- Pushing Saved Players to UI Namespace ----------");
+        {
+            // key:uid value:name
+            _playersHash set [_x, _y # 1 # 2];
+        } forEach _savedPlayers;
+
+        uiNamespace setVariable [QGVAR(savedPlayers), _playersHash, true];
+        INFO_1("%1 saved users pushed to UI Namespace.", _result);
     };
 };
 
@@ -88,16 +112,22 @@ addMissionEventHandler [
     "HandleDisconnect", {
         params ["_unit", "", "_uid", "_name"];
 
-        private ["_playersHash", "_sessionPlayerStats", "_playedTime"];
+        private _lastSave = (["session"] call FUNCMAIN(getSectionAsHashmap)) get "session.last.save";
+        private _playersHash = uiNamespace getVariable [QGVAR(onlinePlayers), createHashMap];
 
-        _playersHash = ["players"] call FUNCMAIN(getSectionAsHashmap);
-        _sessionPlayerStats = (["session"] call FUNCMAIN(getSectionAsHashmap)) get "session.player." + _uid;
-        _playedTime = diag_tickTime - (_sessionPlayerStats select 1);
-
-        // Only save if record doesn't already exist and connect time is > 5 mins
-        if (((count _playersHash == 0) || !(_uid in _playersHash)) && _playedTime > 300) then {
-            [_unit, _uid, _name] call FUNCMAIN(savePlayersStates);
+        if (count _playersHash > 0) then {
+            _playersHash deleteAt _uid;
+            uiNamespace setVariable [QGVAR(onlinePlayers), _playersHash, true];
         };
+
+        if (_lastSave == 0) then {
+            private _playerStats = (["session"] call FUNCMAIN(getSectionAsHashmap)) get "session.player." + _uid;
+            private _playedTime = diag_tickTime - (_playerStats select 1);
+
+            if (_playedTime > 300) then {
+                [_unit, _uid, _name] call FUNCMAIN(savePlayersStates);
+            } else { INFO_1("Player (%1) played less than 5 mins ... skipping save.", _name); }
+        } else { INFO_1("Current session save record exist ... skipping player (%1) save.", _name); }
     }
 ];
 
@@ -107,9 +137,7 @@ addMissionEventHandler [
 
         if (_lastSave > 0) then {
             [] call FUNCMAIN(backupDatabase);
-        } else {
-            INFO_1("There was (%1) save in this session ... skipping backup.", _lastSave);
-        }
+        } else { INFO("There was no saves in this session ... skipping backup.") }
     }
 ];
 
