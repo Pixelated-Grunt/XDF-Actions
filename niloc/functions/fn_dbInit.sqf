@@ -26,7 +26,7 @@ if !isNil(QUOTE(_iniDBi)) then {
     private ["_sessionHash", "_sessionNumber", "_saveCount", "_lastSave"];
 
     _sessionHash = createHashMap;
-    _sessionNumber = ["read", ["session", "session.number", 0]] call _iniDBi;
+    _sessionNumber = ["read", ["session", "session.number", 1]] call _iniDBi;
     _saveCount = ["read", ["session", "session.save.count", 0]] call _iniDBi;
     _lastSave = ["read", ["session", "session.last.save", 0]] call _iniDBi;
 
