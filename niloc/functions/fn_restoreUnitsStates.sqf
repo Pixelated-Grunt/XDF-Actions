@@ -28,6 +28,11 @@ _aliveAIs = ALIVE_AIS;
     private _units = [_x] call FUNCMAIN(getSectionAsHashmap);
 
     {   // units loop
+        if ("REMOTE" in _x) then {
+            INFO_1("Not restoring Zeus created units (%1).", _x);
+            continue
+        };
+
         private _unitHash = (_y select 0) createHashMapFromArray (_y select 1);
         private _unitObj = [_x, _aliveAIs] call FUNCMAIN(getObjFromStr);
 
