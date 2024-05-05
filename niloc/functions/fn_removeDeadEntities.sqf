@@ -37,6 +37,10 @@ if (count _sections == 0) exitWith { _count };
     };
 
     {
+        if ("REMOTE" in _x) then {
+            INFO_1("Skip handling Zeus created entity (%1).", _x);
+            continue;
+        };
         private _obj = [_x, _aliveEntities] call FUNCMAIN(getObjFromStr);
 
         if !(isNull _obj) then {
