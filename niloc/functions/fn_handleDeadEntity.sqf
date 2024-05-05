@@ -27,7 +27,7 @@ if ((isPlayer _object) || !((IS_UNIT(_object)) || (IS_VEHICLE(_object)))) exitWi
 private ["_count", "_side", "_objStr", "_objtype"];
 
 _side = str side group _object;
-if (_side isEqualTo "UNKNOWN") exitWith { INFO_1("Skip recording disconnected player unit (%1) as dead unit.", _objStr) };
+if (_side isEqualTo "UNKNOWN" && IS_UNIT(_object)) exitWith { INFO_1("Skip recording disconnected player unit (%1) as dead unit.", _objStr) };
 _objStr = str _object;
 _count = 0;
 
