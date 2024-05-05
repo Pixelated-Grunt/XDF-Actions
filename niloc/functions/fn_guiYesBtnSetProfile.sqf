@@ -33,7 +33,7 @@ _playerObj = (_onlinePlayers get _playerUid) select 2;
 _display = findDisplay IDD_NILOCGUI_RSCNILOCDIALOG;
 
 if (IS_OBJECT(_playerObj)) then {
-    [_playerObj, _savedUid] remoteExec [QFUNCMAIN(restorePlayerState), 2];
+    [_playerObj, _savedUid] remoteExec [QFUNCMAIN(restorePlayerState), _playerObj];
     (_display displayCtrl IDC_NILOCGUI_CTRLGRPCONFIRMATION) ctrlShow false;
     (_display displayCtrl IDC_NILOCGUI_BNAPPLY) ctrlEnable true;
     [
