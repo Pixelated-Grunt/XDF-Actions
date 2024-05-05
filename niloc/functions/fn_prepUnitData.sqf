@@ -6,6 +6,8 @@
  * Arguments:
  * 0: Type of unit i.e. player or AI unit <STRING> {default: "unit"}
  * 1: Unit to get data from <OBJECT>
+ * 2: Optional player UID <STRING>
+ * 3: Optional player's name <STRING>
  *
  * Return Value:
  * HashMap that contains unit data <HASHMAP>
@@ -19,7 +21,9 @@
 
 params [
     ["_type", "unit", [""]],
-    ["_unit", objNull, [objNull]]
+    ["_unit", objNull, [objNull]],
+    ["_uid", "", [""]],
+    ["_name", "", [""]]
 ];
 private ["_statsToSave", "_unitHash"];
 
@@ -49,11 +53,17 @@ _unitHash = createHashMap;
         };
         // Player only stats
         case "playerName": {
-            private _playerInfo = getUserInfo(getPlayerID _unit);
+            private "_playerName";
 
-            _unitHash set [_stat, _playerInfo select 3];
+            _playerName = if (_name != "") then [{_name}, {getUserInfo(getPlayerID _unit) # 3}];
+            _unitHash set [_stat, _playerName];
         };
-        case "playerUID": { _unitHash set [_stat, getPlayerUID _unit] };
+        case "playerUID": {
+            private "_playerUid";
+
+            _playerUid = if (_uid != "") then [{_uid}, {getPlayerUID _unit}];
+            _unitHash set [_stat, _playerUid];
+        };
         case "rations": {
             private _hunger = _unit getVariable ["acex_field_rations_hunger", 0];
             private _thirst = _unit getVariable ["acex_field_rations_thirst", 0];

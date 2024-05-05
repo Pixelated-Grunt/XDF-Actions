@@ -39,12 +39,6 @@ if (!isNull _playerObj) then {
     private _playerHash = ["player", _x, _uid, _name] call FUNCMAIN(prepUnitData);
     private _putOk = 0;
 
-    // Deals with disconnected players with empty uid and name
-    if ((_uid != "") && (_name != "")) then {
-        _playerHash set ["playerUID", _uid];
-        _playerHash set ["playerName", _name];
-    };
-
     _putOk = ["players", [_playerHash get "playerUID", toArray(_playerHash)]] call FUNCMAIN(putSection);
     if (_putOk > 0) then {
         _count = _count + 1;
