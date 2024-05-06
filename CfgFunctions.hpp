@@ -41,7 +41,7 @@ class XDF {
         class restorePlayerState {};
         class restorePlayersStates {};
         class restoreUnitsStates {} ;
-        class restoreUserMarker {};
+        class restoreUserMarkers {};
         class restoreVehiclesStates {};
         class returnStats {};
         class saveMissionState {};

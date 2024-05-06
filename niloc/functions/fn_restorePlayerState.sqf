@@ -17,6 +17,7 @@
 **/
 
 
+if (!isServer) exitWith {};
 params [
     ["_playerObj", objNull, [objNull]],
     ["_uid", "", [""]]

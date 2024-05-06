@@ -46,7 +46,7 @@ _count = [] call FUNCMAIN(saveMissionState);
 INFO_1("(%1) mission parameters had been saved.", _count);
 
 INFO("-------------------- Numbering User Map Markers --------------------");
-_count = 0
+_count = 0;
 INFO_1("(%1) user placed markers had been sorted.", _count);
 
 INFO("-------------------- Saving AI Units --------------------");

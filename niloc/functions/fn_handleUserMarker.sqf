@@ -24,7 +24,7 @@ params [
     ["_channel", 0, [0]]
 ];
 
-LOG_2("Name of marker: (%1) channel: (%2).", _marker, _channel);
+LOG_3("Action: (%1) name of marker: (%2) channel: (%3).", _action, _marker, _channel);
 //private ["_markerStr"];
 
 //{
