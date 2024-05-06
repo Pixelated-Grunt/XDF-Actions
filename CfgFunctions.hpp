@@ -29,6 +29,7 @@ class XDF {
         class guiOpenGui {};
         class guiYesBtnSetProfile {};
         class handleDeadEntity {};
+        class handleUserMarker {};
         class loadWorld {};
         class markerToString {};
         class nilocChildActions {};
@@ -40,13 +41,12 @@ class XDF {
         class restorePlayerState {};
         class restorePlayersStates {};
         class restoreUnitsStates {} ;
-        class restoreUserMarkers {};
+        class restoreUserMarker {};
         class restoreVehiclesStates {};
         class returnStats {};
         class saveMissionState {};
         class savePlayersStates {};
         class saveUnitsStates {};
-        class saveUserMarkers {};
         class saveVehiclesStates {};
         class saveWorld {};
         class stringToMarker {};

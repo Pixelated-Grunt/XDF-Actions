@@ -142,6 +142,30 @@ if (!isServer) exitWith {};
             }
         ];
 
+        addMissionEventHandler [
+            "MarkerCreated", {
+                params ["_marker", "_channelNumber"];
+
+                ["create", _marker, _channelNumber] call FUNCMAIN(handleUserMarker)
+            }
+        ];
+
+        addMissionEventHandler [
+            "MarkerDeleted", {
+                params ["_marker"];
+
+                ["delete", _marker] call FUNCMAIN(handleUserMarker)
+            }
+        ];
+
+        addMissionEventHandler [
+            "MarkerUpdated", {
+                params ["_marker"];
+
+                ["update", _marker] call FUNCMAIN(handleUserMarker)
+            }
+        ];
+
         missionNamespace setVariable [QGVAR(enable), true, true];
         INFO("==================== NiLOC Initialisation Finished ====================")
     },

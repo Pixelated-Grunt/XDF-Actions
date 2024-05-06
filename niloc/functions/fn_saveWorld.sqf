@@ -45,13 +45,9 @@ INFO("-------------------- Saving Mission Parameters --------------------");
 _count = [] call FUNCMAIN(saveMissionState);
 INFO_1("(%1) mission parameters had been saved.", _count);
 
-INFO("-------------------- Saving User Map Markers --------------------");
-{
-    ["markers", _x] call FUNCMAIN(deleteSectionKey);
-} forEach _oldMarkers;
-
-_count = [] call FUNCMAIN(saveUserMarkers);
-INFO_1("(%1) user placed markers had been saved.", _count);
+INFO("-------------------- Numbering User Map Markers --------------------");
+_count = 0
+INFO_1("(%1) user placed markers had been sorted.", _count);
 
 INFO("-------------------- Saving AI Units --------------------");
 _count = [] call FUNCMAIN(saveUnitsStates);
