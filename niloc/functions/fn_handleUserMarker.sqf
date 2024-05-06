@@ -24,7 +24,13 @@ params [
     ["_channel", 0, [0]]
 ];
 
-LOG_3("Action: (%1) name of marker: (%2) channel: (%3).", _action, _marker, _channel);
+private _markerStr = [_marker, "~"] call FUNCMAIN(markerToString);
+
+if (_action isEqualTo "update") then {
+    LOG_3("Moving marker - LMB holding: (%1) action: (%2) marker: (%3).", inputMouse 0, _action, _markerStr);
+} else {
+    LOG_2("Action: (%1) marker: (%2).", _action, _markerStr);
+}
 //private ["_markerStr"];
 
 //{

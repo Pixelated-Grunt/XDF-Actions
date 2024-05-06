@@ -155,26 +155,28 @@ if (isServer) then {
     ] call CBA_fnc_waitUntilAndExecute
 };
 
-addMissionEventHandler [
-    "MarkerCreated", {
-        params ["_marker", "_channelNumber"];
+if (hasInterface) then {
+    addMissionEventHandler [
+        "MarkerCreated", {
+            params ["_marker", "_channelNumber"];
 
-        ["create", _marker, _channelNumber] call FUNCMAIN(handleUserMarker)
-    }
-];
+            ["create", _marker, _channelNumber] call FUNCMAIN(handleUserMarker)
+        }
+    ];
 
-addMissionEventHandler [
-    "MarkerDeleted", {
-        params ["_marker"];
+    addMissionEventHandler [
+        "MarkerDeleted", {
+            params ["_marker"];
 
-        ["delete", _marker] call FUNCMAIN(handleUserMarker)
-    }
-];
+            ["delete", _marker] call FUNCMAIN(handleUserMarker)
+        }
+    ];
 
-addMissionEventHandler [
-    "MarkerUpdated", {
-        params ["_marker"];
+    addMissionEventHandler [
+        "MarkerUpdated", {
+            params ["_marker"];
 
-        ["update", _marker] call FUNCMAIN(handleUserMarker)
-    }
-];
+            ["update", _marker] call FUNCMAIN(handleUserMarker)
+        }
+    ]
+}
