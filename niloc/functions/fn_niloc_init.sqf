@@ -113,7 +113,7 @@ if (isServer) then {
                 "HandleDisconnect", {
                     params ["_unit", "", "_uid", "_name"];
 
-                    private _lastSave = (["session"] call FUNCMAIN(getSectionAsHashmap)) get "session.last.save";
+                    private _sessionHash = (["session"] call FUNCMAIN(getSectionAsHashmap));
                     private _playersHash = missionNamespace getVariable [QGVAR(onlinePlayers), createHashMap];
 
                     if (count _playersHash > 0) then {
@@ -121,14 +121,11 @@ if (isServer) then {
                         missionNamespace setVariable [QGVAR(onlinePlayers), _playersHash, true];
                     };
 
-                    if (_lastSave == 0) then {
-                        private _playerStats = (["session"] call FUNCMAIN(getSectionAsHashmap)) get "session.player." + _uid;
-                        private _playedTime = diag_tickTime - (_playerStats select 1);
-
-                        if (_playedTime > 300) then {
+                    if (_sessionHash get "session.last.save" == 0) then {
+                        if (_sessionHash get "session.last.load" > 0) then {
                             [_unit, _uid, _name] call FUNCMAIN(savePlayersStates);
-                        } else { INFO_1("Player (%1) played less than 5 mins ... skipping save.", _name); }
-                    } else { INFO_1("Current session save record exist ... skipping player (%1) save.", _name); }
+                        } else { INFO_1("Skip saving player (%1) since mission was not loaded.", _name); }
+                    } else { INFO_1("Current session had been saved ... skip saving player (%1).", _name); }
                 }
             ];
 
