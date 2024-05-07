@@ -5,8 +5,7 @@
  *
  * Arguments:
  * 0: Action to perform <STRING> {default: create}
- * 0: Name of the marker <STRING>
- * 1: Optional channel number <NUMBER> {default: 0}
+ * 1: Name of the marker <STRING>
  *
  * Return Value:
  * Nil
@@ -20,34 +19,24 @@
 
 params [
     ["_action", "create", [""]],
-    ["_marker", "", [""]],
-    ["_channel", 0, [0]]
+    ["_marker", "", [""]]
 ];
 
-if (!(_channel in [0, 1, 2]) or (_marker select [0, 15] isNotEqualTo "_USER_DEFINED #")) exitWith {};
+if ( !(_marker select [(count _marker)-1, 1] in "012") or
+    (_marker select [0, 15] isNotEqualTo "_USER_DEFINED #")
+) exitWith {};
 
 private _markerStr = [_marker, "~"] call FUNCMAIN(markerToString);
-private _markerStrArray = _markerStr splitString "~";
 
 if (_action isEqualTo "create") then {
-    private _pos = _markerStrArray select 1;
-    private "_markerStr";
-
-    // Set marker Z axis to 0
-    _pos set [2, 0.0000];
-    _markerStrArray set [1, _pos];
-    _markerStr = "~" + (_markerStrArray joinString "~");
     LOG_1("New _markerStr from create marker: (%1).", _markerStr);
-
     ["markers", [_marker, _markerStr]] remoteExec [QFUNCMAIN(putSection), 2];
 } else {
     if (_action isEqualTo "update") then {
         // Not a moved marker
         if (inputMouse 0 != 2) exitWith {};
 
-        // Set marker alpha to 1
-        _markerStrArray set [8, "1"];
-        [[_marker, "~" + (_markerStrArray joinString "~")], {
+        [[_marker, _markerStr], {
             params ["_marker", "_markerStr"];
             private ["_updatedMarkers"];
 
@@ -58,6 +47,7 @@ if (_action isEqualTo "create") then {
             localNamespace setVariable [QGVAR(updatedMarkers), _updatedMarkers];
         }] remoteExec ["call", 2];
     } else {    //delete
+        LOG_1("_marker (%1) from handle func before delete func.", _marker);
         ["markers", _marker] remoteExec [QFUNCMAIN(deleteSectionKey), 2];
     }
 }

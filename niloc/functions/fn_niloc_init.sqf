@@ -153,27 +153,35 @@ if (isServer) then {
 };
 
 if (hasInterface) then {
-    addMissionEventHandler [
-        "MarkerCreated", {
-            params ["_marker", "_channelNumber"];
+    [
+        { missionNamespace getVariable [QGVAR(loadedMarkers), -1] != -1 },
+        {
+            addMissionEventHandler [
+                "MarkerCreated", {
+                    params ["_marker"];
 
-            ["create", _marker, _channelNumber] call FUNCMAIN(handleUserMarker)
-        }
-    ];
+                    ["create", _marker] call FUNCMAIN(handleUserMarker)
+                }
+            ];
 
-    addMissionEventHandler [
-        "MarkerDeleted", {
-            params ["_marker"];
+            addMissionEventHandler [
+                "MarkerDeleted", {
+                    params ["_marker"];
 
-            ["delete", _marker] call FUNCMAIN(handleUserMarker)
-        }
-    ];
+                    ["delete", _marker] call FUNCMAIN(handleUserMarker)
+                }
+            ];
 
-    addMissionEventHandler [
-        "MarkerUpdated", {
-            params ["_marker"];
+            addMissionEventHandler [
+                "MarkerUpdated", {
+                    params ["_marker"];
 
-            ["update", _marker] call FUNCMAIN(handleUserMarker)
-        }
-    ]
+                    ["update", _marker] call FUNCMAIN(handleUserMarker)
+                }
+            ]
+        },
+        "",
+        20,
+        { WARNING("Timeout while waiting for saved markers to be loaded ... all marker EHs disabled.") }
+    ] call CBA_fnc_waitUntilAndExecute
 }
