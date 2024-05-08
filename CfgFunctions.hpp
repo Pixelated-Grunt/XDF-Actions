@@ -47,6 +47,7 @@ class XDF {
         class saveMissionState {};
         class savePlayersStates {};
         class saveUnitsStates {};
+        class saveUserMarkers {};
         class saveVehiclesStates {};
         class saveWorld {};
         class stringToMarker {};
