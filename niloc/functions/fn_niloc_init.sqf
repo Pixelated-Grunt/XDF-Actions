@@ -81,14 +81,14 @@ if (isServer) then {
                 if (_result > 0) then {
                     private _playersHash = createHashMap;
 
-                    INFO("---------- Pushing Saved Players to UI Namespace ----------");
+                    INFO("---------- Pushing Saved Players to Mission Namespace ----------");
                     {
                         // key:uid value:name
                         _playersHash set [_x, _y # 1 # 2];
                     } forEach _savedPlayers;
 
                     missionNamespace setVariable [QGVAR(savedPlayers), _playersHash, true];
-                    INFO_1("%1 saved users pushed to UI Namespace.", _result);
+                    INFO_1("%1 saved users pushed to mission namespace.", _result);
                 };
             };
 

@@ -40,23 +40,23 @@ if ((missionNamespace getVariable [QGVAR(timeBetweenSaves), 60]) > _minsFromLast
 
 INFO("==================== Save Mission Starts ====================");
 
-INFO("-------------------- Saving Mission Parameters --------------------");
+INFO("----------------- Saving Mission Parameters -----------------");
 _count = [] call FUNCMAIN(saveMissionState);
 INFO_1("(%1) mission parameters had been saved.", _count);
 
-INFO("-------------------- Saving User Map Markers --------------------");
+INFO("------------------ Saving User Map Markers ------------------");
 _count = [] call FUNCMAIN(saveUserMarkers);
-INFO_1("(%1) of user markers had been saved.", _count);
+INFO_1("(%1) user markers had been saved.", _count);
 
-INFO("-------------------- Saving AI Units --------------------");
+INFO("---------------------- Saving AI Units ----------------------");
 _count = [] call FUNCMAIN(saveUnitsStates);
 INFO_1("(%1) AI units had been saved.", _count);
 
-INFO("-------------------- Saving Vehicles --------------------");
+INFO("---------------------- Saving Vehicles ----------------------");
 _count = [] call FUNCMAIN(saveVehiclesStates);
 INFO_1("(%1) vehicles had been saved.", _count);
 
-INFO("-------------------- Saving Players --------------------");
+INFO("---------------------- Saving Players ------------------------");
 _count = [] call FUNCMAIN(savePlayersStates);
 INFO_1("(%1) players had been saved.", _count);
 
@@ -65,6 +65,6 @@ INFO_1("(%1) players had been saved.", _count);
 ["session", ["session.save.count", _saveCount + 1]] call FUNCMAIN(putSection);
 missionNamespace setVariable [QGVAR(saveCount), _saveCount + 1, true];
 [_player, [QGVAR(saveStatusColour), HEX_GREEN]] remoteExec ["setVariable", _player];
-INFO("==================== Save Mission Finished ====================");
+INFO("==================== Save Mission Finished ===================");
 
 true

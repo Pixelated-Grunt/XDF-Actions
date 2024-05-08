@@ -16,36 +16,36 @@
 **/
 
 
-private ["_updatedMarkers", "_count", "_updatedCount", "_savedMarkersHash"];
+private ["_updatedMarkers", "_count", "_savedMarkersHash"];
 
+_savedMarkersHash = ["markers"] call FUNCMAIN(getSectionAsHashmap);
 _updatedMarkers = localNamespace getVariable [QGVAR(updatedMarkers), createHashMap];
-_count = count _updatedMarkers;
-_updatedCount = 0;
 
-if (_count > 0) then {
-    private _markersHash = ["markers"] call FUNCMAIN(getSectionAsHashmap);
-    private _markerNames = keys _updatedMarkers;
+// Save all in memory markers
+if ((count _updatedMarkers) > 0) then {
+    _count = 0;
 
     {
-        if (_x in keys _markersHash) then {
-            private _savedMarker = _markersHash get _x;
+        if (_x in keys _savedMarkersHash) then {
+            private _savedMarker = _savedMarkersHash get _x;
             private _savedMarkerArray = _savedMarker splitString "~";
             private _updatedMarkerArray = (_updatedMarkers get _x) splitString "~";
 
             _updatedMarkerArray set [8, _savedMarkerArray # 8];
             _updatedMarkerArray set [9, _savedMarkerArray # 9];
-
-            if (["markers", [_x, "~" + (_updatedMarkerArray joinString "~")]] call FUNCMAIN(putSection) == 1) then {
-                INC(_updatedCount)
-            } else {
-                ERROR_1("Failed to save updated marker (%1) to database.", _x)
-            }
-        }
-    } forEach _markerNames;
-    LOG_1("(%1) updated markers saved.", _updatedCount)
+            _savedMarkersHash set [_x, "~" + (_updatedMarkerArray joinString "~")];
+            INC(_count);
+        };
+    } forEach keys _updatedMarkers;
+    LOG_1("(%1) updated markers saved.", _count)
 };
 
-_savedMarkersHash = ["markers"] call FUNCMAIN(getSectionAsHashmap);
+// Read then purge markers section
+{
+    ["markers", _x] call FUNCMAIN(deleteSectionKey)
+} forEach keys _savedMarkersHash;
+
+// Reorder markers before write them back
 if (count _savedMarkersHash > 0) then {
     _count = 0;
 
@@ -59,10 +59,8 @@ if (count _savedMarkersHash > 0) then {
         _markerStr = "~" + (_markerStrArray joinString "~");
         LOG_1("New marker string from save world: (%1).", _markerStr);
 
-        if ((["markers", [_mrkName, _markerStr]] call FUNCMAIN(putSection)) == 1) then {
-            INC(_count);
-            if (_mrkName != _x) then { ["markers", _x] call FUNCMAIN(deleteSectionKey) }
-        } else { ERROR_1("Failed to save marker (%1).", _mrkName) }
+        ["markers", [_mrkName, _markerStr]] call FUNCMAIN(putSection);
+        INC(_count)
     } forEach _savedMarkersHash;
 };
 

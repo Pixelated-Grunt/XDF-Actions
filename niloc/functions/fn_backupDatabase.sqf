@@ -34,7 +34,7 @@ if (IS_CODE(_iniDBiNew)) then {
     {
         private _sectionHash = [_x] call FUNCMAIN(getSectionAsHashmap);
 
-        INFO_1("-------------------- %1 --------------------", _x);
+        INFO_1("-= %1 =-", _x);
         [_x, [_sectionHash], _iniDBiNew, false] call FUNCMAIN(putSection);
     } forEach _sections;
 
