@@ -19,7 +19,7 @@
 if !(isServer) exitWith { ERROR("NiLOC system only works in MP games."); false };
 params [["_player", objNull, [objNull]]];
 
-private ["_lastSave", "_saveCount", "_minsFromLastSave", "_count", "_markersHash", "_updatedMarkers"];
+private ["_lastSave", "_saveCount", "_minsFromLastSave", "_count"];
 
 _count = 0;
 _lastSave = (["session", ["session.last.save"]] call FUNCMAIN(getSectionAsHashmap)) get "session.last.save";
