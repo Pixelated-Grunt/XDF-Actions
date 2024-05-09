@@ -24,11 +24,11 @@ params [
     ["_filter", [], [[]]],
     ["_db", "", ["", {}]]
 ];
-private ["_keys", "_resHash", "_iniDBi"];
+private ["_keys", "_resHash", "_inidbi"];
 
-_iniDBi = if (IS_CODE(_db)) then [{_db}, {[] call FUNCMAIN(getDbInstance)}];
+_inidbi = if (IS_CODE(_db)) then [{_db}, {[] call FUNCMAIN(getDbInstance)}];
 _resHash = createHashMap;
-_keys = ["read", ["meta", _section, []]] call _iniDBi;
+_keys = ["read", ["meta", _section, []]] call _inidbi;
 
 if (count _keys > 0) then {
     if (count _filter > 0) then { _keys = _filter };
@@ -36,7 +36,7 @@ if (count _keys > 0) then {
     {
         private "_value";
 
-        _value = ["read", [_section, _x]] call _iniDBi;
+        _value = ["read", [_section, _x]] call _inidbi;
         if (_value isNotEqualTo false) then { _resHash set [_x, _value] };
     } forEach _keys;
 } else {

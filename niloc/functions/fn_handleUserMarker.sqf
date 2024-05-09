@@ -27,27 +27,31 @@ if ( !(_marker select [(count _marker)-1, 1] in "012") or
 ) exitWith {};
 
 private _markerStr = [_marker, "~"] call FUNCMAIN(markerToString);
+private _savedMarkerStr = ["markers"] call FUNCMAIN(getSectionAsHashmap) get _marker;
 
-if (_action isEqualTo "create") then {
-    LOG_1("New _markerStr from create marker: (%1).", _markerStr);
-    ["markers", [_marker, _markerStr]] remoteExec [QFUNCMAIN(putSection), 2];
-} else {
-    if (_action isEqualTo "update") then {
-        // Not a moved marker
-        if (inputMouse 0 != 2) exitWith {};
+// To avoid multiple client calls on same marker
+if (_savedMarkerStr != _markerStr) then {
+    if (_action isEqualTo "create") then {
+        LOG_1("New _markerStr from create marker: (%1).", _markerStr);
+        ["markers", [_marker, _markerStr]] remoteExec [QFUNCMAIN(putSection), 2];
+    } else {
+        if (_action isEqualTo "update") then {
+            // Not a moved marker
+            if (inputMouse 0 != 2) exitWith {};
 
-        [[_marker, _markerStr], {
-            params ["_marker", "_markerStr"];
-            private ["_updatedMarkers"];
+            [[_marker, _markerStr], {
+                params ["_marker", "_markerStr"];
+                private ["_updatedMarkers"];
 
-            _updatedMarkers = localNamespace getVariable [QGVAR(updatedMarkers), createHashMap];
+                _updatedMarkers = localNamespace getVariable [QGVAR(updatedMarkers), createHashMap];
 
-            LOG_1("New _markerStr from update marker: (%1).", _markerStr);
-            _updatedMarkers set [_marker, _markerStr];
-            localNamespace setVariable [QGVAR(updatedMarkers), _updatedMarkers];
-        }] remoteExec ["call", 2];
-    } else {    //delete
-        LOG_1("_marker (%1) from handle func before delete func.", _marker);
-        ["markers", _marker] remoteExec [QFUNCMAIN(deleteSectionKey), 2];
+                LOG_1("New _markerStr from update marker: (%1).", _markerStr);
+                _updatedMarkers set [_marker, _markerStr];
+                localNamespace setVariable [QGVAR(updatedMarkers), _updatedMarkers];
+            }] remoteExec ["call", 2];
+        } else {    //delete
+            LOG_1("_marker (%1) from handle func before delete func.", _marker);
+            ["markers", _marker] remoteExec [QFUNCMAIN(deleteSectionKey), 2];
+        }
     }
 }

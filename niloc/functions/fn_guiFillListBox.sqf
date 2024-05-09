@@ -20,43 +20,54 @@ if !(hasInterface) exitWith {};
 params [["_type", "", [""]]];
 
 private ["_displayCtrl", "_mainDialog"];
-disableSerialization;
 
-_mainDialog = findDisplay IDD_NILOCGUI_RSCNILOCDIALOG;
+_mainDialog = uiNamespace getVariable QGVAR(mainDialog);
 
 if (_type isEqualTo "onlinePlayers") then {
-    private _onlinePlayers = missionNamespace getVariable [QGVAR(onlinePlayers), createHashMap];
+    [QGVAR(requestPlayersInfo), ["onlinePlayers", player]] call CBA_fnc_serverEvent;
 
-    if (count _onlinePlayers > 0) then {
-        _displayCtrl = _mainDialog displayCtrl IDC_NILOCGUI_LBONLINEPLAYERS;
-        lbClear _displayCtrl;
-
+    [
+        { !isNil { player getVariable QGVAR(onlinePlayers) } },
         {
-            private _idx = _displayCtrl lbAdd (_y select 1);
+            private _onlinePlayers = player getVariable QGVAR(onlinePlayers);
 
-            // _x:uid
-            _displayCtrl lbSetData [_idx, _x];
-        } forEach _onlinePlayers;
+            _displayCtrl = _mainDialog displayCtrl IDC_NILOCGUI_LBONLINEPLAYERS;
+            lbClear _displayCtrl;
 
-        _displayCtrl lbSetCurSel 0;
-    }
+            {
+                private _idx = _displayCtrl lbAdd _x;
+
+                // _y:id
+                _displayCtrl lbSetData [_idx, _y];
+            } forEach _onlinePlayers;
+
+            _displayCtrl lbSetCurSel 0
+        },
+        3
+    ] call CBA_fnc_waitUntilAndExecute
 } else {
-    private _playersHash = missionNamespace getVariable [QGVAR(savedPlayers), createHashMap];
+    [QGVAR(requestPlayersInfo), ["savedPlayers", player]] call CBA_fnc_serverEvent;
 
-    if (count _playersHash > 0) then {
-        _displayCtrl = _mainDialog displayCtrl IDC_NILOCGUI_LBSAVEDPLAYERS;
-        lbClear _displayCtrl;
-
+    [
+        { !isNil { player getVariable QGVAR(savedPlayers) } },
         {
-            private ["_uid", "_playerName", "_idx"];
+            private _playersHash = player getVariable QGVAR(savedPlayers);
 
-            _uid = _x;
-            _playerName = _y;
+            if (count _playersHash > 0) then {
+                _displayCtrl = _mainDialog displayCtrl IDC_NILOCGUI_LBSAVEDPLAYERS;
+                lbClear _displayCtrl;
 
-            _idx = _displayCtrl lbAdd _playerName;
-            _displayCtrl lbSetData [_idx, _uid];
-        } forEach _playersHash;
+                {
+                   private _idx = _displayCtrl lbAdd _x;
+                    // _y:uid
+                    _displayCtrl lbSetData [_idx, _y];
+                } forEach _playersHash;
 
-        _displayCtrl lbSetCurSel 0;
-    };
-}
+                _displayCtrl lbSetCurSel 0
+            }
+        },
+        3
+    ] call CBA_fnc_waitUntilAndExecute;
+};
+
+player setVariable [QGVAR(_type), nil]

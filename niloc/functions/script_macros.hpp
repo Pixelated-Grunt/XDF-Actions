@@ -19,7 +19,10 @@
 #define ALL_VEHICLES vehicles select { if (IS_VEHICLE(_x)) then [{true}, {false}] }
 
 // Alive players
-#define ALL_PLAYERS call BIS_fnc_listPlayers select { alive _x }
+#define ALIVE_PLAYERS (playableUnits select {isPlayer _x}) select {alive _x}
+
+// All players
+#define ALL_PLAYERS playableUnits select {isPlayer _x}
 
 // All AIs without players
 #define ALIVE_AIS allUnits select { !(_x in (call BIS_fnc_listPlayers)) } select { alive _x }

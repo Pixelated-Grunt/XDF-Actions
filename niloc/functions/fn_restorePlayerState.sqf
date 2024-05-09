@@ -4,8 +4,8 @@
  * Restore data for a given player
  *
  * Arguments:
- * 0: Player to be restored <OBJECT>
- * 1: Profile UID in database to use <STRING>
+ * 0: Player object or player ID to be restored <OBJECT|STRING>
+ * 1: Saved UID record in database to use <STRING>
  *
  * Return Value:
  * Successful restored player state <BOOL>
@@ -19,18 +19,25 @@
 
 if (!isServer) exitWith {};
 params [
-    ["_playerObj", objNull, [objNull]],
+    ["_player", objNull, [objNull, ""]],
     ["_uid", "", [""]]
 ];
 
-private ["_sectionHash", "_playerHash", "_playerID", "_playerUID"];
+private ["_sectionHash", "_playerHash", "_playerId", "_playerUid", "_playerObj"];
 
-_playerID = getPlayerID _playerObj;
-_playerUID = if (_uid != "") then [{_uid}, {(getUserInfo _playerID) select 2}];
-_sectionHash = ["players", [_playerUID]] call FUNCMAIN(getSectionAsHashmap);
+if IS_OBJECT(_player) then {
+    _playerObj = _player;
+    _playerId = getPlayerID _playerObj;
+} else {
+    _playerId = _player;
+    _playerObj = (getUserInfo _playerId) # 10;
+};
 
-if (count _sectionHash == 0) exitWith { WARNING_1("Can't find player UID (%1) in the database.", _playerUID); false };
-_playerHash = ((_sectionHash get _playerUID) select 0) createHashMapFromArray ((_sectionHash get _playerUID) select 1);
+_playerUid = if (_uid != "") then [{_uid}, {(getUserInfo _playerId) select 2}];
+_sectionHash = ["players", [_playerUid]] call FUNCMAIN(getSectionAsHashmap);
+
+if (count _sectionHash == 0) exitWith { WARNING_1("Can't find player UID (%1) in the database.", _playerUid); false };
+_playerHash = ((_sectionHash get _playerUid) select 0) createHashMapFromArray ((_sectionHash get _playerUid) select 1);
 
 {
     private _stat = _x;
@@ -38,13 +45,12 @@ _playerHash = ((_sectionHash get _playerUID) select 0) createHashMapFromArray ((
 
     switch (_stat) do {
         case "playerName": {
-            private _sessionHash = ["session", ["session.loaded.profiles"]] call FUNCMAIN(getSectionAsHashmap);
-            private _data = _sessionHash get "session.loaded.profiles";
+            private _sessionHash = ["session", ["session.loaded.players"]] call FUNCMAIN(getSectionAsHashmap);
+            private _data = _sessionHash get "session.loaded.players";
 
             if (count _sessionHash == 0) then { _data = [] };
             _data pushBackUnique _value;
-            ["session", ["session.loaded.profiles", _data]] call FUNCMAIN(putSection);
-            missionNamespace setVariable [QGVAR(loadedProfiles), _data, true];
+            ["session", ["session.loaded.players", _data]] call FUNCMAIN(putSection);
         };
         case "playerUID": {};
         case "location": {};

@@ -28,7 +28,7 @@ params [
 private ["_allPlayers", "_count", "_savedPlayers"];
 
 _count = 0;
-_allPlayers = ALL_PLAYERS;
+_allPlayers = ALIVE_PLAYERS;
 _savedPlayers = missionNamespace getVariable [QGVAR(savedPlayers), createHashMap];
 
 if (!isNull _playerObj) then {

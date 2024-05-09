@@ -18,27 +18,23 @@
 
 if !(hasInterface) exitWith {};
 
-private ["_display", "_idx", "_playerUid", "_savedUid", "_playerObj", "_onlinePlayers"];
+private ["_display", "_idx", "_playerId", "_savedUid"];
 
 // Online player
 _idx = lbCurSel IDC_NILOCGUI_LBONLINEPLAYERS;
-_playerUid = lbData [IDC_NILOCGUI_LBONLINEPLAYERS, _idx];
-_onlinePlayers = missionNamespace getVariable [QGVAR(onlinePlayers), createHashMap];
+_playerId = lbData [IDC_NILOCGUI_LBONLINEPLAYERS, _idx];
 
 // Saved player
 _idx = lbCurSel IDC_NILOCGUI_LBSAVEDPLAYERS;
 _savedUid = lbData [IDC_NILOCGUI_LBSAVEDPLAYERS, _idx];
 
-_playerObj = (_onlinePlayers get _playerUid) select 2;
-_display = findDisplay IDD_NILOCGUI_RSCNILOCDIALOG;
+[_playerId, _savedUid] remoteExec [QFUNCMAIN(restorePlayerState), 2];
+_display = uiNamespace getVariable QGVAR(mainDialog);
+(_display displayCtrl IDC_NILOCGUI_CTRLGRPCONFIRMATION) ctrlShow false;
+(_display displayCtrl IDC_NILOCGUI_BNAPPLY) ctrlEnable true;
 
-if (IS_OBJECT(_playerObj)) then {
-    [_playerObj, _savedUid] remoteExec [QFUNCMAIN(restorePlayerState), 2];
-    (_display displayCtrl IDC_NILOCGUI_CTRLGRPCONFIRMATION) ctrlShow false;
-    (_display displayCtrl IDC_NILOCGUI_BNAPPLY) ctrlEnable true;
-    [
-        FUNCMAIN(guiFillInfoBox),
-        [],
-        1
-    ] call CBA_fnc_waitAndExecute
-}
+[
+    FUNCMAIN(guiFillInfoBox),
+    [],
+    1
+] call CBA_fnc_waitAndExecute

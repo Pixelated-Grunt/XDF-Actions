@@ -148,7 +148,7 @@ class RscNiLOCDialog {
                 w = 3.8 * GUI_GRID_CENTER_W;
                 h = 1.1 * GUI_GRID_CENTER_H;
                 colorBackground[] = { 0, 0, 0, 1 };
-                onButtonClick = QUOTE(private _display=findDisplay IDD_NILOCGUI_RSCNILOCDIALOG; (_display displayCtrl IDC_NILOCGUI_CTRLGRPCONFIRMATION) ctrlShow false; (_display displayCtrl IDC_NILOCGUI_BNAPPLY) ctrlEnable true);
+                onButtonClick = QUOTE(private _display=uiNamespace getVariable QGVAR(mainDialog); (_display displayCtrl IDC_NILOCGUI_CTRLGRPCONFIRMATION) ctrlShow false; (_display displayCtrl IDC_NILOCGUI_BNAPPLY) ctrlEnable true);
             };
             class bnYes: bnNo
             {

@@ -28,22 +28,11 @@ if (isServer) then {
                     params ["", "_uid", "_name", "_jip", "", "_idstr"];
 
                     if (_name isNotEqualTo "__SERVER__") then {
-                        private ["_sectionHash", "_playerObj", "_playerArray", "_playersHash"];
+                        private _sectionHash = ["session"] call FUNCMAIN(getSectionAsHashmap);
 
-                        _playerObj = (getUserInfo _idstr) select 10;
-                        _playerArray = [];
-                        _playersHash = missionNamespace getVariable [QGVAR(onlinePlayers), createHashMap];
-                        _sectionHash = ["session"] call FUNCMAIN(getSectionAsHashmap);
-
-                        _sectionHash set ["session.player." + _uid, [_name, diag_tickTime, _jip]];
-                        ["session", [_sectionHash]] call FUNCMAIN(putSection);
-
-                        _playerArray pushBack _uid;
-                        _playerArray pushBack _name;
-                        _playerArray pushBack _playerObj;
-                        _playersHash set [_uid, _playerArray];
-                        missionNamespace setVariable [QGVAR(onlinePlayers), _playersHash, true];
-                    };
+                        _sectionHash set ["session.player." + _uid, [_name, diag_tickTime, _jip, _idstr]];
+                        ["session", [_sectionHash]] call FUNCMAIN(putSection)
+                    }
                 }
             ];
 
@@ -59,14 +48,13 @@ if (isServer) then {
                 if (IS_VEHICLE(_x)) then {
                     _vicCount = _vicCount + 1;
                     _x setVariable [QGVAR(tag), "vic_" + str _vicCount];
-                    INFO_2("Vechile (%1) is tagged as (%2).", str _x, _x getVariable QGVAR(tag));
+                    INFO_2("Vechile (%1) is tagged as (vic_%2).", (str _x), (str _vicCount));
                 };
             } forEach ALL_VEHICLES;
             INFO_1("%1 vehicles had been tagged.", _vicCount);
 
             if (_sessionNo > 1) then {
                 private _result = 0;
-                private _savedPlayers = ["players"] call FUNCMAIN(getSectionAsHashmap);
 
                 if (missionNamespace getVariable [QGVAR(preloadMarkers), true]) then {
                     INFO("---------- Loading User Map Markers ----------");
@@ -74,22 +62,8 @@ if (isServer) then {
 
                     INFO_1("%1 user markers loaded.", _result);
                     ["session", ["session.loaded.markers", _result]] call FUNCMAIN(putSection);
-                    missionNamespace setVariable [QGVAR(loadedMarkers), _result, true];
-                };
-
-                _result = count _savedPlayers;
-                if (_result > 0) then {
-                    private _playersHash = createHashMap;
-
-                    INFO("---------- Pushing Saved Players to Mission Namespace ----------");
-                    {
-                        // key:uid value:name
-                        _playersHash set [_x, _y # 1 # 2];
-                    } forEach _savedPlayers;
-
-                    missionNamespace setVariable [QGVAR(savedPlayers), _playersHash, true];
-                    INFO_1("%1 saved users pushed to mission namespace.", _result);
-                };
+                    missionNamespace setVariable [QGVAR(loadedMarkersCompleted), true, true]
+                }
             };
 
             addMissionEventHandler [
@@ -114,12 +88,6 @@ if (isServer) then {
                     params ["_unit", "", "_uid", "_name"];
 
                     private _sessionHash = (["session"] call FUNCMAIN(getSectionAsHashmap));
-                    private _playersHash = missionNamespace getVariable [QGVAR(onlinePlayers), createHashMap];
-
-                    if (count _playersHash > 0) then {
-                        _playersHash deleteAt _uid;
-                        missionNamespace setVariable [QGVAR(onlinePlayers), _playersHash, true];
-                    };
 
                     if (_sessionHash get "session.last.save" == 0) then {
                         if (_sessionHash get "session.last.load" > 0) then {
@@ -139,9 +107,45 @@ if (isServer) then {
                 }
             ];
 
+            [QGVAR(requestPlayersInfo), FUNCMAIN(sendPlayersInfo)] call CBA_fnc_addEventHandler;
+            [QGVAR(requestSessioInfo), FUNCMAIN(sendSessionInfo)] call CBA_fnc_addEventHandler;
 
             missionNamespace setVariable [QGVAR(enable), true, true];
-            INFO("==================== NiLOC Initialisation Finished ====================")
+            INFO("==================== NiLOC Initialisation Finished ====================");
+
+            if (hasInterface) then {
+                [
+                    { missionNamespace getVariable [QGVAR(loadedMarkersCompleted), false] },
+                    {
+                        addMissionEventHandler [
+                            "MarkerCreated", {
+                                params ["_marker"];
+
+                                ["create", _marker] call FUNCMAIN(handleUserMarker)
+                            }
+                        ];
+
+                        addMissionEventHandler [
+                            "MarkerDeleted", {
+                                params ["_marker"];
+
+                                ["delete", _marker] call FUNCMAIN(handleUserMarker)
+                            }
+                        ];
+
+                        addMissionEventHandler [
+                            "MarkerUpdated", {
+                                params ["_marker"];
+
+                                ["update", _marker] call FUNCMAIN(handleUserMarker)
+                            }
+                        ]
+                    },
+                    "",
+                    20,
+                    { WARNING("Timeout while waiting for saved markers to be loaded ... all marker EHs disabled.") }
+                ] call CBA_fnc_waitUntilAndExecute
+            }
         },
         [],
         20,
@@ -149,39 +153,5 @@ if (isServer) then {
             ERROR("NiLOC database failed to initialise ... disable the system.");
             missionNamespace setVariable [QGVAR(enable), false, true]
         }
-    ] call CBA_fnc_waitUntilAndExecute
-};
-
-if (hasInterface) then {
-    [
-        { missionNamespace getVariable [QGVAR(loadedMarkers), -1] != -1 },
-        {
-            addMissionEventHandler [
-                "MarkerCreated", {
-                    params ["_marker"];
-
-                    ["create", _marker] call FUNCMAIN(handleUserMarker)
-                }
-            ];
-
-            addMissionEventHandler [
-                "MarkerDeleted", {
-                    params ["_marker"];
-
-                    ["delete", _marker] call FUNCMAIN(handleUserMarker)
-                }
-            ];
-
-            addMissionEventHandler [
-                "MarkerUpdated", {
-                    params ["_marker"];
-
-                    ["update", _marker] call FUNCMAIN(handleUserMarker)
-                }
-            ]
-        },
-        "",
-        20,
-        { WARNING("Timeout while waiting for saved markers to be loaded ... all marker EHs disabled.") }
     ] call CBA_fnc_waitUntilAndExecute
 }

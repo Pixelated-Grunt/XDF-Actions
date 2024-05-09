@@ -36,8 +36,7 @@ if !(missionNamespace getVariable [QGVAR(preloadMarkers), true]) then {
     _count = [] call FUNCMAIN(restoreUserMarkers);
 
     INFO_1("%1 user markers loaded.", _count);
-    ["session", ["session.loaded.markers", _count]] call FUNCMAIN(putSection);
-    missionNamespace setVariable [QGVAR(loadedMarkers), _count, true];
+    ["session", ["session.loaded.markers", _count]] call FUNCMAIN(putSection)
 };
 
 INFO("---------------- Restoring Mission Parameters ----------------");
@@ -73,7 +72,6 @@ INFO_1("%1 players had been restored.", _count);
 // Update session & player ace menu icon colour
 _lastLoad = diag_tickTime;
 ["session", ["session.last.load", _lastLoad]] call FUNCMAIN(putSection);
-missionNamespace setVariable [QGVAR(lastLoad), _lastLoad, true];
 [_player, [QGVAR(loadStatusColour), HEX_GREEN]] remoteExec ["setVariable", _player];
 INFO("==================== Load Mission Finished ===================");
 

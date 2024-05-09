@@ -16,29 +16,29 @@
 **/
 
 
-private ["_iniDBiOld", "_iniDBiNew", "_oldDbName", "_newDbName", "_sections"];
+private ["_inidbiOld", "_inidbiNew", "_oldDbName", "_newDbName", "_sections"];
 
-_iniDBiOld = [] call FUNCMAIN(getDbInstance);
-_oldDbName = "getDbName" call _iniDBiOld;
+_inidbiOld = [] call FUNCMAIN(getDbInstance);
+_oldDbName = "getDbName" call _inidbiOld;
 _newDbName = format [
     "%1_%2",
     _oldDbName,
-    ["read", ["session", "session.number"]] call _iniDBiOld
+    ["read", ["session", "session.number"]] call _inidbiOld
 ];
-_iniDBiNew = ["new", _newDbName] call OO_iniDBi;
+_inidbiNew = ["new", _newDbName] call OO_inidbi;
 _sections = [] call FUNCMAIN(getSectionNames);
 LOG_1("_sections: (%1).", _sections);
 
-if (IS_CODE(_iniDBiNew)) then {
+if (IS_CODE(_inidbiNew)) then {
     INFO("==================== Starting Database Backup ====================");
     {
         private _sectionHash = [_x] call FUNCMAIN(getSectionAsHashmap);
 
         INFO_1("-= %1 =-", _x);
-        [_x, [_sectionHash], _iniDBiNew, false] call FUNCMAIN(putSection);
+        [_x, [_sectionHash], _inidbiNew, false] call FUNCMAIN(putSection);
     } forEach _sections;
 
-    if (count (["", _iniDBiNew] call FUNCMAIN(getSectionNames)) == count _sections) then {
+    if (count (["", _inidbiNew] call FUNCMAIN(getSectionNames)) == count _sections) then {
         INFO("Database backup successfully.");
     } else {
         ERROR("Database backup section count failed.")
