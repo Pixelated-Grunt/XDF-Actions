@@ -17,8 +17,6 @@
 
 
 if (hasInterface) then {
-    uiNamespace setVariable [QGVAR(mainDialog), findDisplay IDD_NILOCGUI_RSCNILOCDIALOG];
-
     // CBA EH for inventory changes
     ["loadout", {
         params ["_unit"];

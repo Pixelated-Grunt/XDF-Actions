@@ -18,8 +18,12 @@
 
 if !(hasInterface) exitWith {};
 
+private "_display";
+
 createDialog "RscNiLOCDialog";
-((uiNamespace getVariable QGVAR(mainDialog)) displayCtrl IDC_NILOCGUI_CTRLGRPCONFIRMATION) ctrlShow false;
+_display = findDisplay IDD_NILOCGUI_RSCNILOCDIALOG;
+uiNamespace setVariable [QGVAR(mainDialog), _display];
+(_display displayCtrl IDC_NILOCGUI_CTRLGRPCONFIRMATION) ctrlShow false;
 ["onlinePlayers"] call FUNCMAIN(guiFillListBox);
 ["savedPlayers"] call FUNCMAIN(guiFillListBox);
 [] call FUNCMAIN(guiFillInfoBox)

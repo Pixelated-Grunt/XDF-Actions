@@ -30,7 +30,9 @@ private _markerStr = [_marker, "~"] call FUNCMAIN(markerToString);
 private _savedMarkerStr = ["markers"] call FUNCMAIN(getSectionAsHashmap) get _marker;
 
 // To avoid multiple client calls on same marker
-if (_savedMarkerStr != _markerStr) then {
+LOG_2("_savedMarkerStr: (%1) _markerStr: (%2).", _savedMarkerStr, _markerStr);
+if ((isNil "_savedMarkerStr") or {_savedMarkerStr != _markerStr}) then {
+    LOG("Inside saving marker.");
     if (_action isEqualTo "create") then {
         LOG_1("New _markerStr from create marker: (%1).", _markerStr);
         ["markers", [_marker, _markerStr]] remoteExec [QFUNCMAIN(putSection), 2];

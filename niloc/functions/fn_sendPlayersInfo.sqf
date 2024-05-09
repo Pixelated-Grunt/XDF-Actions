@@ -19,14 +19,16 @@
 
 params ["_type", "_client"];
 
+private _playersHash = createHashMap;
+
 if (_type isEqualTo "onlinePlayers") then {
     private _onlinePlayers = ALL_PLAYERS;
-    private _playersHash = createHashMap;
 
     {
         private ["_id", "_name"];
 
-        if ((_id = getPlayerID _client) == "-1") then {
+        _id = getPlayerID _client;
+        if (_id == "-1") then {
             WARNING_1("Failed to get player id from (%1).", str _x);
             continue
         };
@@ -38,7 +40,6 @@ if (_type isEqualTo "onlinePlayers") then {
     _client setVariable [QGVAR(onlinePlayers), _playersHash]
 } else {    // saved players
     private _savedPlayers = ["players"] call FUNCMAIN(getSectionAsHashmap);
-    private _playersHash = createHashMap;
 
     {
         private _player = (_y # 0) createHashMapFromArray (_y # 1);

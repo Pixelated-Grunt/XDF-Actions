@@ -24,9 +24,9 @@ _loadIcon = "a3\ui_f\data\igui\cfg\simpletasks\types\upload_ca.paa";
 _saveIcon = "a3\ui_f\data\igui\cfg\simpletasks\types\download_ca.paa";
 _actions = [];
 
-[QGVAR(requestSessioInfo), [player]] call CBA_fnc_serverEvent;
+[QGVAR(requestSessionInfo), [player]] call CBA_fnc_serverEvent;
 [
-    { !isNil {player getVariable [QGVAR(sessionInfo), nil]} },
+    { (player getVariable [QGVAR(sessionInfo), nil]) isEqualType createHashMap },
     {
         private _saveCount = (player getVariable [QGVAR(sessionInfo), nil]) get "saveCount";
         // Load action
@@ -49,6 +49,7 @@ _actions = [];
         ] call ace_interact_menu_fnc_createAction;
         _actions pushBack [_action, [], _target]
     },
+    [],
     3,
     {[]}
 ] call CBA_fnc_waitUntilAndExecute;
@@ -73,5 +74,4 @@ _action = [
 ] call ace_interact_menu_fnc_createAction;
 _actions pushBack [_action, [], _target];
 
-player setVariable [QGVAR(sessionInfo), nil];
 _actions

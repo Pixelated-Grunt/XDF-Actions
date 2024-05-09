@@ -62,7 +62,7 @@ if (isServer) then {
 
                     INFO_1("%1 user markers loaded.", _result);
                     ["session", ["session.loaded.markers", _result]] call FUNCMAIN(putSection);
-                    missionNamespace setVariable [QGVAR(loadedMarkersCompleted), true, true]
+                    missionNamespace setVariable [QGVAR(loadMarkersCompleted), true, true]
                 }
             };
 
@@ -108,14 +108,14 @@ if (isServer) then {
             ];
 
             [QGVAR(requestPlayersInfo), FUNCMAIN(sendPlayersInfo)] call CBA_fnc_addEventHandler;
-            [QGVAR(requestSessioInfo), FUNCMAIN(sendSessionInfo)] call CBA_fnc_addEventHandler;
+            [QGVAR(requestSessionInfo), FUNCMAIN(sendSessionInfo)] call CBA_fnc_addEventHandler;
 
             missionNamespace setVariable [QGVAR(enable), true, true];
             INFO("==================== NiLOC Initialisation Finished ====================");
 
             if (hasInterface) then {
                 [
-                    { missionNamespace getVariable [QGVAR(loadedMarkersCompleted), false] },
+                    { missionNamespace getVariable [QGVAR(loadMarkersCompleted), false] },
                     {
                         addMissionEventHandler [
                             "MarkerCreated", {

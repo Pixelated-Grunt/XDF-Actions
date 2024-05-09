@@ -19,19 +19,15 @@
 if !(hasInterface) exitWith {};
 params [["_type", "", [""]]];
 
-private ["_displayCtrl", "_mainDialog"];
-
-_mainDialog = uiNamespace getVariable QGVAR(mainDialog);
-
 if (_type isEqualTo "onlinePlayers") then {
     [QGVAR(requestPlayersInfo), ["onlinePlayers", player]] call CBA_fnc_serverEvent;
-
     [
-        { !isNil { player getVariable QGVAR(onlinePlayers) } },
+        { (player getVariable [QGVAR(onlinePlayers), nil]) isEqualType createHashMap },
         {
             private _onlinePlayers = player getVariable QGVAR(onlinePlayers);
+            private _mainDialog = uiNamespace getVariable QGVAR(mainDialog);
+            private _displayCtrl = _mainDialog displayCtrl IDC_NILOCGUI_LBONLINEPLAYERS;
 
-            _displayCtrl = _mainDialog displayCtrl IDC_NILOCGUI_LBONLINEPLAYERS;
             lbClear _displayCtrl;
 
             {
@@ -43,15 +39,18 @@ if (_type isEqualTo "onlinePlayers") then {
 
             _displayCtrl lbSetCurSel 0
         },
-        3
+        [],
+        3,
+        { WARNING("UI list box timeout waiting for data.") }
     ] call CBA_fnc_waitUntilAndExecute
 } else {
     [QGVAR(requestPlayersInfo), ["savedPlayers", player]] call CBA_fnc_serverEvent;
-
     [
-        { !isNil { player getVariable QGVAR(savedPlayers) } },
+        { (player getVariable [QGVAR(savedPlayers), nil]) isEqualType createHashMap },
         {
             private _playersHash = player getVariable QGVAR(savedPlayers);
+            private _mainDialog = uiNamespace getVariable QGVAR(mainDialog);
+            private "_displayCtrl";
 
             if (count _playersHash > 0) then {
                 _displayCtrl = _mainDialog displayCtrl IDC_NILOCGUI_LBSAVEDPLAYERS;
@@ -66,8 +65,10 @@ if (_type isEqualTo "onlinePlayers") then {
                 _displayCtrl lbSetCurSel 0
             }
         },
-        3
-    ] call CBA_fnc_waitUntilAndExecute;
+        [],
+        3,
+        { WARNING("UI list box timeout waiting for data.") }
+    ] call CBA_fnc_waitUntilAndExecute
 };
 
 player setVariable [QGVAR(_type), nil]
