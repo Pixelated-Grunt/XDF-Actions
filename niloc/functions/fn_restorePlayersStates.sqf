@@ -16,7 +16,7 @@
 **/
 
 
-private _allPlayers = ALL_PLAYERS;
+private _allPlayers = ALIVE_PLAYERS;
 private _count = 0;
 
 {

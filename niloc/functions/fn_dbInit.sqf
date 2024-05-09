@@ -16,29 +16,29 @@
 **/
 
 
-private ["_dbName", "_iniDBi", "_success"];
+private ["_dbName", "_inidbi", "_success"];
 
 _dbName = (missionName regexReplace ["(%20|%2e)/g", "_"]) regexReplace ["_*[vV]_*[0-9]+.*$/g", ""];
-_iniDBi = ["new", _dbName] call OO_iniDBi;
+_inidbi = ["new", _dbName] call OO_inidbi;
 _success = false;
 
-if !isNil(QUOTE(_iniDBi)) then {
+if IS_CODE(_inidbi) then {
     private ["_sessionHash", "_sessionNumber", "_saveCount", "_lastSave"];
 
     _sessionHash = createHashMap;
-    _sessionNumber = ["read", ["session", "session.number", 1]] call _iniDBi;
-    _saveCount = ["read", ["session", "session.save.count", 0]] call _iniDBi;
-    _lastSave = ["read", ["session", "session.last.save", 0]] call _iniDBi;
+    _sessionNumber = ["read", ["session", "session.number", 1]] call _inidbi;
+    _saveCount = ["read", ["session", "session.save.count", 0]] call _inidbi;
+    _lastSave = ["read", ["session", "session.last.save", 0]] call _inidbi;
 
-    missionNamespace setVariable [QGVAR(Db), _iniDBi, true];
+    localNamespace setVariable [QGVAR(Db), _inidbi];
 
     if (_sessionNumber != 0) then {
         // Purge existing section hashmap and db before write
         INFO("Purging previous session section data.");
-        if !(["deleteSection", "session"] call _iniDBi) exitWith {
+        if !(["deleteSection", "session"] call _inidbi) exitWith {
             ERROR("Failed to delete session section from database.");
             false
-        };
+        }
     };
 
     if (_lastSave > 0) then { _sessionNumber = _sessionNumber + 1 };
@@ -52,22 +52,12 @@ if !isNil(QUOTE(_iniDBi)) then {
     _sessionHash set ["session.last.save", 0];
     _sessionHash set ["session.last.load", 0];
     _sessionHash set ["session.loaded.markers", -1];
-    _sessionHash set ["session.loaded.profiles", []];
+    _sessionHash set ["session.loaded.players", []];
 
     if (["session", [_sessionHash]] call FUNCMAIN(putSection) == 0) then {
         ERROR("Failed to write session data into database.");
         _success = false
-    } else {
-        missionNamespace setVariable [QGVAR(dbName), _dbName, true];
-        missionNamespace setVariable [QGVAR(sessionNumber), _sessionNumber, true];
-        missionNamespace setVariable [QGVAR(saveCount), _saveCount, true];
-        missionNamespace setVariable [QGVAR(sessionStart), _sessionHash get "session.start", true];
-        missionNamespace setVariable [QGVAR(sessionStartUtc), _sessionHash get "session.start.utc", true];
-        missionNamespace setVariable [QGVAR(lastLoad), 0, true];
-        missionNamespace setVariable [QGVAR(loadedMarkers), 0, true];
-        missionNamespace setVariable [QGVAR(loadedProfiles), [], true];
-        _success = true
-    };
-} else { ERROR("Failed to create a new IniDBI2 database instance.") };
+    } else { _success = true }
+} else { ERROR("Failed to create iniDBI2 database instance.") };
 
 _success

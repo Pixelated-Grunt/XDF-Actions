@@ -50,6 +50,8 @@ class XDF {
         class saveUserMarkers {};
         class saveVehiclesStates {};
         class saveWorld {};
+        class sendPlayersInfo {};
+        class sendSessionInfo {};
         class stringToMarker {};
         class updateMeta {};
     };

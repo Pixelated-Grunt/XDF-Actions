@@ -31,9 +31,9 @@ params [
     ["_db", "", ["", {}]],
     ["_updateMeta", true, [true]]
 ];
-private ["_iniDBi", "_recordsPut", "_writeOk"];
+private ["_inidbi", "_recordsPut", "_writeOk"];
 
-_iniDBi = if (IS_CODE(_db)) then [{_db}, {[] call FUNCMAIN(getDbInstance)}];
+_inidbi = if (IS_CODE(_db)) then [{_db}, {[] call FUNCMAIN(getDbInstance)}];
 _recordsPut = 0;
 _writeOk = false;
 
@@ -41,7 +41,7 @@ switch (typeName (_data select 0)) do {
     case "HASHMAP": {
         {
             {
-                _writeOk = ["write", [_section, _x, _y]] call _iniDBi;
+                _writeOk = ["write", [_section, _x, _y]] call _inidbi;
                 if (_writeOk) then {
                     if (_updateMeta) then { ["add", _section, _x] call FUNCMAIN(updateMeta) };
                     _recordsPut = _recordsPut + 1;
@@ -54,7 +54,7 @@ switch (typeName (_data select 0)) do {
             private _key = _x select 0;
             private _value = _x select 1;
 
-            _writeOk = ["write", [_section, _key, _value]] call _iniDBi;
+            _writeOk = ["write", [_section, _key, _value]] call _inidbi;
             if (_writeOk) then {
                 if (_updateMeta) then { ["add", _section, _key] call FUNCMAIN(updateMeta) };
                 _recordsPut = _recordsPut + 1;
@@ -65,7 +65,7 @@ switch (typeName (_data select 0)) do {
         private _key = _data select 0;
         private _value = _data select 1;
 
-        _writeOk = ["write", [_section, _key, _value]] call _iniDBi;
+        _writeOk = ["write", [_section, _key, _value]] call _inidbi;
         if (_writeOk) then {
             if (_updateMeta) then { ["add", _section, _key] call FUNCMAIN(updateMeta) };
             _recordsPut = _recordsPut + 1;

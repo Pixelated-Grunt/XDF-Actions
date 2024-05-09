@@ -26,12 +26,12 @@ params [
 ];
 
 LOG_1("_section: (%1) _key: (%2).", _section, _key);
-private _iniDBi = [] call FUNCMAIN(getDbInstance);
-private _value = ["read", [_section, _key]] call _iniDBi;
+private _inidbi = [] call FUNCMAIN(getDbInstance);
+private _value = ["read", [_section, _key]] call _inidbi;
 
 if (_value isNotEqualTo false) then {
     // Delete from database
-    if (["deleteKey", [_section, _key]] call _iniDBi) then {
+    if (["deleteKey", [_section, _key]] call _inidbi) then {
         // Delete from meta
         if (_updateMeta) then { ["delete", _section, _key] call FUNCMAIN(updateMeta) };
         true    // True as long as key is removed from main section, ignore if meta update failed

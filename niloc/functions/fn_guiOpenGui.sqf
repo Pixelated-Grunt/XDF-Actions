@@ -18,9 +18,8 @@
 
 if !(hasInterface) exitWith {};
 
-disableSerialization;
 createDialog "RscNiLOCDialog";
-((findDisplay IDD_NILOCGUI_RSCNILOCDIALOG) displayCtrl IDC_NILOCGUI_CTRLGRPCONFIRMATION) ctrlShow false;
+((uiNamespace getVariable QGVAR(mainDialog)) displayCtrl IDC_NILOCGUI_CTRLGRPCONFIRMATION) ctrlShow false;
 ["onlinePlayers"] call FUNCMAIN(guiFillListBox);
 ["savedPlayers"] call FUNCMAIN(guiFillListBox);
 [] call FUNCMAIN(guiFillInfoBox)

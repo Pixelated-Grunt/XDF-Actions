@@ -24,28 +24,28 @@ params [
     ["_targetKey", "", [""]]
 ];
 
-private ["_updateOk", "_iniDBi", "_value", "_metaValue"];
+private ["_updateOk", "_inidbi", "_value", "_metaValue"];
 
 _updateOk = false;
-_iniDBi = [] call FUNCMAIN(getDbInstance);
-_value = ["read", ["meta", _targetSection, []]] call _iniDBi;
+_inidbi = [] call FUNCMAIN(getDbInstance);
+_value = ["read", ["meta", _targetSection, []]] call _inidbi;
 
 if (_action == "add") then {
     _value pushBackUnique _targetKey;
-    _updateOk = ["write", ["meta", _targetSection, _value]] call _iniDBi;
+    _updateOk = ["write", ["meta", _targetSection, _value]] call _inidbi;
 } else {
     if ((_action == "delete") && (count _value > 0)) then {
-        _updateOk = ["write", ["meta", _targetSection, (_value - [_targetKey])]] call _iniDBi;
+        _updateOk = ["write", ["meta", _targetSection, (_value - [_targetKey])]] call _inidbi;
     } else { WARNING_2("Key (%1) doesn't exist in meta or it's a wrong type for the value (%2) to be deleted.", _targetSection, _targetKey) };
 };
 
 // Update itself
-_metaValue = ["read", ["meta", "meta", []]] call _iniDBi;
+_metaValue = ["read", ["meta", "meta", []]] call _inidbi;
 
 // Create meta section meta key the 1st time
 if (count _metaValue == 0) then { _metaValue pushBackUnique "meta" };
 
 _metaValue pushBackUnique _targetSection;
-_updateOK = ["write", ["meta", "meta", _metaValue]] call _iniDBi;
+_updateOK = ["write", ["meta", "meta", _metaValue]] call _inidbi;
 
 _updateOk

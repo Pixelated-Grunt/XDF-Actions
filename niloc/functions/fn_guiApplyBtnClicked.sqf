@@ -19,7 +19,6 @@
 if !(hasInterface) exitWith {};
 
 private ["_display", "_idx", "_savedName", "_playerName", "_confirmBox"];
-disableSerialization;
 
 // Online player
 _idx = lbCurSel IDC_NILOCGUI_LBONLINEPLAYERS;
@@ -29,7 +28,7 @@ _playerName = lbText [IDC_NILOCGUI_LBONLINEPLAYERS, _idx];
 _idx = lbCurSel IDC_NILOCGUI_LBSAVEDPLAYERS;
 _savedName = lbText [IDC_NILOCGUI_LBSAVEDPLAYERS, _idx];
 
-_display = findDisplay IDD_NILOCGUI_RSCNILOCDIALOG;
+_display = uiNamespace getVariable QGVAR(mainDialog);
 _confirmBox = _display displayCtrl IDC_NILOCGUI_STBCONFIRMATION;
 (_display displayCtrl IDC_NILOCGUI_BNAPPLY) ctrlEnable false;
 (_display displayCtrl IDC_NILOCGUI_CTRLGRPCONFIRMATION) ctrlShow true;
