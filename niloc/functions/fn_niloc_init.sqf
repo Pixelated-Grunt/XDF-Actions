@@ -17,13 +17,16 @@
 
 
 if (isServer) then {
+    private "_ehId";
+    private _ehHash = createHashMap;
+
     [
         { [] call FUNCMAIN(dbInit) },
         {
             INFO("==================== NiLOC Initialisation Starts ====================");
 
             // Keep this EH before database initiation
-            addMissionEventHandler [
+            _ehId = addMissionEventHandler [
                 "PlayerConnected", {
                     params ["", "_uid", "_name", "_jip", "", "_idstr"];
 
@@ -35,6 +38,7 @@ if (isServer) then {
                     }
                 }
             ];
+            _ehHash set [_ehId, ["PlayerConnected", "bis"]];
 
             INFO("---------- Setting Up Database ----------");
             private _sessionHash = ["session"] call FUNCMAIN(getSectionAsHashmap);
@@ -66,13 +70,14 @@ if (isServer) then {
                 }
             };
 
-            addMissionEventHandler [
+            _ehId = addMissionEventHandler [
                 "EntityKilled", {
                     params ["_unit", "", "", ""];
 
                     [_unit] call FUNCMAIN(handleDeadEntity);
                 }
             ];
+            _ehHash set [_ehId, ["EntityKilled", "bis"]];
 
             // This EH only available in dev branch 2.18
             //addMissionEventHandler [
@@ -83,7 +88,7 @@ if (isServer) then {
             //    }
             //];
 
-            addMissionEventHandler [
+            _ehId = addMissionEventHandler [
                 "HandleDisconnect", {
                     params ["_unit", "", "_uid", "_name"];
 
@@ -96,8 +101,9 @@ if (isServer) then {
                     } else { INFO_1("Current session had been saved ... skip saving player (%1).", _name); }
                 }
             ];
+            _ehHash set [_ehId, ["HandleDisconnect", "bis"]];
 
-            addMissionEventHandler [
+            _ehId = addMissionEventHandler [
                 "MPEnded", {
                     private _lastSave = (["session", ["session.last.save"]] call FUNCMAIN(getSectionAsHashmap)) get "session.last.save";
 
@@ -106,12 +112,22 @@ if (isServer) then {
                     } else { INFO("There was no saves in this session ... skipping backup.") }
                 }
             ];
+            _ehHash set [_ehId, ["MPEnded", "bis"]];
 
-            [QGVAR(requestPlayersInfo), FUNCMAIN(sendPlayersInfo)] call CBA_fnc_addEventHandler;
-            [QGVAR(requestSessionInfo), FUNCMAIN(sendSessionInfo)] call CBA_fnc_addEventHandler;
-            [QGVAR(saveToSectionRequest), FUNCMAIN(saveIncomingData)] call CBA_fnc_addEventHandler;
-            [QGVAR(saveMissionRequest), FUNCMAIN(serverSaveMission)] call CBA_fnc_addEventHandler;
-            [QGVAR(loadMissionRequest), FUNCMAIN(serverLoadMission)] call CBA_fnc_addEventHandler;
+            _ehId = [QGVAR(requestPlayersInfo), FUNCMAIN(sendPlayersInfo)] call CBA_fnc_addEventHandler;
+            _ehHash set [_ehId, [QGVAR(requestPlayersInfo), "cba"]];
+
+            _ehId = [QGVAR(requestSessionInfo), FUNCMAIN(sendSessionInfo)] call CBA_fnc_addEventHandler;
+            _ehHash set [_ehId, [QGVAR(requestSessionInfo), "cba"]];
+
+            _ehId = [QGVAR(saveToSectionRequest), FUNCMAIN(saveIncomingData)] call CBA_fnc_addEventHandler;
+            _ehHash set [_ehId, [QGVAR(saveToSectionRequest), "cba"]];
+
+            _ehId = [QGVAR(saveMissionRequest), FUNCMAIN(serverSaveMission)] call CBA_fnc_addEventHandler;
+            _ehHash set [_ehId, [QGVAR(saveMissionRequest), "cba"]];
+
+            _ehId = [QGVAR(loadMissionRequest), FUNCMAIN(serverLoadMission)] call CBA_fnc_addEventHandler;
+            _ehHash set [_ehId, [QGVAR(loadMissionRequest), "cba"]];
 
             missionNamespace setVariable [QGVAR(enable), true, true];
             INFO("==================== NiLOC Initialisation Finished ====================");
@@ -119,8 +135,16 @@ if (isServer) then {
         [],
         20,
         {
-            ERROR("NiLOC database failed to initialise ... disable the system.");
-            missionNamespace setVariable [QGVAR(enable), false, true]
+            {
+                if (_y # 1 isEqualTo "bis") then {
+                    removeMissionEventHandler [_y # 0, _x]
+                } else {
+                    [_y # 0, _x] call CBA_fnc_removeEventHandler
+                }
+            } forEach _ehHash;
+            missionNamespace setVariable [QGVAR(enable), false, true];
+
+            ERROR("Timeout waiting for database to initialise ... NiLOC disabled.")
         }
     ] call CBA_fnc_waitUntilAndExecute
 }
