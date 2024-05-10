@@ -1,16 +1,18 @@
 #define IDD_NILOCGUI_RSCNILOCDIALOG         1800
 //#define IDC_NILOCGUI_TBSAVEDPLAYERS         1810
 //#define IDC_NILOCGUI_TBONLINEPLAYERS        1811
-#define IDC_NILOCGUI_STBINFO                1812
-#define IDC_NILOCGUI_LBSAVEDPLAYERS         1813
-#define IDC_NILOCGUI_LBONLINEPLAYERS        1814
-#define IDC_NILOCGUI_BNAPPLY                1815
-#define IDC_NILOCGUI_BNCLOSE                1816
+#define IDC_NILOCGUI_LBSAVEDPLAYERS         1812
+#define IDC_NILOCGUI_LBONLINEPLAYERS        1813
 #define IDC_NILOCGUI_CTRLGRPCONFIRMATION    1820
 //#define IDC_NILOCGUI_TBCONFIRMATION         1821
 #define IDC_NILOCGUI_STBCONFIRMATION        1822
 //#define IDC_NILOCGUI_BNNO                   1823
 //#define IDC_NILOCGUI_BNYES                  1824
+#define IDC_NILOCGUI_CTRLGRPINFOAREA        1830
+#define IDC_NILOCGUI_STBINFO                1831
+#define IDC_NILOCGUI_BNAPPLY                1832
+#define IDC_NILOCGUI_BNCLOSE                1833
+//#define IDC_NILOCGUI_TBTHINLINE             1834
 
 #define GUI_GRID_CENTER_X      ((safeZoneX + (safeZoneW - ((safeZoneW / safeZoneH) min 1.2)) / 2))
 #define GUI_GRID_CENTER_Y      ((safeZoneY + (safeZoneH - (((safeZoneW / safeZoneH) min 1.2) / 1.2)) / 2))

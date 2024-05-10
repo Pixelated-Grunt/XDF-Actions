@@ -39,7 +39,7 @@ if (!isNull _playerObj) then {
     private _playerHash = ["player", _x, _uid, _name] call FUNCMAIN(prepUnitData);
     private _putOk = 0;
 
-    _putOk = ["players", [_playerHash get "playerUID", toArray(_playerHash)]] call FUNCMAIN(putSection);
+    _putOk = ["players", [_playerHash get "playerUid", toArray(_playerHash)]] call FUNCMAIN(putSection);
     if (_putOk > 0) then {
         _count = _count + 1;
     };

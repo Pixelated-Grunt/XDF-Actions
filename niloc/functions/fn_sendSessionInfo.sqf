@@ -18,6 +18,7 @@
 
 params [["_client", objNull, [objNull]]];
 
+_client setVariable [QGVAR(sessionInfo), nil];
 private ["_inidbi", "_dbName", "_dbSession", "_sessionHash"];
 
 LOG_1("Inside sendSessionInfo called from client: (%1).", (str _client));

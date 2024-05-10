@@ -31,7 +31,7 @@
 #define BASE_STATS ["location", "loadout", "damage", "captive", "vehicle"]
 
 // Player stats
-#define PLAYER_STATS BASE_STATS + ["playerName", "playerUID", "rations"]
+#define PLAYER_STATS BASE_STATS + ["playerName", "playerUid", "rations"]
 
 // Unit stats
 #define UNIT_STATS BASE_STATS + ["objStr", "formation", "behaviour"]

@@ -19,6 +19,7 @@
 if !(hasInterface) exitWith {};
 params [["_type", "", [""]]];
 
+disableSerialization;
 if (_type isEqualTo "onlinePlayers") then {
     [QGVAR(requestPlayersInfo), ["onlinePlayers", player]] call CBA_fnc_serverEvent;
     [
@@ -69,6 +70,4 @@ if (_type isEqualTo "onlinePlayers") then {
         3,
         { WARNING("UI list box timeout waiting for data.") }
     ] call CBA_fnc_waitUntilAndExecute
-};
-
-player setVariable [QGVAR(_type), nil]
+}

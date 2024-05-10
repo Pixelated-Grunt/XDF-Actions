@@ -20,6 +20,7 @@ if !(hasInterface) exitWith {};
 
 private ["_display", "_idx", "_savedName", "_playerName", "_confirmBox"];
 
+disableSerialization;
 // Online player
 _idx = lbCurSel IDC_NILOCGUI_LBONLINEPLAYERS;
 _playerName = lbText [IDC_NILOCGUI_LBONLINEPLAYERS, _idx];

@@ -1,7 +1,7 @@
 #include "script_macros.hpp"
 /*
  * Author: Pixelated_Grunt
- * Central function to load previously saved mission data
+ * Function to load mission triggered by client via event handler
  *
  * Arguments:
  * 0: player who loads the game <OBJECT>
@@ -10,14 +10,14 @@
  * Return true if all items are loaded false if otherwise <BOOL>
  *
  * Example:
- * [] call XDF_fnc_loadWorld
+ * _res = [player] call XDF_fnc_serverLoadMission
  *
- * Public: Yes
+ * Public: No
 **/
 
 
 if !(isServer) exitWith { ERROR("NiLOC system only works in MP games."); false };
-params [["_player", objNull, [objNull]]];
+params [["_client", objNull, [objNull]]];
 
 private _count = 0;
 private _lastLoad = 0;
@@ -26,7 +26,7 @@ private _sessionHash = ["session", ["session.save.count"]] call FUNCMAIN(getSect
 if (_sessionHash get "session.save.count" == 0) exitWith {
     INFO("There is no save data in the database ... load skipped.");
 
-    [_player, [QGVAR(loadStatusColour), HEX_AMBER]] remoteExec ["setVariable", _player];
+    _client setVariable [QGVAR(loadStatusColour), HEX_AMBER];
     false
 };
 
@@ -72,7 +72,7 @@ INFO_1("%1 players had been restored.", _count);
 // Update session & player ace menu icon colour
 _lastLoad = diag_tickTime;
 ["session", ["session.last.load", _lastLoad]] call FUNCMAIN(putSection);
-[_player, [QGVAR(loadStatusColour), HEX_GREEN]] remoteExec ["setVariable", _player];
+_client setVariable [QGVAR(loadStatusColour), HEX_GREEN];
 INFO("==================== Load Mission Finished ===================");
 
 true

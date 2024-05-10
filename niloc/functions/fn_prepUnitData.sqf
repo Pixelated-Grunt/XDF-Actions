@@ -58,7 +58,7 @@ _unitHash = createHashMap;
             _playerName = if (_name != "") then [{_name}, {getUserInfo(getPlayerID _unit) # 3}];
             _unitHash set [_stat, _playerName];
         };
-        case "playerUID": {
+        case "playerUid": {
             private "_playerUid";
 
             _playerUid = if (_uid != "") then [{_uid}, {getPlayerUID _unit}];

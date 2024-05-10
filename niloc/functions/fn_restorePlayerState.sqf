@@ -50,35 +50,34 @@ _playerHash = ((_sectionHash get _playerUid) select 0) createHashMapFromArray ((
 
             if (count _sessionHash == 0) then { _data = [] };
             _data pushBackUnique _value;
-            ["session", ["session.loaded.players", _data]] call FUNCMAIN(putSection);
+            ["session", ["session.loaded.players", _data]] call FUNCMAIN(putSection)
         };
-        case "playerUID": {};
+        case "playerUid": {};
         case "location": {};
         case "loadout": { _playerObj setUnitLoadout _value };
         case "damage": {
             if HASACE3 then {
-                [_playerObj, _value] remoteExec ["ace_medical_fnc_deserializeState", _playerObj];
-            } else { _playerObj setDamage _value };
+                [_playerObj, _value] remoteExec ["ace_medical_fnc_deserializeState", _playerObj]
+            } else { _playerObj setDamage _value }
         };
         case "captive": {
             if (_value) then {
                 if (HASACE3) then {
-                    [_playerObj, _value] remoteExec ["ACE_captives_fnc_setHandcuffed", _playerObj];
+                    [_playerObj, _value] remoteExec ["ACE_captives_fnc_setHandcuffed", _playerObj]
                 } else {
-                    [_playerObj, _value] remoteExec ["setCaptive", _playerObj];
-                };
-            };
+                    [_playerObj, _value] remoteExec ["setCaptive", _playerObj]
+                }
+            }
         };
         case "rations": {
             _value params ["_hunger", "_thirst"];
 
-            [_playerObj, ["acex_field_rations_hunger", _hunger]] remoteExec ["setVariable", _playerObj];
-            [_playerObj, ["acex_field_rations_thirst", _thirst]] remoteExec ["setVariable", _playerObj];
+            _playerObj setVariable ["acex_field_rations_hunger", _hunger];
+            _playerObj setVariable ["acex_field_rations_thirst", _thirst]
         };
         case "vehicle": {};
-        default {};
-    };
-
+        default {}
+    }
 } forEach _playerHash;
 
 true

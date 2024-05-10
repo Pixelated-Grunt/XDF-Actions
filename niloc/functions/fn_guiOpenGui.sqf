@@ -20,6 +20,7 @@ if !(hasInterface) exitWith {};
 
 private "_display";
 
+disableSerialization;
 createDialog "RscNiLOCDialog";
 _display = findDisplay IDD_NILOCGUI_RSCNILOCDIALOG;
 uiNamespace setVariable [QGVAR(mainDialog), _display];

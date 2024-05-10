@@ -37,10 +37,11 @@ if (isServer) then {
             ];
 
             INFO("---------- Setting Up Database ----------");
-            private _sessionHash = ["session", ["session.number"]] call FUNCMAIN(getSectionAsHashmap);
+            private _sessionHash = ["session"] call FUNCMAIN(getSectionAsHashmap);
             private _sessionNo = _sessionHash get "session.number";
             private _vicCount = 0;
 
+            missionNamespace setVariable[QGVAR(saveCount), _sessionHash get "session.save.count", true];
             INFO_1("Database loaded, current game session is (%1).", _sessionNo);
 
             INFO("---------- Tagging Vehicles ----------");
@@ -62,7 +63,6 @@ if (isServer) then {
 
                     INFO_1("%1 user markers loaded.", _result);
                     ["session", ["session.loaded.markers", _result]] call FUNCMAIN(putSection);
-                    missionNamespace setVariable [QGVAR(loadMarkersCompleted), true, true]
                 }
             };
 
@@ -109,43 +109,12 @@ if (isServer) then {
 
             [QGVAR(requestPlayersInfo), FUNCMAIN(sendPlayersInfo)] call CBA_fnc_addEventHandler;
             [QGVAR(requestSessionInfo), FUNCMAIN(sendSessionInfo)] call CBA_fnc_addEventHandler;
+            [QGVAR(saveToSectionRequest), FUNCMAIN(saveIncomingData)] call CBA_fnc_addEventHandler;
+            [QGVAR(saveMissionRequest), FUNCMAIN(serverSaveMission)] call CBA_fnc_addEventHandler;
+            [QGVAR(loadMissionRequest), FUNCMAIN(serverLoadMission)] call CBA_fnc_addEventHandler;
 
             missionNamespace setVariable [QGVAR(enable), true, true];
             INFO("==================== NiLOC Initialisation Finished ====================");
-
-            if (hasInterface) then {
-                [
-                    { missionNamespace getVariable [QGVAR(loadMarkersCompleted), false] },
-                    {
-                        addMissionEventHandler [
-                            "MarkerCreated", {
-                                params ["_marker"];
-
-                                ["create", _marker] call FUNCMAIN(handleUserMarker)
-                            }
-                        ];
-
-                        addMissionEventHandler [
-                            "MarkerDeleted", {
-                                params ["_marker"];
-
-                                ["delete", _marker] call FUNCMAIN(handleUserMarker)
-                            }
-                        ];
-
-                        addMissionEventHandler [
-                            "MarkerUpdated", {
-                                params ["_marker"];
-
-                                ["update", _marker] call FUNCMAIN(handleUserMarker)
-                            }
-                        ]
-                    },
-                    "",
-                    20,
-                    { WARNING("Timeout while waiting for saved markers to be loaded ... all marker EHs disabled.") }
-                ] call CBA_fnc_waitUntilAndExecute
-            }
         },
         [],
         20,

@@ -20,12 +20,15 @@ if !(hasInterface) exitWith {};
 
 private ["_separator", "_infoBox"];
 
+disableSerialization;
 [QGVAR(requestSessionInfo), [player]] call CBA_fnc_serverEvent;
 [
     { (player getVariable [QGVAR(sessionInfo), nil]) isEqualType createHashMap },
     {
-        private _sessionHash = player getVariable QGVAR(sessionInfo);
-        private _fnc_timeToStr = {
+        private ["_sessionHash", "_fnc_timeToStr", "_ibPos", "_textH", "_newIbH"];
+
+        _sessionHash = player getVariable QGVAR(sessionInfo);
+        _fnc_timeToStr = {
             params [["_timeArray", [], [[]]]];
 
             private _newArray = _timeArray apply { if (count str _x == 1) then [{"0"+str _x}, {_x}]};
@@ -42,6 +45,8 @@ private ["_separator", "_infoBox"];
         };
 
         _infoBox = (uiNamespace getVariable QGVAR(mainDialog)) displayCtrl IDC_NILOCGUI_STBINFO;
+        _ibPos = ctrlPosition _infoBox;
+
         _separator = "---------------------------------------------------------------------------------" +
             "----------------------------------------";
 
@@ -68,7 +73,11 @@ private ["_separator", "_infoBox"];
         _sessionHash get "loadedPlayers",
         _separator];
 
-        player setVariable [QGVAR(sessionInfo), nil]
+        // adjust info box height to cater for different screen resolutions
+        _textH = ctrlTextHeight _infoBox;
+        _newIbH = _textH - (_ibPos # 3);
+        _infoBox ctrlSetPositionH _newIbH;
+        _infoBox ctrlCommit 0
     },
     [],
     3,

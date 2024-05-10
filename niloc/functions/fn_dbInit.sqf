@@ -51,7 +51,7 @@ if IS_CODE(_inidbi) then {
     _sessionHash set ["session.start.vehicles", count (ALL_VEHICLES)];
     _sessionHash set ["session.last.save", 0];
     _sessionHash set ["session.last.load", 0];
-    _sessionHash set ["session.loaded.markers", -1];
+    _sessionHash set ["session.loaded.markers", 0];
     _sessionHash set ["session.loaded.players", []];
 
     if (["session", [_sessionHash]] call FUNCMAIN(putSection) == 0) then {

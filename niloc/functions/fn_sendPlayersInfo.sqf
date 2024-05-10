@@ -19,6 +19,7 @@
 
 params ["_type", "_client"];
 
+_client setVariable [QGVAR(_type), nil];
 private _playersHash = createHashMap;
 
 if (_type isEqualTo "onlinePlayers") then {
@@ -35,17 +36,15 @@ if (_type isEqualTo "onlinePlayers") then {
 
         _name = getUserInfo _id select 3;
         _playersHash set [_name, _id]
-    } forEach _onlinePlayers;
-
-    _client setVariable [QGVAR(onlinePlayers), _playersHash]
+    } forEach _onlinePlayers
 } else {    // saved players
     private _savedPlayers = ["players"] call FUNCMAIN(getSectionAsHashmap);
 
     {
         private _player = (_y # 0) createHashMapFromArray (_y # 1);
 
-        _playersHash set [_player get "playerName", _player get "playerUID"]
-    } forEach _savedPlayers;
+        _playersHash set [_player get "playerName", _player get "playerUid"]
+    } forEach _savedPlayers
+};
 
-    _client setVariable [QGVAR(savedPlayers), _playersHash]
-}
+_client setVariable [QGVAR(_type), _playersHash]

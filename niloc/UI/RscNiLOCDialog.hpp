@@ -13,10 +13,7 @@ class RscNiLOCDialog {
         lbOnlinePlayers,
         tbSavedPlayers,
         tbOnlinePlayers,
-        bnApply,
-        bnClose,
-        tbThinLine,
-        stbInfo,
+        ctrlGrpInfoArea,
         ctrlGrpConfirmation
     };
 
@@ -65,45 +62,54 @@ class RscNiLOCDialog {
             "(profilenamespace getvariable ['GUI_BCG_RGB_A', 0.7])"
         };
     };
-    class bnApply: RscButton
-    {
-        idc = IDC_NILOCGUI_BNAPPLY;
-        text = "APPLY"; //--- ToDo: Localize;
-        x = 21.8 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
-        y = 24.1 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
-        w = 4.5 * GUI_GRID_CENTER_W;
-        h = 1.1 * GUI_GRID_CENTER_H;
-        onButtonClick = QUOTE([] call FUNCMAIN(guiApplyBtnClicked));
-    };
-    class bnClose: bnApply
-    {
-        idc = IDC_NILOCGUI_BNCLOSE;
-        text = "CLOSE"; //--- ToDo: Localize;
-        x = 26.4 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
-        onButtonClick = QUOTE(closeDialog IDC_EXIT_TO_MAIN);
-    };
-    class tbThinLine: RscText
-    {
-        idc = -1;
-        x = 4.8 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
-        y = 15.1 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
-        w = 26.1 * GUI_GRID_CENTER_W;
-        h = 0.2 * GUI_GRID_CENTER_H;
-        colorBackground[] = {
-            "(profilenamespace getvariable ['GUI_BCG_RGB_R', 0.3843])",
-            "(profilenamespace getvariable ['GUI_BCG_RGB_G', 0.7019])",
-            "(profilenamespace getvariable ['GUI_BCG_RGB_B', 0.8862])",
-            "(profilenamespace getvariable ['GUI_BCG_RGB_A', 0.7])"
+    // Control Group
+    class ctrlGrpInfoArea: RscControlsGroup {
+        idc = IDC_NILOCGUI_CTRLGRPINFOAREA;
+        x = 5.5 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
+        y = 3 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
+        w = 26 * GUI_GRID_CENTER_W;
+        h = 17 * GUI_GRID_CENTER_H;
+
+        class bnApply: RscButton
+        {
+            idc = IDC_NILOCGUI_BNAPPLY;
+            text = "APPLY"; //--- ToDo: Localize;
+            x = 21.8 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
+            y = 24.1 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
+            w = 4.5 * GUI_GRID_CENTER_W;
+            h = 1.1 * GUI_GRID_CENTER_H;
+            onButtonClick = QUOTE([] call FUNCMAIN(guiApplyBtnClicked));
         };
-    };
-    class stbInfo: RscStructuredText
-    {
-        idc = IDC_NILOCGUI_STBINFO;
-        x = 4.8 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
-        y = 15.2 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
-        w = 26.1 * GUI_GRID_CENTER_W;
-        h = 8.8 * GUI_GRID_CENTER_H;
-        colorBackground[] = { .1, .1, .1, .7 };
+        class bnClose: bnApply
+        {
+            idc = IDC_NILOCGUI_BNCLOSE;
+            text = "CLOSE"; //--- ToDo: Localize;
+            x = 26.4 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
+            onButtonClick = QUOTE(closeDialog IDC_EXIT_TO_MAIN);
+        };
+        class tbThinLine: RscText
+        {
+            idc = -1;
+            x = 4.8 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
+            y = 15.1 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
+            w = 26.1 * GUI_GRID_CENTER_W;
+            h = 0.2 * GUI_GRID_CENTER_H;
+            colorBackground[] = {
+                "(profilenamespace getvariable ['GUI_BCG_RGB_R', 0.3843])",
+                "(profilenamespace getvariable ['GUI_BCG_RGB_G', 0.7019])",
+                "(profilenamespace getvariable ['GUI_BCG_RGB_B', 0.8862])",
+                "(profilenamespace getvariable ['GUI_BCG_RGB_A', 0.7])"
+            };
+        };
+        class stbInfo: RscStructuredText
+        {
+            idc = IDC_NILOCGUI_STBINFO;
+            x = 4.8 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
+            y = 15.2 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
+            w = 26.1 * GUI_GRID_CENTER_W;
+            h = 8.8 * GUI_GRID_CENTER_H;
+            colorBackground[] = { .1, .1, .1, .7 };
+        };
     };
 
     // Control Group

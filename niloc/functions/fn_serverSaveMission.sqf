@@ -1,24 +1,25 @@
 #include "script_macros.hpp"
 /*
  * Author: Pixelated_Grunt
- * Central function to save the mission
+ * Call by client to save the mission
  *
  * Arguments:
- * 0: player who saves the game <OBJECT>
+ * 0: client who makes the call <OBJECT>
  *
  * Return Value:
- * Return true if all items are saved false if otherwise <BOOL>
+ * Nil but set variable on client object of save result <BOOL>
  *
  * Example:
- * [] call XDF_fnc_saveWorld
+ * [player] call XDF_fnc_serverSaveMission
  *
  * Public: Yes
 **/
 
 
 if !(isServer) exitWith { ERROR("NiLOC system only works in MP games."); false };
-params [["_player", objNull, [objNull]]];
+params [["_client", objNull, [objNull]]];
 
+_client setVariable [QGVAR(saveMissionOk), nil];
 private ["_lastSave", "_saveCount", "_minsFromLastSave", "_count"];
 
 _count = 0;
@@ -28,14 +29,14 @@ _minsFromLastSave = diag_tickTime - _lastSave;
 
 if ((missionNamespace getVariable [QGVAR(saveOnce), false]) && (_lastSave > 0)) exitWith {
     INFO("Save once per game session setting is on ... not saving.");
-    [_player, [QGVAR(saveStatusColour), HEX_RED]] remoteExec ["setVariable", _player];
-    false
+    _client setVariable [QGVAR(saveStatusColour), HEX_RED];
+    _client setVariable [QGVAR(saveMissionOk), false]
 };
 
 if ((missionNamespace getVariable [QGVAR(timeBetweenSaves), 60]) > _minsFromLastSave) exitWith {
     INFO("Too short between save ... not saving.");
-    [_player, [QGVAR(saveStatusColour), HEX_AMBER]] remoteExec ["setVariable", _player];
-    false
+    _client setVariable [QGVAR(saveStatusColour), HEX_AMBER];
+    _client setVariable [QGVAR(saveMissionOk), false]
 };
 
 INFO("==================== Save Mission Starts ====================");
@@ -44,8 +45,8 @@ INFO("----------------- Saving Mission Parameters -----------------");
 _count = [] call FUNCMAIN(saveMissionState);
 INFO_1("(%1) mission parameters had been saved.", _count);
 
-INFO("------------------ Saving User Map Markers ------------------");
-_count = [] call FUNCMAIN(saveUserMarkers);
+INFO("------------------ Saved User Map Markers ------------------");
+_count = (count ((["meta", ["markers"]] call FUNCMAIN(getSectionAsHashmap)) get "markers"));
 INFO_1("(%1) user markers had been saved.", _count);
 
 INFO("---------------------- Saving AI Units ----------------------");
@@ -62,8 +63,9 @@ INFO_1("(%1) players had been saved.", _count);
 
 // Update session; global var for ui  & player ace icon colour
 ["session", ["session.last.save", diag_tickTime]] call FUNCMAIN(putSection);
-["session", ["session.save.count", _saveCount + 1]] call FUNCMAIN(putSection);
-[_player, [QGVAR(saveStatusColour), HEX_GREEN]] remoteExec ["setVariable", _player];
+["session", ["session.save.count", INC(_saveCount)]] call FUNCMAIN(putSection);
+missionNamespace setVariable [QGVAR(saveCount), INC(_saveCount), true];
+_client setVariable [QGVAR(saveStatusColour), HEX_GREEN];
 INFO("==================== Save Mission Finished ===================");
 
-true
+_client setVariable [QGVAR(saveMissionOk), true]

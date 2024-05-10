@@ -17,7 +17,10 @@ class XDF {
             postInit = 1;
         };
         class backupDatabase {};
+        class clientLoadMission {};
+        class clientSaveMission {};
         class dbInit {};
+        class deleteSection {};
         class deleteSectionKey {};
         class getDbInstance {};
         class getObjFromStr {};
@@ -29,8 +32,6 @@ class XDF {
         class guiOpenGui {};
         class guiYesBtnSetProfile {};
         class handleDeadEntity {};
-        class handleUserMarker {};
-        class loadWorld {};
         class markerToString {};
         class nilocChildActions {};
         class prepUnitData {};
@@ -44,14 +45,15 @@ class XDF {
         class restoreUserMarkers {};
         class restoreVehiclesStates {};
         class returnStats {};
+        class saveIncomingData {};
         class saveMissionState {};
         class savePlayersStates {};
         class saveUnitsStates {};
-        class saveUserMarkers {};
         class saveVehiclesStates {};
-        class saveWorld {};
         class sendPlayersInfo {};
         class sendSessionInfo {};
+        class serverLoadMission {};
+        class serverSaveMission {};
         class stringToMarker {};
         class updateMeta {};
     };

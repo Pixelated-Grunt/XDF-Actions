@@ -20,6 +20,7 @@ if !(hasInterface) exitWith {};
 
 private ["_display", "_idx", "_playerId", "_savedUid"];
 
+disableSerialization;
 // Online player
 _idx = lbCurSel IDC_NILOCGUI_LBONLINEPLAYERS;
 _playerId = lbData [IDC_NILOCGUI_LBONLINEPLAYERS, _idx];
