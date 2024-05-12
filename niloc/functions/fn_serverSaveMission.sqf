@@ -63,8 +63,8 @@ INFO_1("(%1) players had been saved.", _count);
 
 // Update session; global var for ui  & player ace icon colour
 ["session", ["session.last.save", diag_tickTime]] call FUNCMAIN(putSection);
-["session", ["session.save.count", INC(_saveCount)]] call FUNCMAIN(putSection);
-missionNamespace setVariable [QGVAR(saveCount), INC(_saveCount), true];
+["session", ["session.save.count", _saveCount + 1]] call FUNCMAIN(putSection);
+missionNamespace setVariable [QGVAR(saveCount), _saveCount + 1, true];
 _client setVariable [QGVAR(saveStatusColour), HEX_GREEN];
 INFO("==================== Save Mission Finished ===================");
 

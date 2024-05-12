@@ -18,10 +18,9 @@
 
 params [["_client", objNull, [objNull]]];
 
-_client setVariable [QGVAR(sessionInfo), nil];
+//_client setVariable [QGVAR(sessionInfo), nil];
 private ["_inidbi", "_dbName", "_dbSession", "_sessionHash"];
 
-LOG_1("Inside sendSessionInfo called from client: (%1).", (str _client));
 _inidbi = [] call FUNCMAIN(getDbInstance);
 _dbName = "getDbName" call _inidbi;
 _dbSession = ["session"] call FUNCMAIN(getSectionAsHashmap);

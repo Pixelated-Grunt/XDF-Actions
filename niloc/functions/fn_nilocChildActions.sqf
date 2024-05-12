@@ -20,7 +20,7 @@ params ["_target"];
 
 private ["_action", "_actions", "_loadIcon", "_saveIcon", "_saveCount"];
 
-_saveCount = (missionNamespace getVariable [QGVAR(sessionInfo), nil]) get "saveCount";
+_saveCount = missionNamespace getVariable [QGVAR(saveCount), 0];
 _loadIcon = "a3\ui_f\data\igui\cfg\simpletasks\types\upload_ca.paa";
 _saveIcon = "a3\ui_f\data\igui\cfg\simpletasks\types\download_ca.paa";
 _actions = [];

@@ -20,7 +20,7 @@
 
 
 params [
-    [_data, [], [[]]],
+    ["_data", [], [[]]],
     ["_client", objNull, [objNull]],
     ["_purge", false, [false]]
 ];
@@ -28,11 +28,12 @@ params [
 private _responseHash = createHashMap;
 
 {
-    private ["_res", "_section", "_responseHash"];
+    private ["_res", "_section"];
+
+    _section = _x select 0;
 
     if (_purge) then { [_section] call FUNCMAIN(deleteSection) };
     _res = 0;
-    _section = _x select 0;
     _res = [_section, [_x select 1]] call FUNCMAIN(putSection);
     _responseHash set [_section, _res];
 } forEach _data;

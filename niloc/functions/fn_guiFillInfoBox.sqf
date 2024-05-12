@@ -48,11 +48,11 @@ disableSerialization;
         _ibPos = ctrlPosition _infoBox;
 
         _separator = "---------------------------------------------------------------------------------" +
-            "----------------------------------------";
+            "------------------------------------------------------------------";
 
         _infoBox ctrlSetStructuredText parseText format [
-        "<t size='0.3'>&#160;</t><br/><t align='center' size='0.8' font='LCD14'>-= NiLOC CURRENT SESSION INFO =-</t><br />
-        <t align='left' size='0.7'>%10</t><br />
+        "<t size='0.3'><t align='center' size='0.8' font='LCD14'>-= NiLOC CURRENT SESSION INFO =-</t><br />
+        <t align='center' size='0.7'>%10</t><br />
         <t align='left' font='PuristaMedium' size='0.7'>Database:</t> <t align='right' font='PuristaLight' color='#ffff00' size='0.7'>%1</t><br />
         <t align='left' font='PuristaMedium' size='0.7'>Session No. Since Last Save:</t> <t align='right' font='PuristaLight' size='0.7'>%2</t><br />
         <t align='left' font='PuristaMedium' size='0.7'>Session Start:</t> <t align='right' font='PuristaLight' size='0.7'>%3</t><br />

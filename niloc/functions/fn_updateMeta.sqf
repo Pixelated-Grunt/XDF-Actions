@@ -13,6 +13,7 @@
  *
  * Example:
  * ["delete", "key", "value"] call XDF_fnc_updateMeta
+ * ["delete", "key", ["value_1", "value_2"]] call XDF_fnc_updateMeta //replace value to given array
  *
  * Public: No
 **/
@@ -21,7 +22,7 @@
 params [
     ["_action", "add", [""]],
     ["_targetSection", "", [""]],
-    ["_targetKey", "", [""]]
+    ["_targetKey", "", ["", []]]
 ];
 
 private ["_updateOk", "_inidbi", "_value", "_metaValue"];
@@ -35,8 +36,13 @@ if (_action == "add") then {
     _updateOk = ["write", ["meta", _targetSection, _value]] call _inidbi;
 } else {
     if ((_action == "delete") && (count _value > 0)) then {
-        _updateOk = ["write", ["meta", _targetSection, (_value - [_targetKey])]] call _inidbi;
-    } else { WARNING_2("Key (%1) doesn't exist in meta or it's a wrong type for the value (%2) to be deleted.", _targetSection, _targetKey) };
+        if (_targetKey isEqualType []) then {
+            LOG_1("_targetKey: (%1).", _targetKey);
+            ["meta", [_targetSection, _targetKey]] call FUNCMAIN(putSection)
+        } else { _updateOk = ["write", ["meta", _targetSection, (_value - [_targetKey])]] call _inidbi }
+    } else {
+        WARNING_2("Key (%1) doesn't exist in meta or it's a wrong type for the value (%2) to be deleted.", _targetSection, _targetKey)
+    };
 };
 
 // Update itself

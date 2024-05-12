@@ -22,7 +22,7 @@ private _inidbi = [] call FUNCMAIN(getDbInstance);
 private _res = ["deleteSection", _section] call _inidbi;
 
 if (_res) then {
-    ["delete", "meta", _section] call FUNCMAIN(updateMeta)
+    ["delete", _section, []] call FUNCMAIN(updateMeta)
 } else {
     WARNING_1("Failed to remove section (%1) from database.", _section)
 };
