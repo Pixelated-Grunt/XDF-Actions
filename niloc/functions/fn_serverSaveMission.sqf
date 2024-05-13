@@ -19,7 +19,7 @@
 if !(isServer) exitWith { ERROR("NiLOC system only works in MP games."); false };
 params [["_client", objNull, [objNull]]];
 
-_client setVariable [QGVAR(saveMissionOk), nil];
+_client setVariable [QGVAR(saveMissionOk), nil, true];
 private ["_lastSave", "_saveCount", "_minsFromLastSave", "_count"];
 
 _count = 0;
@@ -29,14 +29,14 @@ _minsFromLastSave = diag_tickTime - _lastSave;
 
 if ((missionNamespace getVariable [QGVAR(saveOnce), false]) && (_lastSave > 0)) exitWith {
     INFO("Save once per game session setting is on ... not saving.");
-    _client setVariable [QGVAR(saveStatusColour), HEX_RED];
-    _client setVariable [QGVAR(saveMissionOk), false]
+    _client setVariable [QGVAR(saveStatusColour), HEX_RED, true];
+    _client setVariable [QGVAR(saveMissionOk), false, true]
 };
 
 if ((missionNamespace getVariable [QGVAR(timeBetweenSaves), 60]) > _minsFromLastSave) exitWith {
     INFO("Too short between save ... not saving.");
-    _client setVariable [QGVAR(saveStatusColour), HEX_AMBER];
-    _client setVariable [QGVAR(saveMissionOk), false]
+    _client setVariable [QGVAR(saveStatusColour), HEX_AMBER, true];
+    _client setVariable [QGVAR(saveMissionOk), false, true]
 };
 
 INFO("==================== Save Mission Starts ====================");
@@ -65,7 +65,7 @@ INFO_1("(%1) players had been saved.", _count);
 ["session", ["session.last.save", diag_tickTime]] call FUNCMAIN(putSection);
 ["session", ["session.save.count", _saveCount + 1]] call FUNCMAIN(putSection);
 missionNamespace setVariable [QGVAR(saveCount), _saveCount + 1, true];
-_client setVariable [QGVAR(saveStatusColour), HEX_GREEN];
+_client setVariable [QGVAR(saveStatusColour), HEX_GREEN, true];
 INFO("==================== Save Mission Finished ===================");
 
-_client setVariable [QGVAR(saveMissionOk), true]
+_client setVariable [QGVAR(saveMissionOk), true, true]

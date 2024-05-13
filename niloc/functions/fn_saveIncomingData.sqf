@@ -38,4 +38,4 @@ private _responseHash = createHashMap;
     _responseHash set [_section, _res];
 } forEach _data;
 
-_client setVariable [QGVAR(responseFromSaveRequest), _responseHash]
+_client setVariable [QGVAR(responseFromSaveRequest), _responseHash, true]

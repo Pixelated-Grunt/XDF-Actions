@@ -33,9 +33,4 @@ _savedUid = lbData [IDC_NILOCGUI_LBSAVEDPLAYERS, _idx];
 _display = uiNamespace getVariable QGVAR(mainDialog);
 (_display displayCtrl IDC_NILOCGUI_CTRLGRPCONFIRMATION) ctrlShow false;
 (_display displayCtrl IDC_NILOCGUI_BNAPPLY) ctrlEnable true;
-
-[
-    FUNCMAIN(guiFillInfoBox),
-    [],
-    1
-] call CBA_fnc_waitAndExecute
+[] call FUNCMAIN(guiFillInfoBox)

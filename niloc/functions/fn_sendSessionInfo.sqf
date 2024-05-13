@@ -18,7 +18,8 @@
 
 params [["_client", objNull, [objNull]]];
 
-//_client setVariable [QGVAR(sessionInfo), nil];
+//_client setVariable [QGVAR(sessionInfo), nil, true];
+LOG_1("Info box: _client: (%1).", (str _client));
 private ["_inidbi", "_dbName", "_dbSession", "_sessionHash"];
 
 _inidbi = [] call FUNCMAIN(getDbInstance);
@@ -35,4 +36,5 @@ _sessionHash set ["lastLoad", _dbSession get "session.last.load"];
 _sessionHash set ["loadedMarkers", _dbSession get "session.loaded.markers"];
 _sessionHash set ["loadedPlayers", _dbSession get "session.loaded.players"];
 
-_client setVariable [QGVAR(sessionInfo), _sessionHash]
+LOG_1("Variable sessionInfo: (%1).", _sessionHash);
+_client setVariable [QGVAR(sessionInfo), _sessionHash, true]
