@@ -25,7 +25,6 @@ params [
     ["_updateMeta", true, [true]]
 ];
 
-LOG_1("_section: (%1) _key: (%2).", _section, _key);
 private _inidbi = [] call FUNCMAIN(getDbInstance);
 private _value = ["read", [_section, _key]] call _inidbi;
 

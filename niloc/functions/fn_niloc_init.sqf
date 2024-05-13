@@ -74,7 +74,7 @@ if (isServer) then {
                 "EntityKilled", {
                     params ["_unit", "", "", ""];
 
-                    [_unit] call FUNCMAIN(handleDeadEntity);
+                    ["EntityKilled", [_unit]] call FUNCMAIN(cacheEntity);
                 }
             ];
             _ehHash set [_ehId, ["EntityKilled", "bis"]];
@@ -94,11 +94,9 @@ if (isServer) then {
 
                     private _sessionHash = (["session"] call FUNCMAIN(getSectionAsHashmap));
 
-                    if (_sessionHash get "session.last.save" == 0) then {
-                        if (_sessionHash get "session.last.load" > 0) then {
-                            [_unit, _uid, _name] call FUNCMAIN(savePlayersStates);
-                        } else { INFO_1("Skip saving player (%1) since mission was not loaded.", _name); }
-                    } else { INFO_1("Current session had been saved ... skip saving player (%1).", _name); }
+                    if (_sessionHash get "session.last.load" > 0) then {
+                        ["HandleDisconnect", [_unit, _uid, _name]] call FUNCMAIN(cacheEntity)
+                    } else { INFO_1("Skip saving disconnected player (%1) since mission was not loaded.", _name); }
                 }
             ];
             _ehHash set [_ehId, ["HandleDisconnect", "bis"]];

@@ -17,6 +17,7 @@ class XDF {
             postInit = 1;
         };
         class backupDatabase {};
+        class cacheEntity {};
         class clientLoadMission {};
         class clientSaveMission {};
         class dbInit {};
@@ -31,7 +32,6 @@ class XDF {
         class guiFillListBox {};
         class guiOpenGui {};
         class guiYesBtnSetProfile {};
-        class handleDeadEntity {};
         class markerToString {};
         class nilocChildActions {};
         class prepUnitData {};

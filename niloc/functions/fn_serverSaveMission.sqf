@@ -20,7 +20,7 @@ if !(isServer) exitWith { ERROR("NiLOC system only works in MP games."); false }
 params [["_client", objNull, [objNull]]];
 
 _client setVariable [QGVAR(saveMissionOk), nil, true];
-private ["_lastSave", "_saveCount", "_minsFromLastSave", "_count"];
+private ["_lastSave", "_saveCount", "_minsFromLastSave", "_count", "_cachedEntities"];
 
 _count = 0;
 _lastSave = (["session", ["session.last.save"]] call FUNCMAIN(getSectionAsHashmap)) get "session.last.save";
@@ -40,6 +40,27 @@ if ((missionNamespace getVariable [QGVAR(timeBetweenSaves), 60]) > _minsFromLast
 };
 
 INFO("==================== Save Mission Starts ====================");
+
+INFO("----------------- Saving Cached Entities --------------------");
+_cachedEntities = localNamespace getVariable [QGVAR(cachedEntities), createHashMap];
+
+if (count _cachedEntities == 0) then {
+    INFO("No cached entity to save.")
+} else {
+    {
+        private _section = _x;
+        private _arrayOfEntities = _y;
+
+        {
+            if (_section isEqualTo "players") then {
+                [_section, [_x get "playerUid", toArray(_x)]] call FUNCMAIN(putSection)
+            } else {    // dead units
+                [_section, [_x # 0, _x # 1]] call FUNCMAIN(putSection)
+            }
+        } forEach _arrayOfEntities;
+        INFO_2("(%1) cached %2 saved.", count _arrayOfEntities, _section)
+    } forEach _cachedEntities
+};
 
 INFO("----------------- Saving Mission Parameters -----------------");
 _count = [] call FUNCMAIN(saveMissionState);
