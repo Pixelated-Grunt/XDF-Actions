@@ -4,13 +4,13 @@
  * Fill list box data
  *
  * Arguments:
- * 0: Type of data to get <STRING>
+ * 0: Type of data to fill <STRING>
  *
  * Return Value:
  * Nil
  *
  * Example:
- * [] call XDF_fnc_guiFillLeftListBox
+ * [] call XDF_fnc_guiFillListBox
  *
  * Public: No
 **/
@@ -20,6 +20,9 @@ if !(hasInterface) exitWith {};
 params [["_type", "", [""]]];
 
 disableSerialization;
+player setVariable [QGVAR(onlinePlayers), nil];
+player setVariable [QGVAR(savedPlayers), nil];
+
 if (_type isEqualTo "onlinePlayers") then {
     [QGVAR(requestPlayersInfo), ["onlinePlayers", player]] call CBA_fnc_serverEvent;
     [
@@ -42,7 +45,7 @@ if (_type isEqualTo "onlinePlayers") then {
         },
         [],
         3,
-        { WARNING("UI list box timeout waiting for data.") }
+        { WARNING("UI online players list box timeout waiting for data.") }
     ] call CBA_fnc_waitUntilAndExecute
 } else {
     [QGVAR(requestPlayersInfo), ["savedPlayers", player]] call CBA_fnc_serverEvent;
@@ -68,6 +71,6 @@ if (_type isEqualTo "onlinePlayers") then {
         },
         [],
         3,
-        { WARNING("UI list box timeout waiting for data.") }
+        { WARNING("UI saved players list box timeout waiting for data.") }
     ] call CBA_fnc_waitUntilAndExecute
 }

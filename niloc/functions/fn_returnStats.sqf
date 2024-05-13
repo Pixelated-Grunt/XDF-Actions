@@ -28,7 +28,5 @@ switch (_type) do {
     default {ERROR_1("Stats type (%1) is incorrect.", _type)};
 };
 
-//NOTE: Remove me
-//if (missionNamespace getVariable [QGVAR(enableCreate), false]) then { _stats = _stats + _extraStats };
-_stats = _stats + _extraStats;
+if (missionNamespace getVariable [QGVAR(enableCreate), true]) then { _stats = _stats + _extraStats };
 _stats

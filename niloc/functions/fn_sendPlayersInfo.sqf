@@ -21,7 +21,6 @@ params ["_type", "_client"];
 
 private _playersHash = createHashMap;
 
-LOG_2("Player info: type: (%1) - _client: (%2).", _type, (str _client));
 if (_type isEqualTo "onlinePlayers") then {
     private _onlinePlayers = ALL_PLAYERS;
 
@@ -38,7 +37,6 @@ if (_type isEqualTo "onlinePlayers") then {
         _playersHash set [_name, _id]
     } forEach _onlinePlayers;
 
-    LOG_1("Variable onlinePlayers: (%1).", _playersHash);
     _client setVariable [QGVAR(onlinePlayers), _playersHash, true]
 } else {    // saved players
     private _savedPlayers = ["players"] call FUNCMAIN(getSectionAsHashmap);
@@ -49,6 +47,5 @@ if (_type isEqualTo "onlinePlayers") then {
         _playersHash set [_player get "playerName", _player get "playerUid"]
     } forEach _savedPlayers;
 
-    LOG_1("Variable savedPlayers: (%1).", _playersHash);
     _client setVariable [QGVAR(savedPlayers), _playersHash, true]
 }

@@ -37,7 +37,6 @@ if (_action == "add") then {
 } else {
     if ((_action == "delete") && (count _value > 0)) then {
         if (_targetKey isEqualType []) then {
-            LOG_1("_targetKey: (%1).", _targetKey);
             ["meta", [_targetSection, _targetKey]] call FUNCMAIN(putSection)
         } else { _updateOk = ["write", ["meta", _targetSection, (_value - [_targetKey])]] call _inidbi }
     } else {
