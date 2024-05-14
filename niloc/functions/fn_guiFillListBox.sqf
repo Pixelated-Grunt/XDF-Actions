@@ -20,8 +20,9 @@ if !(hasInterface) exitWith {};
 params [["_type", "", [""]]];
 
 disableSerialization;
-player setVariable [QGVAR(onlinePlayers), nil];
-player setVariable [QGVAR(savedPlayers), nil];
+//NOTE: if set onlinePlayers to nil, the wait result will timeout
+//player setVariable [QGVAR(onlinePlayers), nil];
+//player setVariable [QGVAR(savedPlayers), nil];
 
 if (_type isEqualTo "onlinePlayers") then {
     [QGVAR(requestPlayersInfo), ["onlinePlayers", player]] call CBA_fnc_serverEvent;
