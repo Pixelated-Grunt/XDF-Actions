@@ -21,8 +21,8 @@ private ["_count", "_allUserMarkers", "_markersHash"];
 
 // only for global and side channel user placed markers
 _allUserMarkers = allMapMarkers select {
-    (_x select [(count _x)-1, 1] in "01") or
-    (_x select [0, 15] isEqualTo "_USER_DEFINED #")
+    (_x select [0, 15] isEqualTo "_USER_DEFINED #") and
+    { (_x select [(count _x)-1, 1] in "01") }
 };
 
 if (count _allUserMarkers > 0) then {
