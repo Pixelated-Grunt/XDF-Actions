@@ -63,4 +63,10 @@ class XDF {
 
         class setERV {};
     };
+
+    class resupply {
+        file = "xdf\resupply\functions";
+
+        class getPlayersAmmo {};
+    };
 };

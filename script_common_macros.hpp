@@ -6,3 +6,7 @@
 #define HEX_GREEN "#20ca24"
 #define HEX_AMBER "#e8991a"
 #define HEX_RED "#ff0000"
+
+// All players
+#define ALL_PLAYERS playableUnits select {isPlayer _x}
+

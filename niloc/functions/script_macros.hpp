@@ -21,9 +21,6 @@
 // Alive players
 #define ALIVE_PLAYERS (playableUnits select {isPlayer _x}) select {alive _x}
 
-// All players
-#define ALL_PLAYERS playableUnits select {isPlayer _x}
-
 // All AIs without players
 #define ALIVE_AIS allUnits select { !(_x in (call BIS_fnc_listPlayers)) } select { alive _x }
 
