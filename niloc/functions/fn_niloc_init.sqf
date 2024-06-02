@@ -94,7 +94,7 @@ if (isServer) then {
 
                     private _sessionHash = (["session"] call FUNCMAIN(getSectionAsHashmap));
 
-                    if (_sessionHash get "session.last.load" > 0) then {
+                    if ((_sessionHash get "session.last.load" > 0) || (_sessionHash get "session.number" == 1)) then {
                         ["HandleDisconnect", [_unit, _uid, _name]] call FUNCMAIN(cacheEntity)
                     } else { INFO_1("Skip saving disconnected player (%1) since mission was not loaded.", _name); }
                 }
