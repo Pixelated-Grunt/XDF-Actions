@@ -30,7 +30,8 @@ if (_eventType isEqualTo "HandleDisconnect") then {
     private _playerHash = ["player", _player, _uid, _name] call FUNCMAIN(prepUnitData);
     private _playersArray = _cachedEntities getOrDefault ["players", []];
 
-    _cachedEntities set ["players", (_playersArray pushBack _playerHash)]
+    _playersArray pushBack _playerHash;
+    _cachedEntities set ["players", _playersArray]
 } else {    // EntityKilled
     private _entity = _params select 0;
 
