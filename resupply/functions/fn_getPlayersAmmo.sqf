@@ -50,4 +50,11 @@ _playersAmmo set ["magazines", _magazines];
 _playersAmmo set ["throwables", _throwables];
 _playersAmmo set ["explosives", _explosives];
 
+{
+    {
+        private _helperArray = [];
+
+    } forEach _y;
+} forEach _playersAmmo;
+
 _playersAmmo
