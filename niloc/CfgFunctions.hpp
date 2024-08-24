@@ -1,8 +1,9 @@
-class XDF {
+class XDF_NILOC {
     requiredAddons[] = { "cba_common" };
 
-    class common {
-        file = "xdf\common\functions";
+    class actions {
+        tag = "XDF_NILOC_ACTIONS";
+        file = "niloc\actions\functions";
 
         class common_init {
             postInit = 1;
@@ -10,8 +11,19 @@ class XDF {
         class checkAccessItems {};
     };
 
-    class NiLOC {
-        file = "xdf\niloc\functions";
+    class db {
+        tag = "XDF_NILOC_DB";
+        file = "niloc\db\functions";
+    };
+
+    class gui {
+        tag = "XDF_NILOC_UI";
+        file = "niloc\ui\functions";
+    };
+
+    class main {
+        tag = "XDF_NILOC_MAIN"
+        file = "niloc\main\functions";
 
         class niloc_init {
             postInit = 1;
@@ -56,17 +68,5 @@ class XDF {
         class serverSaveMission {};
         class stringToMarker {};
         class updateMeta {};
-    };
-
-    class ERV {
-        file = "xdf\erv\functions";
-
-        class setERV {};
-    };
-
-    class resupply {
-        file = "xdf\resupply\functions";
-
-        class getPlayersAmmo {};
     };
 };

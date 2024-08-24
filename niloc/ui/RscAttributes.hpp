@@ -1,6 +1,6 @@
-#include "..\..\common\gui_base_classes.hpp"
-#include "ui_macros.hpp"
-#include "..\functions\script_macros.hpp"
+#include "RscCommon.hpp"
+#include "defines.hpp"
+#include "script_component.hpp"
 
 class RscNiLOCDialog {
     idd = IDD_NILOCGUI_RSCNILOCDIALOG;

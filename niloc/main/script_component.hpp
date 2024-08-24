@@ -1,13 +1,8 @@
-#include "..\..\script_common_macros.hpp"
+#include "..\script_common.hpp"
 
-#define COMPONENT NILOC
+#define COMPONENT MAIN
 #define DEBUG_MODE_FULL 1
-
 #include "\x\cba\addons\main\script_macros_mission.hpp"
-#include "..\UI\ui_macros.hpp"
-
-// Sections to be preserved during purge before save
-#define SECTIONS_NO_PURGE ["session", "meta", "players", "dead.units"]
 
 // Check if object is a unit
 #define IS_UNIT(OBJ) if (OBJ isKindOf "Man") then [{true}, {false}]
@@ -36,3 +31,5 @@
 
 // Vehicle stats
 #define VEHICLE_STATS ["objStr", "type", "side", "location", "damage", "weaponCargo", "itemCargo", "magazineCargo", "backpackCargo", "crew"]
+
+#include "..\script_common_macros.hpp"
