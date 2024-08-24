@@ -27,7 +27,7 @@ if (_type isEqualTo "onlinePlayers") then {
     {
         private ["_id", "_name"];
 
-        _id = getPlayerID _client;
+        _id = getPlayerID _x;
         if (_id == "-1") then {
             WARNING_1("Failed to get player id from (%1).", str _x);
             continue

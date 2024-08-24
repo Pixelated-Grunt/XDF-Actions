@@ -166,17 +166,35 @@ class XDF_RscButton
     offsetPressedY = 0;
     borderSize = 0;
 };
+class XDF_ScrollBar
+{
+    color[] = {1,1,1,0.6};
+    colorActive[] = {1,1,1,1};
+    colorDisabled[] = {1,1,1,0.3};
+    thumb = "\A3\ui_f\data\gui\cfg\scrollbar\thumb_ca.paa";
+    arrowEmpty = "\A3\ui_f\data\gui\cfg\scrollbar\arrowEmpty_ca.paa";
+    arrowFull = "\A3\ui_f\data\gui\cfg\scrollbar\arrowFull_ca.paa";
+    border = "\A3\ui_f\data\gui\cfg\scrollbar\border_ca.paa";
+    shadow = 0;
+    scrollSpeed = 0.06;
+    width = 0;
+    height = 0;
+    autoScrollEnabled = 0;
+    autoScrollSpeed = -1;
+    autoScrollDelay = 5;
+    autoScrollRewind = 0;
+};
 class XDF_RscControlsGroup
 {
     deletable = 0;
     fade = 0;
-    class VScrollbar: ScrollBar
+    class VScrollbar: XDF_ScrollBar
     {
         color[] = {1,1,1,1};
         width = 0.021;
         autoScrollEnabled = 1;
     };
-    class HScrollbar: ScrollBar
+    class HScrollbar: XDF_ScrollBar
     {
         color[] = {1,1,1,1};
         height = 0.028;
@@ -231,7 +249,7 @@ class XDF_RscListBox
     tooltipColorText[] = {1,1,1,1};
     tooltipColorBox[] = {1,1,1,1};
     tooltipColorShade[] = {0,0,0,0.65};
-    class ListScrollBar: ScrollBar
+    class ListScrollBar: XDF_ScrollBar
     {
         color[] = {1,1,1,1};
         autoScrollEnabled = 1;
