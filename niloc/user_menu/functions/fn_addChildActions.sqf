@@ -16,11 +16,9 @@
 **/
 
 
-params ["_target"];
-
 private ["_action", "_actions", "_loadIcon", "_saveIcon", "_saveCount"];
 
-_saveCount = missionNamespace getVariable [QGVAR(saveCount), 0];
+_saveCount = missionNamespace getVariable [QGVARMAIN(saveCount), 0];
 _loadIcon = "a3\ui_f\data\igui\cfg\simpletasks\types\upload_ca.paa";
 _saveIcon = "a3\ui_f\data\igui\cfg\simpletasks\types\download_ca.paa";
 _actions = [];
@@ -30,7 +28,7 @@ _action = [
     "Load",
     "Load Mission",
     _loadIcon,
-    { [] call FUNCMAIN(clientLoadMission) },
+    { [] call EFUNC(MAIN,clientLoadMission); },
     { _this # 2 # 1 > 0 },
     {},
     [_loadIcon, _saveCount],
@@ -43,14 +41,14 @@ _action = [
         _actionData set [2, [_params # 0, _player getVariable [QGVAR(loadStatusColour), HEX_WHITE]]];
     }
 ] call ace_interact_menu_fnc_createAction;
-_actions pushBack [_action, [], _target];
+_actions pushBack [_action, [], SHORT_PREFIX];
 
 // Save action
 _action = [
     "Save",
     "Save Mission",
     _saveIcon,
-    { [] call FUNCMAIN(clientSaveMission) },
+    { [] call EFUNC(MAIN,clientSaveMission); },
     { true },
     {},
     _saveIcon,
@@ -63,6 +61,6 @@ _action = [
         _actionData set [2, [_icon, _player getVariable [QGVAR(saveStatusColour), HEX_WHITE]]];
     }
 ] call ace_interact_menu_fnc_createAction;
-_actions pushBack [_action, [], _target];
+_actions pushBack [_action, [], SHORT_PREFIX];
 
 _actions

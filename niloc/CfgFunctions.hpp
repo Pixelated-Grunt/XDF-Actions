@@ -1,33 +1,19 @@
-class XDF_NILOC {
+class NILOC {
     requiredAddons[] = { "cba_common" };
 
-    class actions {
-        tag = "XDF_NILOC_ACTIONS";
-        file = "niloc\actions\functions";
-
-        class common_init {
-            postInit = 1;
-        };
-        class checkAccessItems {};
-    };
 
     class db {
-        tag = "XDF_NILOC_DB";
+        tag = "NILOC_DB";
         file = "niloc\db\functions";
     };
 
-    class gui {
-        tag = "XDF_NILOC_UI";
-        file = "niloc\ui\functions";
-    };
-
     class main {
-        tag = "XDF_NILOC_MAIN"
+        tag = "NILOC_MAIN"
         file = "niloc\main\functions";
 
-        class niloc_init {
-            postInit = 1;
-        };
+        //class niloc_init {
+        //    postInit = 1;
+        //};
         class backupDatabase {};
         class cacheEntity {};
         class clientLoadMission {};
@@ -68,5 +54,21 @@ class XDF_NILOC {
         class serverSaveMission {};
         class stringToMarker {};
         class updateMeta {};
+    };
+
+    class ui {
+        tag = "NILOC_UI";
+        file = "niloc\ui\functions";
+    };
+
+    class user_menu {
+        tag = "NILOC_USER_MENU";
+        file = "niloc\user_menu\functions";
+
+        class init {
+            postInit = 1;
+        };
+        class addChildActions {};
+        class checkAccessItems {};
     };
 };
