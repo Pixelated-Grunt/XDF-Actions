@@ -1,8 +1,10 @@
-#define PREFIX XDF_NILOC
+#define PREFIX NILOC
+//#define CUSTOM_FOLER COMPONENT\functions
+
+#define ROOT_PREFIX XDF
+#define SHORT_PREFIX NILOC
 #define HASACE3 isClass(configFile >> "CfgPatches" >> "ace_main")
 
-#define ROOT_PREFIX "XDF"
-#define SHORT_PREFIX "NILOC"
 // Icon colour
 #define HEX_WHITE "#ffffff"
 #define HEX_GREEN "#20ca24"

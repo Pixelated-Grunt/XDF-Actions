@@ -11,22 +11,19 @@
  * If any access items have been found <BOOL>
  *
  * Example:
- * [player, "ACE_SpraypaintRed"] call niloc_user_menu_fnc_checkAccessItem
+ * [player, "ACE_SpraypaintRed"] call NILOC_fnc_checkAccessItem
  *
  * Public: No
 **/
 
 
-params [
-    ["_unit", objNull, [objNull]],
-    ["_accessItem", "ACE_SpraypaintRed", [""]]
-];
+params ["_unit", "_accessItem"];
 
 private _hasItem = false;
 
 // If XDF mission frame is loaded, let it handle the check
 if (missionNamespace getVariable[QGVAR(useMissionFramework), false]) then {
-    if (SHORT_PREFIX in (_unit getVariable ["UnitAllowedActions", []])) then {
+    if (QUOTE(PREFIX) in (_unit getVariable ["UnitAllowedActions", []])) then {
         _hasItem = true
     }
 } else {

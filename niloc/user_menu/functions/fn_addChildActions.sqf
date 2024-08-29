@@ -1,4 +1,4 @@
-#include "script_macros.hpp"
+#include "..\script_component.hpp"
 /*
  * Author: Pixelated_Grunt
  * Add child actions to ace menu
@@ -10,7 +10,7 @@
  * List of ace menu actions <ARRAY>
  *
  * Example:
- * _actions = [] call XDF_fnc_nilocChildActions
+ * _actions = [] call NILOC_fnc_addChildActions
  *
  * Public: No
 **/
@@ -28,7 +28,7 @@ _action = [
     "Load",
     "Load Mission",
     _loadIcon,
-    { [] call EFUNC(MAIN,clientLoadMission); },
+    { [] call FUNCMAIN(clientLoadMission) },
     { _this # 2 # 1 > 0 },
     {},
     [_loadIcon, _saveCount],
@@ -41,14 +41,14 @@ _action = [
         _actionData set [2, [_params # 0, _player getVariable [QGVAR(loadStatusColour), HEX_WHITE]]];
     }
 ] call ace_interact_menu_fnc_createAction;
-_actions pushBack [_action, [], SHORT_PREFIX];
+_actions pushBack [_action, [], QUOTE(PREFIX)];
 
 // Save action
 _action = [
     "Save",
     "Save Mission",
     _saveIcon,
-    { [] call EFUNC(MAIN,clientSaveMission); },
+    { [] call FUNCMAIN(clientSaveMission) },
     { true },
     {},
     _saveIcon,
@@ -61,6 +61,6 @@ _action = [
         _actionData set [2, [_icon, _player getVariable [QGVAR(saveStatusColour), HEX_WHITE]]];
     }
 ] call ace_interact_menu_fnc_createAction;
-_actions pushBack [_action, [], SHORT_PREFIX];
+_actions pushBack [_action, [], QUOTE(PREFIX)];
 
 _actions
