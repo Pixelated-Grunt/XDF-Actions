@@ -10,7 +10,7 @@
  * Nil
  *
  * Example:
- * [] call NILOC_fnc_init
+ * [] call NILOC_fnc_user_menu_init
  *
  * Public: No
 **/

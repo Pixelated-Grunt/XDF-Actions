@@ -1,5 +1,5 @@
 #define PREFIX NILOC
-//#define CUSTOM_FOLER COMPONENT\functions
+//#define CUSTOM_FOLDER COMPONENT\functions
 
 #define ROOT_PREFIX XDF
 #define SHORT_PREFIX NILOC

@@ -56,14 +56,14 @@ class NILOC {
 //        class updateMeta {};
 //    };
 
-    class ui {
-        file = "niloc\ui\functions";
-    };
+//    class ui {
+//        file = "niloc\ui\functions";
+//    };
 
     class user_menu {
         file = "niloc\user_menu\functions";
 
-        class init {
+        class user_menu_init {
             postInit = 1;
         };
         class addChildActions {};
