@@ -11,7 +11,7 @@
  * Nil
  *
  * Example:
- * ["onlinePlayers", player] call XDF_fnc_sendPlayersInfo
+ * ["onlinePlayers", player] call niloc_fnc_sendPlayersInfo
  *
  * Public: No
 **/

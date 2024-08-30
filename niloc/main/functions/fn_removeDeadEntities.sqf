@@ -10,7 +10,7 @@
  * Dead units count (only from database not checking if units are actually killed) <NUMBER>
  *
  * Example:
- * [] call XDF_fnc_removeDeadEntities
+ * [] call niloc_fnc_removeDeadEntities
  *
  * Public: No
 **/

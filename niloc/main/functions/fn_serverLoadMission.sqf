@@ -10,7 +10,7 @@
  * Return true if all items are loaded false if otherwise <BOOL>
  *
  * Example:
- * _res = [player] call XDF_fnc_serverLoadMission
+ * _res = [player] call niloc_fnc_serverLoadMission
  *
  * Public: No
 **/
@@ -31,7 +31,7 @@ if (_sessionHash get "session.save.count" == 0) exitWith {
 };
 
 INFO("==================== Load Mission Starts ====================");
-if !(missionNamespace getVariable [QGVAR(preloadMarkers), true]) then {
+if !(missionNamespace getVariable [QGVARMAIN(preloadMarkers), true]) then {
     INFO("------------------ Loading User Map Markers ------------------");
     _count = [] call FUNCMAIN(restoreUserMarkers);
 

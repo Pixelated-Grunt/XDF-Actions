@@ -13,7 +13,7 @@
  * Successful delete from value or not <BOOL>
  *
  * Example:
- * _result = ["players", _key] call XDF_fnc_deleteSectionKey
+ * _result = ["players", _key] call niloc_fnc_deleteSectionKey
  *
  * Public: No
 **/

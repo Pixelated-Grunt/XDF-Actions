@@ -10,7 +10,7 @@
  * Section data successfully returned <BOOL>
  *
  * Example:
- * [] call XDF_fnc_dbInit
+ * [] call niloc_fnc_dbInit.sqf
  *
  * Public: No
 **/
@@ -30,7 +30,7 @@ if IS_CODE(_inidbi) then {
     _saveCount = ["read", ["session", "session.save.count", 0]] call _inidbi;
     _lastSave = ["read", ["session", "session.last.save", 0]] call _inidbi;
 
-    localNamespace setVariable [QGVAR(Db), _inidbi];
+    localNamespace setVariable [QGVAR(instance), _inidbi];
 
     if (_sessionNumber != 0) then {
         // Purge existing section hashmap and db before write

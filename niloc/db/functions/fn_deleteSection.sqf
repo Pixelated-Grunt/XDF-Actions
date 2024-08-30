@@ -10,7 +10,7 @@
  * Successfully delete section from database <BOOL>
  *
  * Example:
- * _result = ["players"] call XDF_fnc_deleteSection
+ * _result = ["players"] call niloc_fnc_deleteSection
  *
  * Public: No
 **/

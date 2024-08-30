@@ -10,7 +10,7 @@
  * Return number of vehicles saved <NUMBER>
  *
  * Example:
- * [] call XDF_fnc_saveVehiclesStates
+ * [] call niloc_fnc_saveVehiclesStates
  *
  * Public: No
 **/

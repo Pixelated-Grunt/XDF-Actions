@@ -12,8 +12,8 @@
  * The successful of the operation <BOOL>
  *
  * Example:
- * ["delete", "key", "value"] call XDF_fnc_updateMeta
- * ["delete", "key", ["value_1", "value_2"]] call XDF_fnc_updateMeta //replace value to given array
+ * ["delete", "key", "value"] call niloc_fnc_updateMeta
+ * ["delete", "key", ["value_1", "value_2"]] call niloc_fnc_updateMeta //replace value to given array
  *
  * Public: No
 **/

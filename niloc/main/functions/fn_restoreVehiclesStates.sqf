@@ -10,7 +10,7 @@
  * Total number of vehicles restored <NUMBER>
  *
  * Example:
- * [] call XDF_fnc_restoreVehiclesStates
+ * [] call niloc_fnc_restoreVehiclesStates
  *
  * Public: No
 **/

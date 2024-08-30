@@ -20,7 +20,7 @@ class RscNiLOCDialog {
         ctrlGrpConfirmation
     };
 
-    class tbSavedPlayers: XDF_RscText
+    class tbSavedPlayers: NILOC_RscText
     {
         idc = -1;
         text = "SAVED PLAYERS"; //--- ToDo: Localize;
@@ -35,7 +35,7 @@ class RscNiLOCDialog {
             "(profilenamespace getvariable ['GUI_BCG_RGB_A', 0.7])"
         };
     };
-    class tbOnlinePlayers: XDF_RscText
+    class tbOnlinePlayers: NILOC_RscText
     {
         idc = -1;
         text = "ONLINE PLAYERS"; //--- ToDo: Localize;
@@ -50,7 +50,7 @@ class RscNiLOCDialog {
             "(profilenamespace getvariable ['GUI_BCG_RGB_A', 0.7])"
         };
     };
-    class lbSavedPlayers: XDF_RscListbox
+    class lbSavedPlayers: NILOC_RscListbox
     {
         idc = IDC_NILOCGUI_LBSAVEDPLAYERS;
         sizeEx = (((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 0.8);
@@ -65,7 +65,7 @@ class RscNiLOCDialog {
         idc = IDC_NILOCGUI_LBONLINEPLAYERS;
         x = 17.9 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
     };
-    class tbThinLine: XDF_RscText
+    class tbThinLine: NILOC_RscText
     {
         idc = -1;
         x = 4.8 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
@@ -79,7 +79,7 @@ class RscNiLOCDialog {
             "(profilenamespace getvariable ['GUI_BCG_RGB_A', 0.7])"
         };
     };
-    class bnApply: XDF_RscButton
+    class bnApply: NILOC_RscButton
     {
         idc = IDC_NILOCGUI_BNAPPLY;
         text = "APPLY"; //--- ToDo: Localize;
@@ -98,7 +98,7 @@ class RscNiLOCDialog {
     };
 
     // Control Group
-    class ctrlGrpInfoArea: XDF_RscControlsGroup {
+    class ctrlGrpInfoArea: NILOC_RscControlsGroup {
         idc = IDC_NILOCGUI_CTRLGRPINFOAREA;
         x = 4.8 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
         y = 15.3 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
@@ -106,7 +106,7 @@ class RscNiLOCDialog {
         h = 8.9 * GUI_GRID_CENTER_H;
 
         class Controls {
-            class stbInfo: XDF_RscStructuredText
+            class stbInfo: NILOC_RscStructuredText
             {
                 idc = IDC_NILOCGUI_STBINFO;
                 w = 25.7 * GUI_GRID_CENTER_W;
@@ -117,7 +117,7 @@ class RscNiLOCDialog {
     };
 
     // Control Group
-    class ctrlGrpConfirmation: XDF_RscControlsGroup {
+    class ctrlGrpConfirmation: NILOC_RscControlsGroup {
         idc = IDC_NILOCGUI_CTRLGRPCONFIRMATION;
         x = 5.5 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
         y = 3 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
@@ -125,7 +125,7 @@ class RscNiLOCDialog {
         h = 17 * GUI_GRID_CENTER_H;
 
         class Controls {
-            class tbConfirmation: XDF_RscText
+            class tbConfirmation: NILOC_RscText
             {
                 idc = -1;
                 text = "CONFIRMATION"; //--- ToDo: Localize;
@@ -140,7 +140,7 @@ class RscNiLOCDialog {
                     "(profilenamespace getvariable ['GUI_BCG_RGB_A', 0.7])"
                 };
             };
-            class stbConfirmation: XDF_RscStructuredText
+            class stbConfirmation: NILOC_RscStructuredText
             {
                 idc = IDC_NILOCGUI_STBCONFIRMATION;
                 x = 6.5 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
@@ -149,7 +149,7 @@ class RscNiLOCDialog {
                 h = 7.2 * GUI_GRID_CENTER_H;
                 colorBackground[] = { 0, 0, 0, 1 };
             };
-            class bnNo: XDF_RscButton
+            class bnNo: NILOC_RscButton
             {
                 idc = -1;
                 text = "NO"; //--- ToDo: Localize;

@@ -10,7 +10,7 @@
  * Nil
  *
  * Example:
- * [] call XDF_fnc_guiFillInfoBox
+ * [] call niloc_fnc_guiFillInfoBox
  *
  * Public: No
 **/
@@ -21,15 +21,15 @@ if !(hasInterface) exitWith {};
 private ["_separator", "_infoBox"];
 
 disableSerialization;
-player setVariable [QGVAR(sessionInfo), nil];
+player setVariable [QEGVAR(main,sessionInfo), nil];
 
-[QGVAR(requestSessionInfo), [player]] call CBA_fnc_serverEvent;
+["SendSessionInfo", [player]] call CBA_fnc_serverEvent;
 [
-    { (player getVariable [QGVAR(sessionInfo), nil]) isEqualType createHashMap },
+    { (player getVariable [QEGVAR(main,sessionInfo), nil]) isEqualType createHashMap },
     {
-        private ["_sessionHash", "_fnc_timeToStr", "_ibPos", "_textH", "_newIbH"];
+        private ["_sessionHash", "_fnc_timeToStr"];
 
-        _sessionHash = player getVariable QGVAR(sessionInfo);
+        _sessionHash = player getVariable QEGVAR(main,sessionInfo);
         _fnc_timeToStr = {
             params [["_timeArray", [], [[]]]];
 
@@ -47,7 +47,6 @@ player setVariable [QGVAR(sessionInfo), nil];
         };
 
         _infoBox = (uiNamespace getVariable QGVAR(mainDialog)) displayCtrl IDC_NILOCGUI_STBINFO;
-        _ibPos = ctrlPosition _infoBox;
 
         _separator = "---------------------------------------------------------------------------------" +
             "------------------------------------------------------------------";
@@ -74,12 +73,6 @@ player setVariable [QGVAR(sessionInfo), nil];
         count (_sessionHash get "loadedPlayers"),
         _sessionHash get "loadedPlayers",
         _separator]
-
-        // adjust info box height to cater for different screen resolutions
-        //_textH = ctrlTextHeight _infoBox;
-        //_newIbH = _textH - (_ibPos # 3);
-        //_infoBox ctrlSetPositionH _newIbH;
-        //_infoBox ctrlCommit 0
     },
     [],
     3,

@@ -10,7 +10,7 @@
  * Total number of units restored <NUMBER>
  *
  * Example:
- * [] call XDF_fnc_restoreUnitsStates
+ * [] call niloc_fnc_restoreUnitsStates
  *
  * Public: No
 **/

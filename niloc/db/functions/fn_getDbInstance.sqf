@@ -10,13 +10,13 @@
  * Database instance <OBJECT>
  *
  * Example:
- * _inidbi = [] call XDF_fnc_getDbInstance
+ * _inidbi = [] call niloc_fnc_getDbInstance
  *
  * Public: No
  */
 
 
-private _inidbi = localNamespace getVariable [QGVAR(Db), ""];
+private _inidbi = localNamespace getVariable [QGVAR(instance), ""];
 
 if IS_CODE(_inidbi) then {
     _inidbi

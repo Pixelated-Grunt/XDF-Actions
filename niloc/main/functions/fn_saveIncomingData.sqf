@@ -12,8 +12,8 @@
  * Client variable of results <HASHMAP>
  *
  * Examples:
- * [[["section", _dataHashMap]], player] call XDF_fnc_saveIncomingData
- * [[["section", _dataHashMap], ["section2", _dataHashMap2]], player] call XDF_fnc_saveIncomingData
+ * [[["section", _dataHashMap]], player] call niloc_fnc_saveIncomingData
+ * [[["section", _dataHashMap], ["section2", _dataHashMap2]], player] call niloc_fnc_saveIncomingData
  *
  * Public: No
 **/

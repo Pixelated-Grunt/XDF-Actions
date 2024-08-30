@@ -10,7 +10,7 @@
  * Nil
  *
  * Example:
- * [] spawn XDF_fnc_guiOpenGui
+ * [] spawn niloc_fnc_guiOpenGui
  *
  * Public: No
 **/

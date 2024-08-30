@@ -4,6 +4,9 @@
 #define DEBUG_MODE_FULL 1
 #include "\x\cba\addons\main\script_macros_mission.hpp"
 
+// All players
+#define ALL_PLAYERS playableUnits select {isPlayer _x}
+
 // Check if object is a unit
 #define IS_UNIT(OBJ) if (OBJ isKindOf "Man") then [{true}, {false}]
 
@@ -15,9 +18,6 @@
 
 // Alive players
 #define ALIVE_PLAYERS (playableUnits select {isPlayer _x}) select {alive _x}
-
-// All AIs without players
-#define ALIVE_AIS allUnits select { !(_x in (call BIS_fnc_listPlayers)) } select { alive _x }
 
 // Base unit stats
 #define BASE_STATS ["location", "loadout", "damage", "captive", "vehicle"]

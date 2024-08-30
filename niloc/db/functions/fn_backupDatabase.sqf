@@ -10,7 +10,7 @@
  * Nil
  *
  * Example:
- * [] call XDF_fnc_backupDatabase
+ * [] call niloc_fnc_backupDatabase
  *
  * Public: No
 **/

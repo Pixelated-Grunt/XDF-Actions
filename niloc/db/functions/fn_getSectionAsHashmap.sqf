@@ -12,7 +12,7 @@
  * A hashmap with all key value pairs from the section <HASHMAP>
  *
  * Example:
- * _resHash = ["mission", ["dateTime"]] call XDF_fnc_getSectionAsHashmap
+ * _resHash = ["mission", ["dateTime"]] call niloc_fnc_getSectionAsHashmap
  *
  * Public: No
  */

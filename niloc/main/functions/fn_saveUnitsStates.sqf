@@ -10,7 +10,7 @@
  * Return number of units saved <NUMBER>
  *
  * Example:
- * [] call XDF_fnc_saveUnitsStates
+ * [] call niloc_fnc_saveUnitsStates
  *
  * Public: No
 **/

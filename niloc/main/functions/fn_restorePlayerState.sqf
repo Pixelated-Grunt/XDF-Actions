@@ -11,7 +11,7 @@
  * Successful restored player state <BOOL>
  *
  * Example:
- * [] call XDF_fnc_restorePlayerState
+ * [] call niloc_fnc_restorePlayerState
  *
  * Public: No
 **/

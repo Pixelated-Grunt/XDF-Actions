@@ -10,7 +10,7 @@
  * Nil
  *
  * Example:
- * [] call XDF_fnc_clientSaveMission
+ * [] call niloc_fnc_clientSaveMission
  *
  * Public: Yes
 **/
@@ -41,7 +41,7 @@ if (count _allUserMarkers > 0) then {
 
         _markersHash set [_markerName, _markerStr]
     } forEach _allUserMarkers;
-    [QGVAR(saveToSectionRequest), [[["markers", _markersHash]], player, true]] call CBA_fnc_serverEvent;
+    ["SaveIncomingData", [[["markers", _markersHash]], player, true]] call CBA_fnc_serverEvent;
 
     [
         { (player getVariable QGVAR(responseFromSaveRequest)) get "markers" > 0 },
@@ -52,4 +52,4 @@ if (count _allUserMarkers > 0) then {
     ] call CBA_fnc_waitUntilAndExecute
 };
 
-[QGVAR(saveMissionRequest), player] call CBA_fnc_serverEvent
+["ServerSaveMission", player] call CBA_fnc_serverEvent

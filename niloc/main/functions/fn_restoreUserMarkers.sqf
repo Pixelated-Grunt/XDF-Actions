@@ -10,7 +10,7 @@
  * Total number of markers restored <NUMBER>
  *
  * Example:
- * [] call XDF_fnc_restoreUserMarkers
+ * [] call niloc_fnc_restoreUserMarkers
  *
  * Public: No
 **/

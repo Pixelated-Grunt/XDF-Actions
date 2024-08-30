@@ -10,7 +10,7 @@
  * Nil
  *
  * Example:
- * [] call XDF_fnc_niloc_init
+ * [] call niloc_fnc_main_init
  *
  * Public: No
 **/
@@ -61,7 +61,7 @@ if (isServer) then {
             if (_sessionNo > 1) then {
                 private _result = 0;
 
-                if (missionNamespace getVariable [QGVAR(preloadMarkers), true]) then {
+                if (missionNamespace getVariable [QGVARMAIN(preloadMarkers), true]) then {
                     INFO("---------- Loading User Map Markers ----------");
                     _result = [] call FUNCMAIN(restoreUserMarkers);
 
@@ -112,22 +112,23 @@ if (isServer) then {
             ];
             _ehHash set [_ehId, ["MPEnded", "bis"]];
 
-            _ehId = [QGVAR(requestPlayersInfo), FUNCMAIN(sendPlayersInfo)] call CBA_fnc_addEventHandler;
-            _ehHash set [_ehId, [QGVAR(requestPlayersInfo), "cba"]];
+            _ehId = ["SendPlayersInfo", FUNCMAIN(sendPlayersInfo)] call CBA_fnc_addEventHandler;
+            _ehHash set [_ehId, ["SendPlayersInfo", "cba"]];
 
-            _ehId = [QGVAR(requestSessionInfo), FUNCMAIN(sendSessionInfo)] call CBA_fnc_addEventHandler;
-            _ehHash set [_ehId, [QGVAR(requestSessionInfo), "cba"]];
+            _ehId = ["SendSessionInfo", FUNCMAIN(sendSessionInfo)] call CBA_fnc_addEventHandler;
+            _ehHash set [_ehId, ["SendSessionInfo", "cba"]];
 
-            _ehId = [QGVAR(saveToSectionRequest), FUNCMAIN(saveIncomingData)] call CBA_fnc_addEventHandler;
-            _ehHash set [_ehId, [QGVAR(saveToSectionRequest), "cba"]];
+            _ehId = ["SaveIncomingData", FUNCMAIN(saveIncomingData)] call CBA_fnc_addEventHandler;
+            _ehHash set [_ehId, ["SaveIncomingData", "cba"]];
 
-            _ehId = [QGVAR(saveMissionRequest), FUNCMAIN(serverSaveMission)] call CBA_fnc_addEventHandler;
-            _ehHash set [_ehId, [QGVAR(saveMissionRequest), "cba"]];
+            _ehId = ["ServerSaveMission", FUNCMAIN(serverSaveMission)] call CBA_fnc_addEventHandler;
+            _ehHash set [_ehId, ["ServerSaveMission", "cba"]];
 
-            _ehId = [QGVAR(loadMissionRequest), FUNCMAIN(serverLoadMission)] call CBA_fnc_addEventHandler;
-            _ehHash set [_ehId, [QGVAR(loadMissionRequest), "cba"]];
+            _ehId = ["ServerLoadMission", FUNCMAIN(serverLoadMission)] call CBA_fnc_addEventHandler;
+            _ehHash set [_ehId, ["ServerLoadMission", "cba"]];
 
-            missionNamespace setVariable [QGVAR(enable), true, true];
+            missionNamespace setVariable [QGVARMAIN(enable), true, true];
+
             INFO("==================== NiLOC Initialisation Finished ====================");
         },
         [],
@@ -140,9 +141,19 @@ if (isServer) then {
                     [_y # 0, _x] call CBA_fnc_removeEventHandler
                 }
             } forEach _ehHash;
-            missionNamespace setVariable [QGVAR(enable), false, true];
+            missionNamespace setVariable [QGVARMAIN(enable), false, true];
 
             ERROR("Timeout waiting for database to initialise ... NiLOC disabled.")
         }
+    ] call CBA_fnc_waitUntilAndExecute
+};
+
+if hasInterface then {
+    [
+        {missionNamespace getVariable [QGVARMAIN(enable), false]},
+        {[player] call FUNCMAIN(addACEMenu)},
+        [],
+        20,
+        {INFO("NiLOC is not enabled. Disable ACE menu for it.")}
     ] call CBA_fnc_waitUntilAndExecute
 }

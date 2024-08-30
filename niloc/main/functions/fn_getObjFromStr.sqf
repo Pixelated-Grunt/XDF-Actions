@@ -11,7 +11,7 @@
  * Object if found <OBJECT> (default: objNull)
  *
  * Example:
- * _unit = ["B Alpha 1-1:1", allUnits] call XDF_fnc_getObjFromStr
+ * _unit = ["B Alpha 1-1:1", allUnits] call niloc_fnc_getObjFromStr
  *
  * Public: No
 **/

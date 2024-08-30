@@ -10,7 +10,7 @@
  * Nil
  *
  * Example:
- * [player] call XDF_fnc_sendSessionInfo
+ * [player] call niloc_fnc_sendSessionInfo
  *
  * Public: No
 **/

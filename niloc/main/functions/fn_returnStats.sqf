@@ -10,7 +10,7 @@
  * Stats for the particular type <ARRAY>
  *
  * Example:
- * _stats = ["unit"] call XDF_fnc_returnStats
+ * _stats = ["unit"] call niloc_fnc_returnStats
  *
  * Public: No
 **/
@@ -28,5 +28,5 @@ switch (_type) do {
     default {ERROR_1("Stats type (%1) is incorrect.", _type)};
 };
 
-if (missionNamespace getVariable [QGVAR(enableCreate), true]) then { _stats = _stats + _extraStats };
+if (missionNamespace getVariable [QGVARMAIN(enableCreate), true]) then { _stats = _stats + _extraStats };
 _stats

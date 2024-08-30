@@ -10,7 +10,7 @@
  * Nil
  *
  * Example:
- * [] call XDF_fnc_clientLoadMission
+ * [] call niloc_fnc_clientLoadMission
  *
  * Public: Yes
 **/
@@ -20,4 +20,4 @@ LOG_1("Inside clientLoadMission before hasInterface check.");
 if !(hasInterface) exitWith {};
 
 LOG_1("Inside clientLoadMission");
-[QGVAR(loadMissionRequest), player] call CBA_fnc_serverEvent
+["ServerLoadMission", player] call CBA_fnc_serverEvent

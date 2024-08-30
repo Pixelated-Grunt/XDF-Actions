@@ -10,7 +10,7 @@
  * Nil
  *
  * Example:
- * [] call XDF_fnc_guiFillListBox
+ * [] call niloc_fnc_guiFillListBox
  *
  * Public: No
 **/
@@ -21,15 +21,15 @@ params [["_type", "", [""]]];
 
 disableSerialization;
 //NOTE: if set onlinePlayers to nil, the wait result will timeout
-//player setVariable [QGVAR(onlinePlayers), nil];
-//player setVariable [QGVAR(savedPlayers), nil];
+//player setVariable [QEGVAR(main,onlinePlayers), nil];
+//player setVariable [QEGVAR(main,savedPlayers), nil];
 
 if (_type isEqualTo "onlinePlayers") then {
-    [QGVAR(requestPlayersInfo), ["onlinePlayers", player]] call CBA_fnc_serverEvent;
+    ["SendPlayersInfo", ["onlinePlayers", player]] call CBA_fnc_serverEvent;
     [
-        { (player getVariable [QGVAR(onlinePlayers), nil]) isEqualType createHashMap },
+        { (player getVariable [QEGVAR(main,onlinePlayers), nil]) isEqualType createHashMap },
         {
-            private _onlinePlayers = player getVariable QGVAR(onlinePlayers);
+            private _onlinePlayers = player getVariable QEGVAR(main,onlinePlayers);
             private _mainDialog = uiNamespace getVariable QGVAR(mainDialog);
             private _displayCtrl = _mainDialog displayCtrl IDC_NILOCGUI_LBONLINEPLAYERS;
 
@@ -49,11 +49,11 @@ if (_type isEqualTo "onlinePlayers") then {
         { WARNING("UI online players list box timeout waiting for data.") }
     ] call CBA_fnc_waitUntilAndExecute
 } else {
-    [QGVAR(requestPlayersInfo), ["savedPlayers", player]] call CBA_fnc_serverEvent;
+    ["SendPlayersInfo", ["savedPlayers", player]] call CBA_fnc_serverEvent;
     [
-        { (player getVariable [QGVAR(savedPlayers), nil]) isEqualType createHashMap },
+        { (player getVariable [QEGVAR(main,savedPlayers), nil]) isEqualType createHashMap },
         {
-            private _playersHash = player getVariable QGVAR(savedPlayers);
+            private _playersHash = player getVariable QEGVAR(main,savedPlayers);
             private _mainDialog = uiNamespace getVariable QGVAR(mainDialog);
             private "_displayCtrl";
 

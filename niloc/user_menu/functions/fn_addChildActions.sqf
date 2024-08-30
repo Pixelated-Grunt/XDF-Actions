@@ -10,7 +10,7 @@
  * List of ace menu actions <ARRAY>
  *
  * Example:
- * _actions = [] call NILOC_fnc_addChildActions
+ * _actions = [] call niloc_fnc_addChildActions
  *
  * Public: No
 **/
@@ -18,7 +18,7 @@
 
 private ["_action", "_actions", "_loadIcon", "_saveIcon", "_saveCount"];
 
-_saveCount = missionNamespace getVariable [QGVARMAIN(saveCount), 0];
+_saveCount = missionNamespace getVariable [QEGVAR(main,saveCount), 0];
 _loadIcon = "a3\ui_f\data\igui\cfg\simpletasks\types\upload_ca.paa";
 _saveIcon = "a3\ui_f\data\igui\cfg\simpletasks\types\download_ca.paa";
 _actions = [];
@@ -38,7 +38,7 @@ _action = [
     {
         params ["", "_player", "_params", "_actionData"];
 
-        _actionData set [2, [_params # 0, _player getVariable [QGVAR(loadStatusColour), HEX_WHITE]]];
+        _actionData set [2, [_params # 0, _player getVariable [QEGVAR(main,loadStatusColour), HEX_WHITE]]];
     }
 ] call ace_interact_menu_fnc_createAction;
 _actions pushBack [_action, [], QUOTE(PREFIX)];
@@ -58,7 +58,7 @@ _action = [
     {
         params ["", "_player", "_icon", "_actionData"];
 
-        _actionData set [2, [_icon, _player getVariable [QGVAR(saveStatusColour), HEX_WHITE]]];
+        _actionData set [2, [_icon, _player getVariable [QEGVAR(main,saveStatusColour), HEX_WHITE]]];
     }
 ] call ace_interact_menu_fnc_createAction;
 _actions pushBack [_action, [], QUOTE(PREFIX)];

@@ -15,10 +15,10 @@
  * Number of records written <NUMBER>
  *
  * Examples:
- * _count = ["section", [_aHashmap]] call XDF_fnc_putSection
- * _count = ["section", [["key", "value"], ["key2", "value2"]]] call XDF_fnc_putSection
- * _count = ["section", [_key, ["value1", "value2"]]] call XDF_fnc_putSection
- * _count = ["section", [_key, "value"]]] call XDF_fnc_putSection
+ * _count = ["section", [_aHashmap]] call niloc_fnc_putSection
+ * _count = ["section", [["key", "value"], ["key2", "value2"]]] call niloc_fnc_putSection
+ * _count = ["section", [_key, ["value1", "value2"]]] call niloc_fnc_putSection
+ * _count = ["section", [_key, "value"]]] call niloc_fnc_putSection
  *
  * Public: No
 **/

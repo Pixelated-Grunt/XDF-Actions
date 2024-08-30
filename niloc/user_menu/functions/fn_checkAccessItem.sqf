@@ -11,7 +11,7 @@
  * If any access items have been found <BOOL>
  *
  * Example:
- * [player, "ACE_SpraypaintRed"] call NILOC_fnc_checkAccessItem
+ * [player, "ACE_SpraypaintRed"] call niloc_fnc_checkAccessItem
  *
  * Public: No
 **/

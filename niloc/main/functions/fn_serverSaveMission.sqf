@@ -10,7 +10,7 @@
  * Nil but set variable on client object of save result <BOOL>
  *
  * Example:
- * [player] call XDF_fnc_serverSaveMission
+ * [player] call niloc_fnc_serverSaveMission
  *
  * Public: Yes
 **/
@@ -20,20 +20,20 @@ if !(isServer) exitWith { ERROR("NiLOC system only works in MP games."); false }
 params [["_client", objNull, [objNull]]];
 
 _client setVariable [QGVAR(saveMissionOk), nil, true];
-private ["_lastSave", "_saveCount", "_minsFromLastSave", "_count", "_cachedEntities"];
+private ["_lastSave", "_saveCount", "_secFromLastSave", "_count", "_cachedEntities"];
 
 _count = 0;
 _lastSave = (["session", ["session.last.save"]] call FUNCMAIN(getSectionAsHashmap)) get "session.last.save";
 _saveCount = (["session", ["session.save.count"]] call FUNCMAIN(getSectionAsHashmap)) get "session.save.count";
-_minsFromLastSave = diag_tickTime - _lastSave;
+_secFromLastSave = diag_tickTime - _lastSave;
 
-if ((missionNamespace getVariable [QGVAR(saveOnce), false]) && (_lastSave > 0)) exitWith {
+if ((missionNamespace getVariable [QGVARMAIN(saveOnce), false]) && (_lastSave > 0)) exitWith {
     INFO("Save once per game session setting is on ... not saving.");
     _client setVariable [QGVAR(saveStatusColour), HEX_RED, true];
     _client setVariable [QGVAR(saveMissionOk), false, true]
 };
 
-if ((missionNamespace getVariable [QGVAR(timeBetweenSaves), 60]) > _minsFromLastSave) exitWith {
+if ((missionNamespace getVariable [QGVARMAIN(timeBetweenSaves), 60]) > _secFromLastSave) exitWith {
     INFO("Too short between save ... not saving.");
     _client setVariable [QGVAR(saveStatusColour), HEX_AMBER, true];
     _client setVariable [QGVAR(saveMissionOk), false, true]

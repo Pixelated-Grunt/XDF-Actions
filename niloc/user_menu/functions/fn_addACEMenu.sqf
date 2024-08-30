@@ -4,13 +4,13 @@
  * Initiation of user interaction menu
  *
  * Arguments:
- * Nil
+ * 0: Player object to add menu to <OBJECT>
  *
  * Return Value:
  * Nil
  *
  * Example:
- * [] call NILOC_fnc_user_menu_init
+ * [] call niloc_addACEMenu
  *
  * Public: No
 **/
@@ -18,7 +18,7 @@
 
 if !hasInterface exitWith {};
 
-if (!isNil(QGVARMAIN(enable)) && {!QGVARMAIN(enable)}) exitWith {INFO("NiLOC is set to be disabled.")};
+params ["_unit"];
 
 private _useMissionFramework = false;
 private _accessItem = RETDEF(NILOC_accessItem, "ACE_SpraypaintRed");
@@ -34,7 +34,7 @@ if !isNil("XDF_MF_accessItems") then {
 missionNamespace setVariable[QGVAR(useMissionFramework), _useMissionFramework];
 
 if !_useMissionFramework then {
-    [player, 1, ["ACE_SelfActions"], [
+    [_unit, 1, ["ACE_SelfActions"], [
         QUOTE(ROOT_PREFIX),
         "D F",
         "a3\ui_f\data\igui\cfg\simpletasks\letters\x_ca.paa",
@@ -43,7 +43,7 @@ if !_useMissionFramework then {
     ] call ace_interact_menu_fnc_createAction] call ace_interact_menu_fnc_addActionToObject
 };
 
-[player, 1, ["ACE_SelfActions", QUOTE(ROOT_PREFIX)], [
+[_unit, 1, ["ACE_SelfActions", QUOTE(ROOT_PREFIX)], [
     QUOTE(PREFIX),
     "NiLOC",
     "a3\ui_f_oldman\data\igui\cfg\holdactions\holdaction_sleep2_ca.paa",

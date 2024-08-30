@@ -13,7 +13,7 @@
  * HashMap that contains unit data <HASHMAP>
  *
  * Example:
- * _unitHash = [player] call XDF_fnc_prepUnitData
+ * _unitHash = [player] call niloc_fnc_prepUnitData
  *
  * Public: No
 **/

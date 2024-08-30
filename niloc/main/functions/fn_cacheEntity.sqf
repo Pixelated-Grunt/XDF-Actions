@@ -11,7 +11,7 @@
  * Nil
  *
  * Example:
- * ["HandleDisconnect", _params] call XDF_fnc_cacheEntity
+ * ["HandleDisconnect", _params] call niloc_fnc_cacheEntity
  *
  * Public: No
 **/

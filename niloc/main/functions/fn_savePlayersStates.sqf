@@ -12,7 +12,7 @@
  * Return number of player record saved <NUMBER>
  *
  * Example:
- * [] call XDF_fnc_savePlayersStates
+ * [] call niloc_fnc_savePlayersStates
  *
  * Public: No
 **/

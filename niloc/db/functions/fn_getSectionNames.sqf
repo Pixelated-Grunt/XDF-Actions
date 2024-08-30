@@ -11,7 +11,7 @@
  * A list of matching names of sections <ARRAY> (default: [])
  *
  * Example:
- * _sectionTitles = ["units"] call XDF_fnc_getSectionNames
+ * _sectionTitles = ["units"] call niloc_fnc_getSectionNames
  *
  * Public: No
 **/

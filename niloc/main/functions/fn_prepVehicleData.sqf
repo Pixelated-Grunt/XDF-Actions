@@ -10,7 +10,7 @@
  * HashMap that contains vehicle data <HASHMAP>
  *
  * Example:
- * _vehicleHash = [_vehicle] call XDF_fnc_prepVehicleData
+ * _vehicleHash = [_vehicle] call niloc_fnc_prepVehicleData
  *
  * Public: No
 **/

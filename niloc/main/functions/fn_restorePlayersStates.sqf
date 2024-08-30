@@ -10,7 +10,7 @@
  * Total number of players restored <NUMBER>
  *
  * Example:
- * [] call XDF_fnc_restorePlayersStates
+ * [] call niloc_fnc_restorePlayersStates
  *
  * Public: No
 **/
