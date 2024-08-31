@@ -1,4 +1,4 @@
-#include "script_macros.hpp"
+#include "..\script_component.hpp"
 /*
  * Author: Pixelated_Grunt
  * Internal function to delete a key (a record) from given section.

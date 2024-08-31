@@ -4,7 +4,7 @@
  * Add child actions to ace menu
  *
  * Arguments:
- * Nil
+ * 0: The ace menu target <OBJECT>
  *
  * Return Value:
  * List of ace menu actions <ARRAY>
@@ -15,6 +15,8 @@
  * Public: No
 **/
 
+
+params ["_target"];
 
 private ["_action", "_actions", "_loadIcon", "_saveIcon", "_saveCount"];
 
@@ -41,7 +43,7 @@ _action = [
         _actionData set [2, [_params # 0, _player getVariable [QEGVAR(main,loadStatusColour), HEX_WHITE]]];
     }
 ] call ace_interact_menu_fnc_createAction;
-_actions pushBack [_action, [], QUOTE(PREFIX)];
+_actions pushBack [_action, [], _target];
 
 // Save action
 _action = [
@@ -61,6 +63,6 @@ _action = [
         _actionData set [2, [_icon, _player getVariable [QEGVAR(main,saveStatusColour), HEX_WHITE]]];
     }
 ] call ace_interact_menu_fnc_createAction;
-_actions pushBack [_action, [], QUOTE(PREFIX)];
+_actions pushBack [_action, [], _target];
 
 _actions

@@ -1,5 +1,4 @@
 #include "RscCommon.hpp"
-#include "defines.hpp"
 #include "script_component.hpp"
 
 class RscNiLOCDialog {

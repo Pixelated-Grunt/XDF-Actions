@@ -1,4 +1,4 @@
-#include "script_macros.hpp"
+#include "..\script_component.hpp"
 /*
  * Author: Pixelated_Grunt
  * Send session info to client from server

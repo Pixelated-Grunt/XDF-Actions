@@ -1,4 +1,4 @@
-#include "script_macros.hpp"
+#include "..\script_component.hpp"
 /*
  * Author: Pixelated_Grunt
  * Add or delete values in meta section

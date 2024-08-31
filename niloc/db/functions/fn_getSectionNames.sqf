@@ -1,4 +1,4 @@
-#include "script_macros.hpp"
+#include "..\script_component.hpp"
 /*
  * Author: Pixelated_Grunt
  * Get sections from database that match the search string, empty search string returns all.

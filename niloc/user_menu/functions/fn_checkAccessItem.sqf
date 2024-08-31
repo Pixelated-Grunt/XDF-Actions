@@ -20,18 +20,10 @@
 params ["_unit", "_accessItem"];
 
 private _hasItem = false;
+// only check uniform, vest and backpack
+private _uniqueItems = uniqueUnitItems [_unit, 0, 2, 2, 2, false];
 
-// If XDF mission frame is loaded, let it handle the check
-if (missionNamespace getVariable[QGVAR(useMissionFramework), false]) then {
-    if (QUOTE(PREFIX) in (_unit getVariable ["UnitAllowedActions", []])) then {
-        _hasItem = true
-    }
-} else {
-    // only check uniform, vest and backpack
-    private _uniqueItems = uniqueUnitItems [_unit, 0, 2, 2, 2, false];
-
-    if !isNil("NILOC_accessItem") then { _accessItem = NILOC_accessItem };
-    if (_accessItem in _uniqueItems) then { _hasItem = true }
-};
+if !isNil("NILOC_accessItem") then {_accessItem = NILOC_accessItem};
+if (keys _uniqueItems findIf {toLower(_accessItem) in toLower(_x)} != -1) then {_hasItem = true};
 
 _hasItem

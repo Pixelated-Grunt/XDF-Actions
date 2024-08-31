@@ -1,4 +1,4 @@
-#include "script_macros.hpp"
+#include "..\script_component.hpp"
 /*
  * Author: Pixelated_Grunt
  * Save data for a single or all players

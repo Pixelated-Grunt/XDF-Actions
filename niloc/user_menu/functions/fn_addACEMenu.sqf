@@ -7,10 +7,10 @@
  * 0: Player object to add menu to <OBJECT>
  *
  * Return Value:
- * Nil
+ * ACE action array <ARRAY>
  *
  * Example:
- * [] call niloc_addACEMenu
+ * [] call niloc_fnc_addACEMenu
  *
  * Public: No
 **/
@@ -22,15 +22,10 @@ params ["_unit"];
 
 private _useMissionFramework = false;
 private _accessItem = RETDEF(NILOC_accessItem, "ACE_SpraypaintRed");
+private _action = [];
 
 // Check if XDF mission framework is enabled
-if !isNil("XDF_MF_accessItems") then {
-    if (QUOTE(PREFIX) in XDF_MF_accessItems) then {
-        _accessItem = XDF_MF_accessItems get QUOTE(PREFIX);
-        _useMissionFramework = true
-    }
-};
-
+if (XDF_MF_LOADED) then {_useMissionFramework = true};
 missionNamespace setVariable[QGVAR(useMissionFramework), _useMissionFramework];
 
 if !_useMissionFramework then {
@@ -39,16 +34,32 @@ if !_useMissionFramework then {
         "D F",
         "a3\ui_f\data\igui\cfg\simpletasks\letters\x_ca.paa",
         {},
-        { true }
+        { [_this#0, _this#2] call FUNCMAIN(checkAccessItem) },
+        {
+            params ["_target"];
+            private _actions = [];
+            private _action = [
+                QUOTE(PREFIX),
+                "NiLOC",
+                "a3\ui_f_oldman\data\igui\cfg\holdactions\holdaction_sleep2_ca.paa",
+                { call FUNCMAIN(guiOpenGUI) },
+                { true },
+                { params ["_target"]; [_target] call FUNCMAIN(addChildActions) }
+            ] call ace_interact_menu_fnc_createAction;
+            _actions pushBack [_action, [], _target];
+            _actions
+        },
+        _accessItem
     ] call ace_interact_menu_fnc_createAction] call ace_interact_menu_fnc_addActionToObject
+} else {
+    _action = [
+        QUOTE(PREFIX),
+        "NiLOC",
+        "a3\ui_f_oldman\data\igui\cfg\holdactions\holdaction_sleep2_ca.paa",
+        { call FUNCMAIN(guiOpenGUI) },
+        { true },
+        { params ["_target"]; [_target] call FUNCMAIN(addChildActions) }
+    ] call ace_interact_menu_fnc_createAction
 };
 
-[_unit, 1, ["ACE_SelfActions", QUOTE(ROOT_PREFIX)], [
-    QUOTE(PREFIX),
-    "NiLOC",
-    "a3\ui_f_oldman\data\igui\cfg\holdactions\holdaction_sleep2_ca.paa",
-    { call FUNCMAIN(guiOpenGUI) },
-    { [_this#0, _this#2] call FUNCMAIN(checkAccessItem) },
-    { [] call FUNCMAIN(addChildActions) },
-    _accessItem
-] call ace_interact_menu_fnc_createAction] call ace_interact_menu_fnc_addActionToObject
+_action
