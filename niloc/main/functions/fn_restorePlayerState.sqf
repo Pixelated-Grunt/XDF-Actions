@@ -58,7 +58,7 @@ _playerHash = ((_sectionHash get _playerUid) select 0) createHashMapFromArray ((
         case "damage": {
             if HASACE3 then {
                 [_playerObj, _value] remoteExec ["ace_medical_fnc_deserializeState", _playerObj]
-            } else { _playerObj setDamage _value }
+            } else { [_playerObj, _value] remoteExec ["setDamage", _playerObj] }
         };
         case "captive": {
             if (_value) then {
@@ -72,8 +72,8 @@ _playerHash = ((_sectionHash get _playerUid) select 0) createHashMapFromArray ((
         case "rations": {
             _value params ["_hunger", "_thirst"];
 
-            _playerObj setVariable ["acex_field_rations_hunger", _hunger];
-            _playerObj setVariable ["acex_field_rations_thirst", _thirst]
+            [_playerObj, ["acex_field_rations_hunger", _hunger]] remoteExec ["setVariable", _playerObj];
+            [_playerObj, ["acex_field_rations_thirst", _thirst]] remoteExec ["setVariable", _playerObj]
         };
         case "vehicle": {};
         default {}
